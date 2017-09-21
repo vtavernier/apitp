@@ -1,0 +1,17 @@
+// Import bootstrap
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "bootstrap/theme";
+
+body {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.footer {
+  margin-top: 40px;
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+  text-align: center;
+}
