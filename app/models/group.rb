@@ -1,4 +1,6 @@
 class Group < ApplicationRecord
+  include DisplayNameConcern
+
   validates :year, presence: true
   validates :name, presence: true, uniqueness: { scope: :year }
   validates :admin, presence: true
