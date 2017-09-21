@@ -32,6 +32,12 @@ gem 'pundit', '~> 1.1.0'
 # ActiveAdmin dashboard
 gem 'activeadmin', github: 'activeadmin', tag: 'v1.1.0'
 
+# Validate datetimes
+gem 'validates_timeliness', '~> 4.0.2'
+
+# Upload handling
+gem 'carrierwave', '~> 1.1.0'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

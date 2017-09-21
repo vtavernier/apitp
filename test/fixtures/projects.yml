@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  year: 1
+  name: MyString
+  start_time: 2017-09-21 17:00:36
+  end_time: 2017-09-21 17:00:36
+  url: MyString
+  max_upload_size: 1
+
+two:
+  year: 1
+  name: MyString
+  start_time: 2017-09-21 17:00:36
+  end_time: 2017-09-21 17:00:36
+  url: MyString
+  max_upload_size: 1
