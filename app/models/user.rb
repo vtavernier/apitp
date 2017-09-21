@@ -6,10 +6,10 @@ class User < ApplicationRecord
 
   validates :name, presence: true
 
-  has_many :group_memberships, :dependent => :delete_all
+  has_many :group_memberships, dependent: :delete_all
   has_many :groups, through: :group_memberships
 
-  has_many :submissions
+  has_many :submissions, dependent: :destroy
 
   def name_email
     "#{name} <#{email}>"

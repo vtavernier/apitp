@@ -15,10 +15,10 @@ class Project < ApplicationRecord
   validates :max_upload_size, presence: true,
             numericality: { greater_than: 0 }
 
-  has_many :assignments
+  has_many :assignments, dependent: :delete_all
   has_many :groups, through: :assignments
 
-  has_many :submissions
+  has_many :submissions, dependent: :destroy
 
   scope :current, -> { where('start_time >= ? AND end_time >= ?', Date.today, DateTime.now) }
   scope :ended, -> { where('end_time >= ? AND end_time <= ?', DateTime.now - 1.week, DateTime.now) }
