@@ -1,0 +1,78 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3 col-xs-12 text-center">
+    <h1><%= @project.display_name %></h1>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">Project details</div>
+      <div class="panel-body">
+        <dl class="row">
+          <dt class="col-sm-4">Project name</dt>
+          <dd class="col-sm-8"><%= @project.display_name %></dd>
+          <% unless @project.url.blank? %>
+            <dt class="col-sm-4">Subject</dt>
+            <dd class="col-sm-8"><%= link_to "Link", @project.url, target: 'blank' %></dd>
+          <% end %>
+          <dt class="col-sm-4">Start date</dt>
+          <dd class="col-sm-8"><%= l @project.start_time %></dd>
+          <dt class="col-sm-4">Due date</dt>
+          <dd class="col-sm-8"><%= l @project.end_time %></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">Assignment details</div>
+      <div class="panel-body">
+        <% assignment_group = @project.assignment_group(current_user) %>
+        <dl class="row">
+          <dt class="col-sm-4">Group</dt>
+          <dd class="col-sm-8"><%= assignment_group.display_name %></dd>
+          <dt class="col-sm-4">Contact</dt>
+          <dd class="col-sm-8"><%= link_to assignment_group.admin.name,
+                                   "mailto:#{assignment_group.admin.name}" %></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12">
+    <% submission = @project.user_submission(current_user) %>
+    <% submission_late = submission_late?(@project, submission) %>
+    <div class="panel panel-<%= submission_status(@project, submission) %>">
+      <div class="panel-heading">Submitted files <% if submission_late %><strong>(late)</strong><% end %></div>
+      <div class="panel-body">
+        <% if submission %>
+          <p>
+            You have already submitted a file on <%= l submission.created_at %>:
+            <%= link_to submission.file.file.filename, submission.file.url %> (<%= submission.file.size %> bytes)
+          </p>
+          <p>You can't edit this file now. If you really need to cancel your upload, send an e-mail to the assignment contact.</p>
+          <% if submission_late %>
+            <p>Note that you submitted this file after the project due date. Penalties may be applied.</p>
+          <% end %>
+        <% else %>
+          <%= form_for Submission.new(user: current_user, project: @project), html: { multipart: true } do |f| %>
+            <%= f.hidden_field :project_id %>
+            <div class="input-group">
+              <p>
+                You need to submit a file for this project.
+                The maximum file size is <%= @project.max_upload_size %> bytes.
+                <span class="btn btn-default btn-file">
+                  Browse <%= f.file_field :file %>
+                </span>
+                <%= f.submit 'Upload', class: 'btn btn-success' %>
+              </p>
+            </div>
+          <% end %>
+          <% if submission_late %>
+            <p>Note that you have not submitted a file before the project due date. Penalties may be applied.</p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3 col-xs-12 text-center">
+    <h1>Your projects</h1>
+  </div>
+</div>
+<div class="row">
+  <% @projects.each do |project| %>
+    <% submission = project.user_submission(current_user) %>
+    <div class="col-md-12">
+      <div class="panel panel-<%= submission_status(project, submission) %>">
+        <div class="panel-heading">
+          <h3 class="panel-title">
+            <%= link_to project.display_name, project_path(project) %>
+            <% unless project.url.blank? %>
+              (<%= link_to "Subject", project.url, target: 'blank' %>)
+            <% end %>
+            <% if submission_late?(project, submission) %>
+              <strong>(late)</strong>
+            <% end %>
+          </h3>
+        </div>
+
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-6 col-xs-12">
+              <p>Due date: <%= l(project.end_time) %></p>
+            </div>
+            <div class="col-md-6 col-xs-12">
+              <% if submission = project.user_submission(current_user) %>
+                <p><%= link_to "File submitted on #{l(submission.created_at)}", submission.file.url %></p>
+              <% else %>
+                <p>No file submitted yet.</p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
