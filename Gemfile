@@ -24,6 +24,8 @@ gem 'bcrypt', '~> 3.1.7'
 
 # Devise authentication
 gem 'devise', '~> 4.3.0'
+# Pundit authorization
+gem 'pundit', '~> 1.1.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
