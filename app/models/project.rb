@@ -16,4 +16,11 @@ class Project < ApplicationRecord
   has_many :groups, through: :assignments
 
   has_many :submissions
+
+  def set_defaults
+    self.start_time = Date.today.to_datetime
+    self.end_time = start_time + 1.week
+    self.year = DateHelper.school_year(self.start_time)
+    self.max_upload_size = 1 * 1024 * 1024 # 1MB
+  end
 end
