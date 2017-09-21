@@ -26,6 +26,8 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'devise', '~> 4.3.0'
 # Pundit authorization
 gem 'pundit', '~> 1.1.0'
+# ActiveAdmin dashboard
+gem 'activeadmin', github: 'activeadmin', tag: 'v1.1.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
