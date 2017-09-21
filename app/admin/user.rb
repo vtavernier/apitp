@@ -1,5 +1,5 @@
-ActiveAdmin.register AdminUser do
-  permit_params :name, :email, :password, :password_confirmation
+ActiveAdmin.register User do
+  permit_params :name, :email, :password, :password_confirmation, :group_ids => []
 
   index do
     selectable_column
@@ -24,6 +24,8 @@ ActiveAdmin.register AdminUser do
       f.input :email
       f.input :password
       f.input :password_confirmation
+      f.input :groups, as: :check_boxes,
+              collection: Group.all.map { |group| [group.display_name, group.id] }
     end
     f.actions
   end
@@ -38,6 +40,14 @@ ActiveAdmin.register AdminUser do
       row :last_sign_in_at
       row :created_at
       row :updated_at
+    end
+  end
+
+  sidebar I18n.t('active_admin.user.show.groups'), only: :show do
+    table_for user.groups do
+      column t('activerecord.attributes.group.display_name') do |group|
+        link_to group.display_name, admin_group_path(group)
+      end
     end
   end
 

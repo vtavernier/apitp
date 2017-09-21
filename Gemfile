@@ -31,6 +31,8 @@ gem 'devise', '~> 4.3.0'
 gem 'pundit', '~> 1.1.0'
 # ActiveAdmin dashboard
 gem 'activeadmin', github: 'activeadmin', tag: 'v1.1.0'
+# Extensions of ActiveAdmin
+gem 'just-datetime-picker', '~> 0.0.7'
 
 # Validate datetimes
 gem 'validates_timeliness', '~> 4.0.2'
