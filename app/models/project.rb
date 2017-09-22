@@ -23,7 +23,7 @@ class Project < ApplicationRecord
   scope :current, -> { where('start_time >= ? AND end_time >= ?', Date.today, DateTime.now) }
   scope :ended, -> { where('end_time >= ? AND end_time <= ?', DateTime.now - 1.week, DateTime.now) }
 
-  scope :of_user, -> (user) { joins(:assignments).where('group_id IN (?)', user.group_memberships.select(:group_id)) }
+  scope :of_user, -> (user) { joins(:assignments).where('group_id IN (?)', user.group_memberships.select(:group_id)).order('end_time') }
 
   def user_submission(user)
     submissions.find_by_user_id(user.id)

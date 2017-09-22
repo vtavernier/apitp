@@ -4,37 +4,45 @@
   </div>
 </div>
 <div class="row">
-  <% @projects.each do |project| %>
-    <% submission = project.user_submission(current_user) %>
-    <div class="col-md-12">
-      <div class="panel panel-<%= submission_status(project, submission) %>">
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            <%= link_to project.display_name, project_path(project) %>
-            <% unless project.url.blank? %>
-              (<%= link_to "Subject", project.url, target: 'blank' %>)
-            <% end %>
-            <% if submission_late?(project, submission) %>
-              <strong>(late)</strong>
-            <% end %>
-          </h3>
-        </div>
+  <%
+    late_not_submitted = []
+    not_submitted = []
+    submitted = []
 
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-md-6 col-xs-12">
-              <p>Due date: <%= l(project.end_time) %></p>
-            </div>
-            <div class="col-md-6 col-xs-12">
-              <% if submission = project.user_submission(current_user) %>
-                <p><%= link_to "File submitted on #{l(submission.created_at)}", submission.file.url %></p>
-              <% else %>
-                <p>No file submitted yet.</p>
-              <% end %>
-            </div>
-          </div>
-        </div>
-      </div>
+    @projects.each do |project|
+      submission = project.user_submission(current_user)
+      if submission
+        submitted << [ project, submission ]
+      else
+        if submission_late?(project, submission)
+          late_not_submitted << [ project, submission ]
+        else
+          not_submitted << [ project, submission ]
+        end
+      end
+    end
+
+    submitted = submitted.sort_by { |project, submission| project.end_time }.reverse
+  %>
+  <% if late_not_submitted.any? %>
+    <div class="col-md-12">
+      <h3>Late projects</h3>
     </div>
+    <%= render partial: 'project', collection: late_not_submitted, as: :item %>
+    <hr />
+  <% end %>
+  <% if not_submitted.any? %>
+    <div class="col-md-12">
+      <h3>Current projects</h3>
+    </div>
+    <%= render partial: 'project', collection: not_submitted, as: :item %>
+    <hr />
+  <% end %>
+  <% if submitted.any? %>
+    <div class="col-md-12">
+      <h3>Completed projects</h3>
+    </div>
+    <%= render partial: 'project', collection: submitted, as: :item %>
+    <hr />
   <% end %>
 </div>
