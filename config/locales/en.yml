@@ -22,3 +22,4 @@ en:
         display_name: "Name"
       submission:
         created_at: "Uploaded at"
+        size: "Size"

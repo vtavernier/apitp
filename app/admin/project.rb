@@ -35,17 +35,19 @@ ActiveAdmin.register Project do
     f.actions
   end
 
-  controller do
-
-  end
-
   show do
     attributes_table do
       row :display_name
-      row :start_time
-      row :end_time
+      row :start_time do |project|
+        render_date(project.start_time)
+      end
+      row :end_time do |project|
+        render_date(project.end_time)
+      end
       row :url
-      row :max_upload_size
+      row :max_upload_size do |project|
+        number_to_human_size(project.max_upload_size)
+      end
       row :created_at
       row :updated_at
     end
@@ -63,8 +65,13 @@ ActiveAdmin.register Project do
             span t('active_admin.project.show.submission_missing'), class: 'submission-missing'
           else
             time_diff = submission.created_at - project.end_time
-            link_to I18n.localize(submission.created_at), submission.file.url,
-                    class: time_diff > 0 ? 'submission-late' : 'submission-ok'
+            link_to render_date(submission.created_at, project.end_time, "due date"),
+                    submission.file.url, class: time_diff > 0 ? 'submission-late' : 'submission-ok'
+          end
+        end
+        column I18n.t('activerecord.attributes.submission.size') do |_user, submission|
+          if submission
+            number_to_human_size(submission.file.size)
           end
         end
         column do |user, submission|
@@ -72,7 +79,7 @@ ActiveAdmin.register Project do
             link_to I18n.t('active_admin.delete'),
                     admin_submission_path(submission),
                     method: :delete,
-                    confirm: "Delete submission from #{user.name} for #{project.name}?"
+                    data: { confirm: "Delete submission from #{user.name} for #{project.name}?" }
           end
         end
       end
