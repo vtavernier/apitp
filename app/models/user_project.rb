@@ -5,7 +5,7 @@ class UserProject < Project
   belongs_to :submission
 
   default_scope -> {
-    order(:end_time)
+    order(:end_time, :name)
   }
 
   scope :of_user, -> (user) {
