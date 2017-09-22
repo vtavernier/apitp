@@ -35,18 +35,7 @@ class Project < ApplicationRecord
   end
 
   def user_submissions
-    User.joins('LEFT OUTER JOIN submissions ON users.id = submissions.user_id AND submissions.project_id = ' + self.id.to_s)
-        .joins(:group_memberships) #'JOIN group_memberships ON group_memberships.user_id = users.id')
-        .joins('JOIN assignments ON assignments.group_id = group_memberships.group_id AND assignments.project_id = ' + self.id.to_s)
-        .select('users.*, submissions.*')
-        .order('users.name')
-        .map do |user|
-      submission = Submission.instantiate(user.attributes)
-      if submission.created_at.nil?
-        submission = nil
-      end
-      [user, submission]
-    end
+    UserSubmissions.project(self).includes(:submission)
   end
 
   def set_defaults

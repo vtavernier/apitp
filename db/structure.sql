@@ -276,6 +276,23 @@ CREATE TABLE users (
 
 
 --
+-- Name: user_submissions; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW user_submissions AS
+ SELECT DISTINCT users.id AS user_id,
+    users.name AS username,
+    users.email,
+    assignments.project_id,
+    submissions.id AS submission_id
+   FROM (((users
+     JOIN group_memberships ON ((group_memberships.user_id = users.id)))
+     JOIN assignments ON ((assignments.group_id = group_memberships.group_id)))
+     LEFT JOIN submissions ON (((submissions.project_id = assignments.project_id) AND (submissions.user_id = users.id))))
+  ORDER BY users.name, users.email;
+
+
+--
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -603,6 +620,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170921150740'),
 ('20170921150956'),
 ('20170921151909'),
-('20170921152344');
+('20170921152344'),
+('20170922130442');
 
 

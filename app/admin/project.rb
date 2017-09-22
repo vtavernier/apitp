@@ -54,32 +54,36 @@ ActiveAdmin.register Project do
 
     panel I18n.t('active_admin.project.show.submission_status') do
       table_for project.user_submissions do
-        column :name do |user, _submission|
-          user.name
+        column :name do |user_submission|
+          user_submission.username
         end
-        column :email do |user, _submission|
-          link_to user.email, "mailto:#{user.email}"
+        column :email do |user_submission|
+          link_to user_submission.email,
+                  "mailto:#{user_submission.email}"
         end
-        column I18n.t('activerecord.attributes.submission.created_at') do |_user, submission|
+        column I18n.t('activerecord.attributes.submission.created_at') do |user_submission|
+          submission = user_submission.submission
+
           if submission.nil?
             span t('active_admin.project.show.submission_missing'), class: 'submission-missing'
           else
+
             time_diff = submission.created_at - project.end_time
             link_to render_date(submission.created_at, project.end_time, "due date"),
                     submission.file.url, class: time_diff > 0 ? 'submission-late' : 'submission-ok'
           end
         end
-        column I18n.t('activerecord.attributes.submission.size') do |_user, submission|
-          if submission
-            number_to_human_size(submission.file.size)
+        column I18n.t('activerecord.attributes.submission.size') do |user_submission|
+          if user_submission.submission
+            number_to_human_size(user_submission.submission.file.size)
           end
         end
-        column do |user, submission|
-          unless submission.nil?
+        column do |user_submission|
+          unless (submission = user_submission.submission).nil?
             link_to I18n.t('active_admin.delete'),
                     admin_submission_path(submission),
                     method: :delete,
-                    data: { confirm: "Delete submission from #{user.name} for #{project.name}?" }
+                    data: { confirm: "Delete submission from #{user_submission.username} for #{project.name}?" }
           end
         end
       end
