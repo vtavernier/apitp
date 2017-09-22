@@ -12,10 +12,10 @@ class SubmissionsController < ApplicationController
 
       if submission.save
         redirect_to project_path(submission.project),
-                    notice: "The file has been submitted at #{I18n.localize(submission.created_at)}."
+                    notice: "The file has been submitted at #{render_date(submission.created_at, submission.project.end_time, "due time")}."
       else
         redirect_to project_path(submission.project),
-                    alert: "Error while uploading the file: #{submission.errors.full_messages}"
+                    alert: "Error while uploading the file: #{submission.errors.full_messages.first}"
       end
     end
   end

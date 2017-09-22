@@ -16,9 +16,9 @@
             <dd class="col-sm-8"><%= link_to "Link", @project.url, target: 'blank' %></dd>
           <% end %>
           <dt class="col-sm-4">Start date</dt>
-          <dd class="col-sm-8"><%= l @project.start_time %></dd>
+          <dd class="col-sm-8"><%= render_date @project.start_time %></dd>
           <dt class="col-sm-4">Due date</dt>
-          <dd class="col-sm-8"><%= l @project.end_time %></dd>
+          <dd class="col-sm-8"><%= render_date @project.end_time %></dd>
         </dl>
       </div>
     </div>
@@ -47,8 +47,8 @@
       <div class="panel-body">
         <% if submission %>
           <p>
-            You have already submitted a file on <%= l submission.created_at %>:
-            <%= link_to submission.file.file.filename, submission.file.url %> (<%= submission.file.size %> bytes)
+            You have already submitted a file on <%= render_date(submission.created_at, @project.end_time, "due date") %>:
+            <%= link_to submission.file.file.filename, submission.file.url %> (<%= number_to_human_size submission.file.size %>)
           </p>
           <p>You can't edit this file now. If you really need to cancel your upload, send an e-mail to the assignment contact.</p>
           <% if submission_late %>
@@ -60,7 +60,7 @@
             <div class="input-group">
               <p>
                 You need to submit a file for this project.
-                The maximum file size is <%= @project.max_upload_size %> bytes.
+                The maximum file size is <%= number_to_human_size @project.max_upload_size %>.
                 <span class="btn btn-default btn-file">
                   Browse <%= f.file_field :file %>
                 </span>
