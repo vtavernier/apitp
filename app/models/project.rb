@@ -12,6 +12,8 @@ class Project < ApplicationRecord
 
   validates_datetime :end_time, after: :start_time
 
+  validates :url, url: { allow_blank: true }
+
   validates :max_upload_size, presence: true,
             numericality: { greater_than: 0,
                             less_than_or_equal_to: 1 * 1024 * 1024 }

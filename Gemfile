@@ -36,6 +36,8 @@ gem 'just-datetime-picker', '~> 0.0.7'
 
 # Validate datetimes
 gem 'validates_timeliness', '~> 4.0.2'
+# Validate urls
+gem 'validate_url', '~> 1.0.2'
 
 # Upload handling
 gem 'carrierwave', '~> 1.1.0'
