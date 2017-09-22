@@ -1,4 +1,5 @@
 class SubmissionsController < ApplicationController
+  include DateHelper
   before_action :authenticate_user!
 
   def create
@@ -15,7 +16,7 @@ class SubmissionsController < ApplicationController
                     notice: "The file has been submitted at #{render_date(submission.created_at, submission.project.end_time, "due time")}."
       else
         redirect_to project_path(submission.project),
-                    alert: "Error while uploading the file: #{submission.errors.full_messages.first}"
+                    alert: "Error while uploading the file: #{submission.errors.first.message}"
       end
     end
   end

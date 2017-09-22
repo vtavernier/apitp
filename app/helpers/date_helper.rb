@@ -1,4 +1,6 @@
 module DateHelper
+  include ActionView::Helpers::DateHelper
+
   def render_date(date, reference = DateTime.now, reference_name = nil)
     # Compute time diff in words
     time_diff = distance_of_time_in_words(date, reference)
