@@ -1,7 +1,4 @@
-<%
-  project = item[0]
-  submission = item[1]
-%>
+<% submission = project.submission %>
 <div class="col-md-12">
   <div class="panel panel-<%= submission_status(project, submission) %>">
     <div class="panel-heading">

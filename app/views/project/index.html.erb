@@ -11,38 +11,39 @@
 
     @projects.each do |project|
       submission = project.submission
+
       if submission
-        submitted << [ project, submission ]
+        submitted << project
       else
         if submission_late?(project, submission)
-          late_not_submitted << [ project, submission ]
+          late_not_submitted << project
         else
-          not_submitted << [ project, submission ]
+          not_submitted << project
         end
       end
     end
 
-    submitted = submitted.sort_by { |project, submission| project.end_time }.reverse
+    submitted = submitted.sort_by(&:end_time).reverse
   %>
   <% if late_not_submitted.any? %>
     <div class="col-md-12">
       <h3>Late projects</h3>
     </div>
-    <%= render partial: 'project', collection: late_not_submitted, as: :item %>
+    <%= render partial: 'project', collection: late_not_submitted %>
     <hr />
   <% end %>
   <% if not_submitted.any? %>
     <div class="col-md-12">
       <h3>Current projects</h3>
     </div>
-    <%= render partial: 'project', collection: not_submitted, as: :item %>
+    <%= render partial: 'project', collection: not_submitted %>
     <hr />
   <% end %>
   <% if submitted.any? %>
     <div class="col-md-12">
       <h3>Completed projects</h3>
     </div>
-    <%= render partial: 'project', collection: submitted, as: :item %>
+    <%= render partial: 'project', collection: submitted %>
     <hr />
   <% end %>
 </div>
