@@ -13,5 +13,5 @@ class Group < ApplicationRecord
   has_many :group_memberships, dependent: :delete_all
   has_many :users, through: :group_memberships
 
-  scope :current, -> { where(year: DateHelper.school_year) }
+  scope :current, -> { where(year: SchoolDateHelper.school_year) }
 end
