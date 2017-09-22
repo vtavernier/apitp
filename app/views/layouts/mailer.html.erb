@@ -3,11 +3,19 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <style>
-      /* Email styles need to be inline */
+      .footer {
+        border-top: 1px #dddddd solid;
+        padding-top: 9px;
+        margin-top: 10px;
+      }
     </style>
   </head>
 
   <body>
     <%= yield %>
+    <div class="footer">
+      This mail was sent automatically by <%= link_to "APITP", root_url %>, a project management application.
+      Please do not reply directly to this e-mail, but instead contact your teachers for assistance.
+    </div>
   </body>
 </html>

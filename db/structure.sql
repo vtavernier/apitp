@@ -177,6 +177,39 @@ ALTER SEQUENCE groups_id_seq OWNED BY groups.id;
 
 
 --
+-- Name: users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE users (
+    id bigint NOT NULL,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip inet,
+    last_sign_in_ip inet,
+    name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: project_users; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW project_users AS
+ SELECT DISTINCT users.id AS user_id,
+    assignments.project_id
+   FROM ((users
+     JOIN group_memberships ON ((group_memberships.user_id = users.id)))
+     JOIN assignments ON ((assignments.group_id = group_memberships.group_id)));
+
+
+--
 -- Name: projects; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -252,27 +285,6 @@ CREATE SEQUENCE submissions_id_seq
 --
 
 ALTER SEQUENCE submissions_id_seq OWNED BY submissions.id;
-
-
---
--- Name: users; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE users (
-    id bigint NOT NULL,
-    email character varying DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying,
-    reset_password_sent_at timestamp without time zone,
-    sign_in_count integer DEFAULT 0 NOT NULL,
-    current_sign_in_at timestamp without time zone,
-    last_sign_in_at timestamp without time zone,
-    current_sign_in_ip inet,
-    last_sign_in_ip inet,
-    name character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
 
 
 --
@@ -645,6 +657,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170921151909'),
 ('20170921152344'),
 ('20170922130442'),
-('20170922143400');
+('20170922143400'),
+('20170922165536');
 
 

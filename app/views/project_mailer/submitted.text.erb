@@ -1,0 +1,15 @@
+<%= @project.display_name %>
+===================
+
+<%= @user.name %>, you have just submitted a file for the project <%= link_to @project.display_name, project_url(id: @project.id) %> on <%= l @submission.created_at, format: :long %>. You can review this file on the project page.
+
+<% if submission_late?(@project, @submission) %>
+Your submission was late, thus penalties may be applied to your grade for this project.
+<% else %>
+Your submission was on time.
+<% end %>
+
+The submitted file is considered final and cannot be changed.
+
+<% admin = @project.assignment_group(@user).admin %>
+If you have any questions, feel free to contact your project administrator: <%= admin.name_email %>.

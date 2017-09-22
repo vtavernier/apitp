@@ -19,6 +19,34 @@ ActiveAdmin.register Project do
   filter :start_time
   filter :end_time
 
+  controller do
+    after_create do |project|
+      if project.persisted?
+        # Notify all users that have been added to this project
+        ProjectUser.users(project).includes(:user).each do |project_user|
+          ProjectMailer.welcome(project, project_user.user).deliver
+        end
+      end
+    end
+
+    def update
+      # Get the list of existing users for this project that we should not notify
+      @existing_users = ProjectUser.users(resource).pluck(:user_id).to_set
+      super
+    end
+
+    after_update do |project|
+      unless project.changed?
+        ProjectUser.users(project).includes(:user).each do |project_user|
+          # Only notify users who have been added to this project
+          unless @existing_users.include? project_user.user_id
+            ProjectMailer.welcome(project, project_user.user).deliver
+          end
+        end
+      end
+    end
+  end
+
   form do |f|
     f.object.set_defaults if f.object.new_record?
 
