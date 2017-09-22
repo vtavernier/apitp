@@ -17,6 +17,6 @@ class ProjectController < ApplicationController
 
   private
     def set_project
-      @project = UserProject.find(params[:id])
+      @project = UserProject.of_user(current_user).find(params[:id])
     end
 end
