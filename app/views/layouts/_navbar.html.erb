@@ -3,6 +3,11 @@
     <div class="navbar-header">
       <%= link_to "APITP", current_page?(root_path) ? '#' : root_path,
                                          class: "navbar-brand" %>
+      <% if user_signed_in? %>
+        <p class="navbar-text">
+          <%= current_user.name_email %>
+        </p>
+      <% end %>
     </div>
 
     <ul class="nav navbar-nav">
