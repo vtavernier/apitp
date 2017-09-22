@@ -19,11 +19,11 @@
     <div class="panel-body">
       <div class="row">
         <div class="col-md-6 col-xs-12">
-          <p>Due date: <%= l(project.end_time) %></p>
+          <p>Due date: <%= render_date project.end_time %></p>
         </div>
         <div class="col-md-6 col-xs-12">
           <% if submission = project.user_submission(current_user) %>
-            <p><%= link_to "File submitted on #{l(submission.created_at)}", submission.file.url %></p>
+            <p><%= link_to "File submitted on #{render_date(submission.created_at, project.end_time, "due date")}", submission.file.url %></p>
           <% else %>
             <p>No file submitted yet.</p>
           <% end %>
