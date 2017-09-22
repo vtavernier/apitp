@@ -3,11 +3,6 @@
     <div class="navbar-header">
       <%= link_to "APITP", current_page?(root_path) ? '#' : root_path,
                                          class: "navbar-brand" %>
-      <% if user_signed_in? %>
-        <p class="navbar-text">
-          <%= current_user.name_email %>
-        </p>
-      <% end %>
     </div>
 
     <ul class="nav navbar-nav">
@@ -20,6 +15,11 @@
 
     <ul class="nav navbar-nav navbar-right">
       <% if user_signed_in? %>
+        <% if current_page? edit_user_registration_path %>
+          <li class="active"><%= link_to current_user.name_email, "#" %></li>
+        <% else %>
+          <li><%= link_to current_user.name_email, edit_user_registration_path %></li>
+        <% end %>
         <li><%= link_to "Sign out", destroy_user_session_path %></li>
       <% else %>
         <li><%= link_to "Sign in", new_user_session_path %></li>
