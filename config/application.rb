@@ -17,5 +17,7 @@ module APITP
     config.autoload_paths << Rails.root.join('lib')
 
     config.time_zone = 'Paris'
+
+    config.active_record.schema_format = :sql
   end
 end

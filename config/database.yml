@@ -8,7 +8,7 @@ default: &default
 development:
   <<: *default
   database: APITP_development
-  user: railsdev
+  username: railsdev
   password: railsdev
   host: localhost
 
@@ -18,7 +18,7 @@ development:
 test:
   <<: *default
   database: APITP_test
-  user: railsdev
+  username: railsdev
   password: railsdev
   host: localhost
 
