@@ -10,7 +10,7 @@
     submitted = []
 
     @projects.each do |project|
-      submission = project.user_submission(current_user)
+      submission = project.submission
       if submission
         submitted << [ project, submission ]
       else

@@ -40,7 +40,7 @@
   </div>
 
   <div class="col-md-12">
-    <% submission = @project.user_submission(current_user) %>
+    <% submission = @project.submission %>
     <% submission_late = submission_late?(@project, submission) %>
     <div class="panel panel-<%= submission_status(@project, submission) %>">
       <div class="panel-heading">Submitted files <% if submission_late %><strong>(late)</strong><% end %></div>

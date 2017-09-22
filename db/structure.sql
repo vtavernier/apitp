@@ -276,6 +276,29 @@ CREATE TABLE users (
 
 
 --
+-- Name: user_projects; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW user_projects AS
+ SELECT DISTINCT projects.id,
+    projects.year,
+    projects.name,
+    projects.start_time,
+    projects.end_time,
+    projects.url,
+    projects.max_upload_size,
+    projects.created_at,
+    projects.updated_at,
+    submissions.id AS submission_id,
+    users.id AS user_id
+   FROM ((((users
+     JOIN group_memberships ON ((group_memberships.user_id = users.id)))
+     JOIN assignments ON ((assignments.group_id = group_memberships.group_id)))
+     JOIN projects ON ((projects.id = assignments.project_id)))
+     LEFT JOIN submissions ON (((submissions.project_id = projects.id) AND (submissions.user_id = users.id))));
+
+
+--
 -- Name: user_submissions; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -621,6 +644,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170921150956'),
 ('20170921151909'),
 ('20170921152344'),
-('20170922130442');
+('20170922130442'),
+('20170922143400');
 
 

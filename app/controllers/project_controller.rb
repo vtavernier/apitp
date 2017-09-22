@@ -9,7 +9,7 @@ class ProjectController < ApplicationController
       return
     end
 
-    @projects = Project.of_user(current_user)
+    @projects = UserProject.of_user(current_user)
   end
 
   def show
@@ -17,6 +17,6 @@ class ProjectController < ApplicationController
 
   private
     def set_project
-      @project = Project.find(params[:id])
+      @project = UserProject.find(params[:id])
     end
 end
