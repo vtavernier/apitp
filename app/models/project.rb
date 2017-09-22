@@ -13,7 +13,8 @@ class Project < ApplicationRecord
   validates_datetime :end_time, after: :start_time
 
   validates :max_upload_size, presence: true,
-            numericality: { greater_than: 0 }
+            numericality: { greater_than: 0,
+                            less_than_or_equal_to: 1 * 1024 * 1024 }
 
   has_many :assignments, dependent: :delete_all
   has_many :groups, through: :assignments
@@ -42,6 +43,6 @@ class Project < ApplicationRecord
     self.start_time = Date.today.to_datetime
     self.end_time = start_time + 1.week
     self.year = SchoolDateHelper.school_year(self.start_time)
-    self.max_upload_size = 1 * 1024 * 1024 # 1MB
+    self.max_upload_size = 500 * 1024 # 500kB
   end
 end
