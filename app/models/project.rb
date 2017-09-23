@@ -23,7 +23,7 @@ class Project < ApplicationRecord
 
   has_many :submissions, dependent: :destroy
 
-  scope :current, -> { where('start_time >= ? AND end_time >= ?', Date.today, DateTime.now) }
+  scope :current, -> { where('start_time <= ? AND end_time >= ?', Date.today, DateTime.now) }
   scope :ended, -> { where('end_time >= ? AND end_time <= ?', DateTime.now - 1.week, DateTime.now) }
 
   scope :stats, -> { select('*').joins('INNER JOIN project_statistics ON project_statistics.project_id = projects.id') }
