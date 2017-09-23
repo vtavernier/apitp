@@ -4,9 +4,7 @@ class UserProject < Project
   belongs_to :user
   belongs_to :submission
 
-  default_scope -> {
-    order(:end_time, :name)
-  }
+  default_scope :ordered
 
   scope :of_user, -> (user) {
     where(user: user).includes(:submission)

@@ -26,6 +26,14 @@ class Project < ApplicationRecord
   scope :current, -> { where('start_time >= ? AND end_time >= ?', Date.today, DateTime.now) }
   scope :ended, -> { where('end_time >= ? AND end_time <= ?', DateTime.now - 1.week, DateTime.now) }
 
+  scope :stats, -> { select('*').joins('INNER JOIN project_statistics ON project_statistics.project_id = projects.id') }
+
+  scope :ordered, -> { order(:end_time, :name) }
+
+  def submitted
+    "#{submission_count}/#{user_count}"
+  end
+
   def assignment_group(user)
     Group.where('id IN (?)', user.group_memberships.select(:group_id))
          .where('id IN (?)', assignments.select(:group_id)).first

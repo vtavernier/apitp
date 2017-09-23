@@ -42,6 +42,20 @@ ActiveAdmin.register Group do
         end
       end
     end
+
+    panel I18n.t('active_admin.group.show.assignments') do
+      table_for group.projects.stats.ordered do
+        column :display_name
+        column(:start_date) { |project| render_date project.start_time }
+        column(:end_date) { |project| render_date project.end_time }
+        column :submitted do |project|
+          span project.submitted, class: project_stats_class(project)
+        end
+        column do |project|
+          link_to I18n.t('active_admin.view'), admin_project_path(project)
+        end
+      end
+    end
   end
 
 end

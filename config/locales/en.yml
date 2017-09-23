@@ -8,6 +8,7 @@ en:
     group:
       show:
         members: "Group members"
+        assignments: "Group projects"
     user:
       show:
         groups: "Group memberships"
@@ -23,3 +24,5 @@ en:
       submission:
         created_at: "Uploaded at"
         size: "Size"
+      project:
+        submitted: "Submitted"

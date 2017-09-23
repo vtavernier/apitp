@@ -177,6 +177,20 @@ ALTER SEQUENCE groups_id_seq OWNED BY groups.id;
 
 
 --
+-- Name: submissions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE submissions (
+    id bigint NOT NULL,
+    user_id bigint,
+    project_id bigint,
+    file character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -195,6 +209,35 @@ CREATE TABLE users (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
+
+
+--
+-- Name: user_submissions; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW user_submissions AS
+ SELECT DISTINCT users.id AS user_id,
+    users.name AS username,
+    users.email,
+    assignments.project_id,
+    submissions.id AS submission_id
+   FROM (((users
+     JOIN group_memberships ON ((group_memberships.user_id = users.id)))
+     JOIN assignments ON ((assignments.group_id = group_memberships.group_id)))
+     LEFT JOIN submissions ON (((submissions.project_id = assignments.project_id) AND (submissions.user_id = users.id))))
+  ORDER BY users.name, users.email;
+
+
+--
+-- Name: project_statistics; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW project_statistics AS
+ SELECT user_submissions.project_id,
+    count(user_submissions.submission_id) AS submission_count,
+    count(*) AS user_count
+   FROM user_submissions
+  GROUP BY user_submissions.project_id;
 
 
 --
@@ -255,20 +298,6 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: submissions; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE submissions (
-    id bigint NOT NULL,
-    user_id bigint,
-    project_id bigint,
-    file character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
 -- Name: submissions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -308,23 +337,6 @@ CREATE VIEW user_projects AS
      JOIN assignments ON ((assignments.group_id = group_memberships.group_id)))
      JOIN projects ON ((projects.id = assignments.project_id)))
      LEFT JOIN submissions ON (((submissions.project_id = projects.id) AND (submissions.user_id = users.id))));
-
-
---
--- Name: user_submissions; Type: VIEW; Schema: public; Owner: -
---
-
-CREATE VIEW user_submissions AS
- SELECT DISTINCT users.id AS user_id,
-    users.name AS username,
-    users.email,
-    assignments.project_id,
-    submissions.id AS submission_id
-   FROM (((users
-     JOIN group_memberships ON ((group_memberships.user_id = users.id)))
-     JOIN assignments ON ((assignments.group_id = group_memberships.group_id)))
-     LEFT JOIN submissions ON (((submissions.project_id = assignments.project_id) AND (submissions.user_id = users.id))))
-  ORDER BY users.name, users.email;
 
 
 --
@@ -658,6 +670,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170921152344'),
 ('20170922130442'),
 ('20170922143400'),
-('20170922165536');
+('20170922165536'),
+('20170922182522');
 
 

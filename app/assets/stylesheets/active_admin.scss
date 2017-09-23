@@ -17,15 +17,15 @@
 //
 //   .status_tag { background: #6090DB; }
 
-.submission-missing {
+.submission-missing, .project-stats-missing-late {
   background: #ff1c1c;
   color: #ffffff;
 }
 
-.submission-late {
+.submission-late, .project-stats-missing {
   background: #ffd718;
 }
 
-.submission-ok {
+.submission-ok, .project-stats-complete {
   background: #8cff1a;
 }
