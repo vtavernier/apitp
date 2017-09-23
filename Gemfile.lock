@@ -98,6 +98,9 @@ GEM
       responders
       warden (~> 1.2.3)
     erubi (1.6.1)
+    exception_notification (4.2.2)
+      actionmailer (>= 4.0, < 6)
+      activesupport (>= 4.0, < 6)
     execjs (2.7.0)
     ffi (1.9.18-x64-mingw32)
     formtastic (3.1.5)
@@ -259,6 +262,7 @@ DEPENDENCIES
   capybara (~> 2.13)
   carrierwave (~> 1.1.0)
   devise (~> 4.3.0)
+  exception_notification (~> 4.2.2)
   jbuilder (~> 2.5)
   just-datetime-picker (~> 0.0.7)
   pg (~> 0.18)

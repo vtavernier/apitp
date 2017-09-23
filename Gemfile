@@ -42,6 +42,9 @@ gem 'validate_url', '~> 1.0.2'
 # Upload handling
 gem 'carrierwave', '~> 1.1.0'
 
+# Notify exceptions by e-mail
+gem 'exception_notification', '~> 4.2.2'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

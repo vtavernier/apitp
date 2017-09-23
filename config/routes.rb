@@ -15,4 +15,8 @@ Rails.application.routes.draw do
   resources :submissions, only: [:create]
 
   root to: "project#index"
+
+  unless Rails.application.config.consider_all_requests_local
+    get '*path', to: 'error#not_found', via: :all
+  end
 end
