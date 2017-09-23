@@ -3,7 +3,8 @@ class SubmissionsController < ApplicationController
   before_action :authenticate_user!
 
   def create
-    submission = Submission.new(submission_params)
+    submission = Submission.new(file: params[:submission][:file])
+    submission.project = UserProject.of_user(current_user).find(params[:submission][:project_id])
     submission.user = current_user
 
     if submission.save
@@ -16,10 +17,5 @@ class SubmissionsController < ApplicationController
       redirect_to project_path(submission.project),
                   alert: "Error while uploading the file: #{submission.errors.first[1]}"
     end
-  end
-
-private
-  def submission_params
-    params.require(:submission).permit(:project_id, :file)
   end
 end
