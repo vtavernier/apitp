@@ -6,11 +6,16 @@ ActiveAdmin.register_page "Dashboard" do
     columns do
       column do
         def project_table(projects)
-          table_for projects do
+          table_for projects.stats.ordered do
             column :display_name do |project|
               link_to project.display_name, admin_project_path(project)
             end
-            column :end_time
+            column :end_time do |project|
+              render_date project.end_time
+            end
+            column :submitted do |project|
+              span project.submitted, class: project_stats_class(project)
+            end
           end
         end
 
