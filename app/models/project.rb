@@ -44,7 +44,7 @@ class Project < ApplicationRecord
   end
 
   def set_defaults
-    self.start_time = Date.today.to_datetime
+    self.start_time = DateTime.now.at_beginning_of_day
     self.end_time = start_time + 1.week
     self.year = SchoolDateHelper.school_year(self.start_time)
     self.max_upload_size = 500 * 1024 # 500kB
