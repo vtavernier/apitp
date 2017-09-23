@@ -5,6 +5,6 @@ class UserProject < Project
   belongs_to :submission
 
   scope :of_user, -> (user) {
-    where(user: user).includes(:submission)
+    where(user: user).where('start_time <= ?', DateTime.now).includes(:submission)
   }
 end
