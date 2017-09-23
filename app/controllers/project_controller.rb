@@ -9,7 +9,7 @@ class ProjectController < ApplicationController
       return
     end
 
-    @projects = UserProject.of_user(current_user)
+    @projects = UserProject.of_user(current_user).ordered
   end
 
   def show
