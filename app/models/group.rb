@@ -14,4 +14,6 @@ class Group < ApplicationRecord
   has_many :users, through: :group_memberships
 
   scope :current, -> { where(year: SchoolDateHelper.school_year) }
+
+  scope :administered, -> (admin) { where(admin_user_id: admin.id) }
 end

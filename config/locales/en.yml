@@ -1,5 +1,10 @@
 en:
   active_admin:
+    scopes:
+      all: "All"
+      current: "Current"
+      ended: "Ended"
+      administered: "Administered"
     project:
       show:
         assignments: "Group assignments"
@@ -17,6 +22,7 @@ en:
       title: "APITP Dashboard"
       ended_projects: "Ended projects"
       admin_groups: "Administered groups"
+      ended_recently_projects: "Recently ended projects"
   activerecord:
     attributes:
       group:

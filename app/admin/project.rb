@@ -4,13 +4,25 @@ ActiveAdmin.register Project do
                 :end_time_date, :end_time_time_hour, :end_time_time_minute,
                 :group_ids => []
 
+  scope :recent, default: true
+  scope :current
+  scope :ended
+  scope :all
+
   index do
     selectable_column
     id_column
     column :year
     column :name
-    column :start_time
-    column :end_time
+    column :start_time do |project|
+      render_date project.start_time
+    end
+    column :end_time do |project|
+      render_date project.end_time
+    end
+    column :submitted do |project|
+      span project.submitted, class: project_stats_class(project)
+    end
     actions
   end
 
@@ -20,6 +32,10 @@ ActiveAdmin.register Project do
   filter :end_time
 
   controller do
+    def scoped_collection
+      Project.stats
+    end
+
     after_create do |project|
       if project.persisted?
         # Notify all users that have been added to this project

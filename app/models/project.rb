@@ -24,9 +24,24 @@ class Project < ApplicationRecord
   has_many :submissions, dependent: :destroy
 
   scope :current, -> { where('start_time <= ? AND end_time >= ?', Date.today, DateTime.now) }
-  scope :ended, -> { where('end_time >= ? AND end_time <= ?', DateTime.now - 1.week, DateTime.now) }
+  scope :ended, -> { where('end_time < ?', DateTime.now) }
+  scope :ended_recently, -> { where('end_time >= ? AND end_time <= ?', DateTime.now - 1.week, DateTime.now) }
+  scope :recent, -> { where(<<-SQL, { today: Date.today, in_one_week: Date.today + 1.week, one_week_ago: Date.today - 1.week })
+      (:today <= start_time AND :in_one_week >= start_time) OR
+      (:today >= end_time AND :one_week_ago <= end_time) OR
+      (:today >= start_time AND :today <= end_time)
+    SQL
+  }
 
-  scope :stats, -> { select('*').joins('INNER JOIN project_statistics ON project_statistics.project_id = projects.id') }
+  scope :stats, -> { select(<<-SQL)
+      projects.*,
+      COALESCE(submission_count, 0) AS submission_count,
+      COALESCE(user_count, 0) AS user_count
+    SQL
+    .joins(<<-SQL)
+      LEFT OUTER JOIN project_statistics ON project_statistics.project_id = projects.id
+    SQL
+  }
 
   scope :ordered, -> { order(:end_time, :name) }
 

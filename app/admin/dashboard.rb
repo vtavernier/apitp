@@ -23,8 +23,8 @@ ActiveAdmin.register_page "Dashboard" do
           project_table(Project.current)
         end
 
-        panel I18n.t('active_admin.dashboard.ended_projects') do
-          project_table(Project.ended)
+        panel I18n.t('active_admin.dashboard.ended_recently_projects') do
+          project_table(Project.ended_recently)
         end
       end
       column do
