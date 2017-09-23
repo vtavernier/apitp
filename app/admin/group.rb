@@ -34,7 +34,7 @@ ActiveAdmin.register Group do
     end
 
     panel I18n.t('active_admin.group.show.members') do
-      table_for group.users do
+      table_for group.users.ordered do
         column :name
         column :email
         column do |user|

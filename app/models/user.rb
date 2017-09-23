@@ -12,4 +12,6 @@ class User < ApplicationRecord
   has_many :groups, through: :group_memberships
 
   has_many :submissions, dependent: :destroy
+
+  scope :ordered, -> { order(:name, :email) }
 end
