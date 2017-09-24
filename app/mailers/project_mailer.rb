@@ -26,7 +26,7 @@ class ProjectMailer < ApplicationMailer
     @project = submission.project
     @submission = submission
     @user = submission.user
-    mail(subhect: "[APITP] File submitted for #{@project.display_name}",
+    mail(subject: "[APITP] File submitted for #{@project.display_name}",
          to: @user.email)
   end
 end
