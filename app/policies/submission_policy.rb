@@ -28,7 +28,8 @@ class SubmissionPolicy < ApplicationPolicy
     # Only an admin can delete the submission of a user
     # who is in a group the admin is administering
     user.admin? and
-        record.user.groups.where(admin_user_id: user.id).exists?
+        (user.super_admin? or
+            record.user.groups.where(admin_user_id: user.id).exists?)
   end
 
   class Scope < Scope

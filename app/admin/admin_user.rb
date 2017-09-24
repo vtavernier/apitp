@@ -6,6 +6,7 @@ ActiveAdmin.register AdminUser do
     id_column
     column :name
     column :email
+    column :super_admin
     column :current_sign_in_at
     column :sign_in_count
     column :created_at
@@ -14,6 +15,7 @@ ActiveAdmin.register AdminUser do
 
   filter :name
   filter :email
+  filter :super_admin
   filter :current_sign_in_at
   filter :sign_in_count
   filter :created_at
@@ -44,6 +46,7 @@ ActiveAdmin.register AdminUser do
       row :email do |user|
         link_to user.email, "mailto:#{user.email}"
       end
+      row :super_admin
       row :current_sign_in_at
       row :last_sign_in_at
       row :created_at

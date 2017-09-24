@@ -44,7 +44,8 @@ CREATE TABLE admin_users (
     last_sign_in_ip inet,
     name character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    super_admin boolean
 );
 
 
@@ -826,6 +827,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170923180227'),
 ('20170923182803'),
 ('20170924110311'),
-('20170924122541');
+('20170924122541'),
+('20170924175248');
 
 

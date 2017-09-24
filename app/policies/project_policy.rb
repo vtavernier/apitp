@@ -16,13 +16,13 @@ class ProjectPolicy < ApplicationPolicy
 
   def update?
     # Only admin users update projects
-    # TODO: Admin owning project?
+    # TODO: Admin owning project or super_admin?
     user.admin?
   end
 
   def destroy?
     # Only admin users destroy projects
-    # TODO: Admin owning project?
+    # TODO: Admin owning project or super_admin?
     user.admin?
   end
 

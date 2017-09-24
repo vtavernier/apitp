@@ -18,4 +18,8 @@ class User < ApplicationRecord
   def admin?
     false
   end
+
+  def super_admin?
+    false
+  end
 end

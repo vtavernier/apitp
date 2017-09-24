@@ -13,12 +13,12 @@ class GroupPolicy < ApplicationPolicy
 
   def update?
     # Only the group admin can edit
-    user.admin? and record.admin_user_id == user.id
+    user.admin? and (user.super_admin? or record.admin_user_id == user.id)
   end
 
   def destroy?
     # Only the group admin can destroy
-    user.admin? and record.admin_user_id == user.id
+    user.admin? and (user.super_admin? or record.admin_user_id == user.id)
   end
 
   class Scope < Scope

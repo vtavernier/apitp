@@ -15,8 +15,8 @@ class AdminUserPolicy < ApplicationPolicy
   end
 
   def update?
-    # Only update self
-    @user == @record
+    # Only update self, but allow super admin
+    user.super_admin? or user == record
   end
 
   def destroy?
