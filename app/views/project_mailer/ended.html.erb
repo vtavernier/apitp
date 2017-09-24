@@ -1,0 +1,13 @@
+<h2><%= @project.display_name %></h2>
+
+<p>
+  <%= @user.name %>, this is a reminder that the project
+  <%= link_to @project.display_name, project_url(id: @project.id) %> was due by
+  <%= l @project.end_time, format: :long %>.
+</p>
+
+<p>
+  You haven't submitted a file for this project yet. You should submit a file immediately, or penalties may be applied.
+</p>
+
+<%= render 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>

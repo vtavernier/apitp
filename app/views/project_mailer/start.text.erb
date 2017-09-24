@@ -13,5 +13,4 @@ This project is due by <%= l @project.end_time, format: :long %>.
 The project material is located at <%= @project.url %>
 <% end %>
 
-<% admin = @project.assignment_group(@user).admin %>
-If you have any questions, feel free to contact your project administrator: <%= admin.name_email %>.
+<%= render 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>

@@ -1,0 +1,12 @@
+<%= @project.display_name %>
+===================
+
+<%= @user.name %>, this is a reminder that the project <%= @project.display_name %> is due by <%= l @project.end_time, format: :long %>.
+
+You can access the project on APITP at the following address:
+
+    <%= project_url(id: @project.id) %>
+
+You haven't submitted a file for this project yet. Note that if you submit a file after the due date, penalties may be applied.
+
+<%= render 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>

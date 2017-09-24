@@ -8,6 +8,20 @@ class ProjectMailer < ApplicationMailer
          to: user.email)
   end
 
+  def reminder(project, user)
+    @project = project
+    @user = user
+    mail(subject: "[APITP] #{@project.display_name} is due soon",
+         to: user.email)
+  end
+
+  def ended(project, user)
+    @project = project
+    @user = user
+    mail(subject: "[APITP] #{@project.display_name} is past due date",
+         to: user.email)
+  end
+
   def submitted(submission)
     @project = submission.project
     @submission = submission
