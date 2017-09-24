@@ -1,5 +1,5 @@
 ActiveAdmin.register Group do
-  permit_params :year, :name, :admin, :user_ids => []
+  permit_params :year, :name, :admin_user_id, :user_ids => []
 
   scope :administered, default: true do |scope|
     scope.administered(current_admin_user)
