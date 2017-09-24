@@ -1,0 +1,2 @@
+class PendingStartEmail < PendingEmail
+end

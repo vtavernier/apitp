@@ -88,7 +88,10 @@ CREATE TABLE assignments (
     group_id bigint,
     project_id bigint,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    sent_start_email timestamp without time zone,
+    sent_reminder_email timestamp without time zone,
+    sent_ended_email timestamp without time zone
 );
 
 
@@ -177,6 +180,35 @@ ALTER SEQUENCE groups_id_seq OWNED BY groups.id;
 
 
 --
+-- Name: projects; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE projects (
+    id bigint NOT NULL,
+    year integer,
+    name character varying,
+    start_time timestamp without time zone,
+    end_time timestamp without time zone,
+    url character varying,
+    max_upload_size integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: project_times; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW project_times AS
+ SELECT projects.id,
+    projects.start_time,
+    projects.end_time,
+    date_trunc('hour'::text, (projects.start_time + (((projects.end_time - projects.start_time) * (6)::double precision) / (7)::double precision))) AS reminder_time
+   FROM projects;
+
+
+--
 -- Name: submissions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -229,6 +261,68 @@ CREATE VIEW user_submissions AS
 
 
 --
+-- Name: pending_ended_emails; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW pending_ended_emails AS
+ SELECT email_status.project_id,
+    email_status.user_id
+   FROM ( SELECT assignments.project_id,
+            users.id AS user_id,
+            project_times.end_time AS send_start,
+            (project_times.end_time + '7 days'::interval) AS send_end
+           FROM ((((assignments
+             JOIN group_memberships ON ((assignments.group_id = group_memberships.group_id)))
+             JOIN users ON ((group_memberships.user_id = users.id)))
+             JOIN project_times ON ((project_times.id = assignments.project_id)))
+             LEFT JOIN user_submissions ON (((user_submissions.user_id = users.id) AND (user_submissions.project_id = assignments.project_id))))
+          GROUP BY assignments.project_id, users.id, project_times.end_time, (project_times.end_time + '7 days'::interval)
+         HAVING ((count(assignments.sent_ended_email) = 0) AND (count(user_submissions.submission_id) = 0))) email_status
+  WHERE ((email_status.send_start <= now()) AND (now() <= email_status.send_end));
+
+
+--
+-- Name: pending_reminder_emails; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW pending_reminder_emails AS
+ SELECT email_status.project_id,
+    email_status.user_id
+   FROM ( SELECT assignments.project_id,
+            users.id AS user_id,
+            project_times.reminder_time AS send_start,
+            project_times.end_time AS send_end
+           FROM ((((assignments
+             JOIN group_memberships ON ((assignments.group_id = group_memberships.group_id)))
+             JOIN users ON ((group_memberships.user_id = users.id)))
+             JOIN project_times ON ((project_times.id = assignments.project_id)))
+             LEFT JOIN user_submissions ON (((user_submissions.user_id = users.id) AND (user_submissions.project_id = assignments.project_id))))
+          GROUP BY assignments.project_id, users.id, project_times.reminder_time, project_times.end_time
+         HAVING ((count(assignments.sent_reminder_email) = 0) AND (count(user_submissions.submission_id) = 0))) email_status
+  WHERE ((email_status.send_start <= now()) AND (now() <= email_status.send_end));
+
+
+--
+-- Name: pending_start_emails; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW pending_start_emails AS
+ SELECT email_status.project_id,
+    email_status.user_id
+   FROM ( SELECT assignments.project_id,
+            users.id AS user_id,
+            project_times.start_time AS send_start,
+            project_times.reminder_time AS send_end
+           FROM (((assignments
+             JOIN group_memberships ON ((assignments.group_id = group_memberships.group_id)))
+             JOIN users ON ((group_memberships.user_id = users.id)))
+             JOIN project_times ON ((project_times.id = assignments.project_id)))
+          GROUP BY assignments.project_id, users.id, project_times.start_time, project_times.reminder_time
+         HAVING (count(assignments.sent_start_email) = 0)) email_status
+  WHERE ((email_status.send_start <= now()) AND (now() <= email_status.send_end));
+
+
+--
 -- Name: project_statistics; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -250,23 +344,6 @@ CREATE VIEW project_users AS
    FROM ((users
      JOIN group_memberships ON ((group_memberships.user_id = users.id)))
      JOIN assignments ON ((assignments.group_id = group_memberships.group_id)));
-
-
---
--- Name: projects; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE projects (
-    id bigint NOT NULL,
-    year integer,
-    name character varying,
-    start_time timestamp without time zone,
-    end_time timestamp without time zone,
-    url character varying,
-    max_upload_size integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
 
 
 --
@@ -671,6 +748,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170922130442'),
 ('20170922143400'),
 ('20170922165536'),
-('20170922182522');
+('20170922182522'),
+('20170923173030'),
+('20170923180227'),
+('20170923182803');
 
 
