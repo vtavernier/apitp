@@ -266,7 +266,8 @@ CREATE VIEW user_submissions AS
 
 CREATE VIEW pending_ended_emails AS
  SELECT email_status.project_id,
-    email_status.user_id
+    email_status.user_id,
+    email_status.send_start AS send_at
    FROM ( SELECT assignments.project_id,
             users.id AS user_id,
             project_times.end_time AS send_start,
@@ -287,7 +288,8 @@ CREATE VIEW pending_ended_emails AS
 
 CREATE VIEW pending_reminder_emails AS
  SELECT email_status.project_id,
-    email_status.user_id
+    email_status.user_id,
+    email_status.send_start AS send_at
    FROM ( SELECT assignments.project_id,
             users.id AS user_id,
             project_times.reminder_time AS send_start,
@@ -308,7 +310,8 @@ CREATE VIEW pending_reminder_emails AS
 
 CREATE VIEW pending_start_emails AS
  SELECT email_status.project_id,
-    email_status.user_id
+    email_status.user_id,
+    email_status.send_start AS send_at
    FROM ( SELECT assignments.project_id,
             users.id AS user_id,
             project_times.start_time AS send_start,
@@ -323,6 +326,32 @@ CREATE VIEW pending_start_emails AS
 
 
 --
+-- Name: project_events; Type: VIEW; Schema: public; Owner: -
+--
+
+CREATE VIEW project_events AS
+ SELECT events.id,
+    events.next_event
+   FROM ( SELECT project_times.id,
+            LEAST(
+                CASE
+                    WHEN (project_times.start_time < now()) THEN NULL::timestamp without time zone
+                    ELSE project_times.start_time
+                END,
+                CASE
+                    WHEN (project_times.reminder_time < now()) THEN NULL::timestamp without time zone
+                    ELSE project_times.reminder_time
+                END,
+                CASE
+                    WHEN (project_times.end_time < now()) THEN NULL::timestamp without time zone
+                    ELSE project_times.end_time
+                END) AS next_event
+           FROM project_times) events
+  WHERE (events.next_event IS NOT NULL)
+  ORDER BY events.next_event;
+
+
+--
 -- Name: project_statistics; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -332,18 +361,6 @@ CREATE VIEW project_statistics AS
     count(*) AS user_count
    FROM user_submissions
   GROUP BY user_submissions.project_id;
-
-
---
--- Name: project_users; Type: VIEW; Schema: public; Owner: -
---
-
-CREATE VIEW project_users AS
- SELECT DISTINCT users.id AS user_id,
-    assignments.project_id
-   FROM ((users
-     JOIN group_memberships ON ((group_memberships.user_id = users.id)))
-     JOIN assignments ON ((assignments.group_id = group_memberships.group_id)));
 
 
 --
@@ -804,11 +821,11 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170921152344'),
 ('20170922130442'),
 ('20170922143400'),
-('20170922165536'),
 ('20170922182522'),
 ('20170923173030'),
 ('20170923180227'),
 ('20170923182803'),
-('20170924110311');
+('20170924110311'),
+('20170924122541');
 
 

@@ -1,0 +1,2 @@
+class ProjectTime < ApplicationRecord
+end

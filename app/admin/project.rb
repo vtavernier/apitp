@@ -36,30 +36,14 @@ ActiveAdmin.register Project do
       Project.stats
     end
 
-    after_create do |project|
-      if project.persisted?
-        # Notify all users that have been added to this project
-        ProjectUser.users(project).includes(:user).each do |project_user|
-          ProjectMailer.start(project, project_user.user).deliver_later
-        end
-      end
+    after_create do
+      # There will be emails to send after creating a project
+      ProcessPendingEmailsJob.perform_later
     end
 
-    def update
-      # Get the list of existing users for this project that we should not notify
-      @existing_users = ProjectUser.users(resource).pluck(:user_id).to_set
-      super
-    end
-
-    after_update do |project|
-      unless project.changed?
-        ProjectUser.users(project).includes(:user).each do |project_user|
-          # Only notify users who have been added to this project
-          unless @existing_users.include? project_user.user_id
-            ProjectMailer.start(project, project_user.user).deliver_later
-          end
-        end
-      end
+    after_update do
+      # There will be emails to send after updating a project
+      ProcessPendingEmailsJob.perform_later
     end
   end
 

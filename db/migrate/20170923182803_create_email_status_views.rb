@@ -4,7 +4,8 @@ class CreateEmailStatusViews < ActiveRecord::Migration[5.1]
       CREATE VIEW pending_start_emails AS
         SELECT
           project_id,
-          user_id
+          user_id,
+          send_start AS send_at
         FROM
           (SELECT
              assignments.project_id,
@@ -22,7 +23,8 @@ class CreateEmailStatusViews < ActiveRecord::Migration[5.1]
       CREATE VIEW pending_reminder_emails AS
         SELECT
           project_id,
-          user_id
+          user_id,
+          send_start AS send_at
         FROM
           (SELECT
              assignments.project_id,
@@ -42,7 +44,8 @@ class CreateEmailStatusViews < ActiveRecord::Migration[5.1]
       CREATE VIEW pending_ended_emails AS
         SELECT
           project_id,
-          user_id
+          user_id,
+          send_start AS send_at
         FROM
           (SELECT
              assignments.project_id,
