@@ -7,6 +7,9 @@ class SubmissionsController < ApplicationController
     submission.project = UserProject.of_user(current_user).find(params[:submission][:project_id])
     submission.user = current_user
 
+    # Ensure access
+    authorize submission
+
     if submission.save
       # Send e-mail about submitted file
       ProjectMailer.submitted(submission).deliver_later

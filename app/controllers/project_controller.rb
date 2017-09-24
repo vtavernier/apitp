@@ -9,10 +9,15 @@ class ProjectController < ApplicationController
       return
     end
 
+    # Ensure access
+    authorize UserProject
+
     @projects = UserProject.of_user(current_user).ordered
   end
 
   def show
+    # Ensure access
+    authorize @project
   end
 
   private

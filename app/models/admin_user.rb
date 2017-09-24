@@ -7,4 +7,8 @@ class AdminUser < ApplicationRecord
          :recoverable, :trackable, :validatable
 
   validates :name, presence: true, uniqueness: true
+
+  def admin?
+    true
+  end
 end

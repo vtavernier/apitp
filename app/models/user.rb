@@ -14,4 +14,8 @@ class User < ApplicationRecord
   has_many :submissions, dependent: :destroy
 
   scope :ordered, -> { order(:name, :email) }
+
+  def admin?
+    false
+  end
 end

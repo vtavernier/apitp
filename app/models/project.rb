@@ -23,6 +23,7 @@ class Project < ApplicationRecord
 
   has_many :submissions, dependent: :destroy
 
+  scope :started, -> { where('start_time <= ?', DateTime.now) }
   scope :current, -> { where('start_time <= ? AND end_time >= ?', Date.today, DateTime.now) }
   scope :ended, -> { where('end_time < ?', DateTime.now) }
   scope :ended_recently, -> { where('end_time >= ? AND end_time <= ?', DateTime.now - 1.week, DateTime.now) }
@@ -43,7 +44,13 @@ class Project < ApplicationRecord
     SQL
   }
 
-  scope :ordered, -> { order(:end_time, :name) }
+  scope :user, -> (user) {
+    where(user: user).where('start_time <= ?', DateTime.now)
+  }
+
+  scope :ordered, -> {
+    order(:end_time, :name)
+  }
 
   def submitted
     "#{submission_count}/#{user_count}"

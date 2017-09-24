@@ -73,7 +73,8 @@ ActiveAdmin.register Project do
     panel I18n.t('active_admin.project.show.submission_status') do
       table_for project.user_submissions do
         column :name do |user_submission|
-          user_submission.username
+          link_to user_submission.username,
+                  admin_user_path(id: user_submission.user_id)
         end
         column :email do |user_submission|
           link_to user_submission.email,
@@ -98,10 +99,15 @@ ActiveAdmin.register Project do
         end
         column do |user_submission|
           unless (submission = user_submission.submission).nil?
-            link_to I18n.t('active_admin.delete'),
-                    admin_submission_path(submission),
-                    method: :delete,
-                    data: { confirm: "Delete submission from #{user_submission.username} for #{project.name}?" }
+            begin
+              Pundit.authorize(current_admin_user, submission, :destroy?)
+              link_to I18n.t('active_admin.delete'),
+                      admin_submission_path(submission),
+                      method: :delete,
+                      data: { confirm: "Delete submission from #{user_submission.username} for #{project.name}?" }
+            rescue Pundit::NotAuthorizedError
+              # do not create a link to delete, user is not allowed
+            end
           end
         end
       end
