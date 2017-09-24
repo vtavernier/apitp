@@ -1,10 +1,10 @@
 class ProcessPendingEmailsJob < ApplicationJob
-  queue_as :default
+  queue_as :user_email
 
-  after_perform :reschedule
+  def perform(options = {})
+    run_once = options.fetch(:run_once, false)
 
-  def perform(*args)
-    ActiveRecord::Base.with_advisory_lock(:process_pending_emails,timeout_seconds: 1) do
+    ActiveRecord::Base.with_advisory_lock(:process_pending_emails,timeout_seconds: 1, shared: false) do
       ActiveRecord::Base.transaction do
         start_project_sent = Set.new
         reminder_project_sent = Set.new
@@ -28,25 +28,21 @@ class ProcessPendingEmailsJob < ApplicationJob
         # Now, update all groups
         current_datetime = DateTime.now
 
-        Assignment.where(id: start_project_sent).update_all(sent_start_email: current_datetime)
-        Assignment.where(id: reminder_project_sent).update_all(sent_reminder_email: current_datetime)
-        Assignment.where(id: ended_project_sent).update_all(sent_ended_email: current_datetime)
+        Assignment.where(id: start_project_sent.to_a).update_all(sent_start_email: current_datetime)
+        Assignment.where(id: reminder_project_sent.to_a).update_all(sent_reminder_email: current_datetime)
+        Assignment.where(id: ended_project_sent.to_a).update_all(sent_ended_email: current_datetime)
+
+        # And schedule our next run, unless this is the cron job
+        if not run_once
+          if (earliest = ProjectEvent.earliest)
+            ProcessPendingEmailsJob.set(wait_until: earliest).perform_later
+          end
+        end
       end
     end
   end
 
   private
-    def reschedule
-      next_event = ProjectEvent.earliest
-      options = { wait_until: next_event }
-
-      if (next_event - DateTime.now) > 1.day
-        options = { wait: 1.day }
-      end
-
-      ProcessPendingEmailsJob.set(options).perform_later
-    end
-
     def send_project_emails(email, assignment_set, email_method)
       # Add the group ids to the set
       assignment_set.merge(email.project.assignment_ids)

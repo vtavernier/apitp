@@ -1,5 +1,5 @@
 class ProjectEvent < ApplicationRecord
   def self.earliest
-    self.first.next_event
+    self.limit(1).pluck(:next_event).first
   end
 end

@@ -3,7 +3,7 @@ ActiveAdmin.register_page "Dashboard" do
   menu priority: 1, label: proc{ I18n.t("active_admin.dashboard.title") }
 
   page_action :run_email_job, method: :post do
-    ProcessPendingEmailsJob.perform_later
+    ProcessPendingEmailsJob.perform_later(run_once: true)
     redirect_to admin_dashboard_path, notice: "E-mail sending job has been started."
   end
 
