@@ -48,7 +48,7 @@
         <% if submission %>
           <p>
             You have already submitted a file on <%= render_date(submission.created_at, @project.end_time, "due date") %>:
-            <%= link_to submission.file.file.filename, submission.file.url %> (<%= number_to_human_size submission.file.size %>)
+            <%= link_to submission.file.file.filename, submission_path(submission) %> (<%= number_to_human_size submission.file.size %>)
           </p>
           <p>You can't edit this file now. If you really need to cancel your upload, send an e-mail to the assignment contact.</p>
           <% if submission_late %>

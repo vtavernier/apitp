@@ -111,7 +111,7 @@ ActiveAdmin.register Project do
 
             time_diff = submission.created_at - project.end_time
             link_to render_date(submission.created_at, project.end_time, "due date"),
-                    submission.file.url, class: time_diff > 0 ? 'submission-late' : 'submission-ok'
+                    submission_path(submission), class: time_diff > 0 ? 'submission-late' : 'submission-ok'
           end
         end
         column I18n.t('activerecord.attributes.submission.size') do |user_submission|

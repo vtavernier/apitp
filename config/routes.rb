@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
   resources :project, only: [:index, :show]
-  resources :submissions, only: [:create]
+  resources :submissions, only: [:create, :show]
 
   root to: "project#index"
 

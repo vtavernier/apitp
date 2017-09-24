@@ -1,6 +1,6 @@
 class SubmissionsController < ApplicationController
   include DateHelper
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [ :create ]
 
   def create
     submission = Submission.new(file: params[:submission][:file])
@@ -20,5 +20,27 @@ class SubmissionsController < ApplicationController
       redirect_to project_path(submission.project),
                   alert: "Error while uploading the file: #{submission.errors.first[1]}"
     end
+  end
+
+  def show
+    submission_user = if admin_user_signed_in?
+                        current_admin_user
+                      else
+                        current_user
+                      end
+
+    if submission_user.nil?
+      # Delegate to Devise when no user
+      authenticate_user!
+    end
+
+    # Find the submission
+    submission = Submission.find(params[:id])
+
+    # Authorize
+    Pundit.authorize(submission_user, submission, :show?)
+
+    # Render the file
+    send_file submission.file.path, :x_sendfile => true
   end
 end
