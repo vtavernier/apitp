@@ -1,0 +1,14 @@
+<h2>Import of <%= @file_name %> failed</h2>
+
+<p><%= @user.name %>, the file you tried to import into APITP could not be imported.</p>
+
+<p>Please ensure the submitted file contains the required fields (name, email, group 1, group 2, etc.)</p>
+
+<p>Here are the exception details:</p>
+
+<pre>
+  <%= @exception.message %>
+  Backtrace: <% @exception.backtrace.each do |item| %>
+    - <%= item %>
+  <% end %>
+</pre>

@@ -1,6 +1,35 @@
 ActiveAdmin.register User do
   permit_params :name, :email, :password, :password_confirmation, :group_ids => []
 
+  collection_action :import, method: :get do
+    # just render the view
+  end
+
+  collection_action :import_csv, method: :post do
+    file = params[:file]
+
+    begin
+      # Store file locally
+      uploader = ImportUploader.new
+      uploader.generate_id
+      uploader.store!(file)
+
+      # Queue import job
+      ImportJob.perform_later(uploader.store_path, current_admin_user.id, params[:format])
+
+      redirect_to collection_path, notice: "The uploaded file has been queued for import."
+    rescue StandardError => e
+      # Inform exception
+      redirect_to collection_path, alert: "An error occurred while importing the file: #{e.message}"
+    ensure
+      file.tempfile.delete
+    end
+  end
+
+  action_item :import, only: :index do
+    link_to 'Import users', import_admin_users_path
+  end
+
   index do
     selectable_column
     id_column
