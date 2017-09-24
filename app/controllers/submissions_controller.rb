@@ -17,6 +17,9 @@ class SubmissionsController < ApplicationController
       redirect_to project_path(submission.project),
                   notice: "The file has been submitted at #{render_date(submission.created_at, submission.project.end_time, "due time")}."
     else
+      # Delete file after failure
+      submission.file.file.delete
+
       redirect_to project_path(submission.project),
                   alert: "Error while uploading the file: #{submission.errors.first[1]}"
     end
