@@ -2,47 +2,46 @@ class ProcessPendingEmailsJob < ApplicationJob
   queue_as :user_email
 
   def perform(options = {})
-    run_once = options.fetch(:run_once, false)
-
-    ActiveRecord::Base.with_advisory_lock(:process_pending_emails,timeout_seconds: 1, shared: false) do
+    ActiveRecord::Base.with_advisory_lock(:process_pending_emails, shared: false) do
       ActiveRecord::Base.transaction do
-        start_project_sent = Set.new
-        reminder_project_sent = Set.new
-        ended_project_sent = Set.new
-
-        # Start all email sending jobs
-        PendingStartEmail.complete.each do |email|
-          send_project_emails(email, start_project_sent, :start)
-        end
-
-        # Send reminder emails
-        PendingReminderEmail.complete.each do |email|
-          send_project_emails(email, reminder_project_sent, :reminder)
-        end
-
-        # Send ended project emails
-        PendingEndedEmail.complete.each do |email|
-          send_project_emails(email, ended_project_sent, :ended)
-        end
-
-        # Now, update all groups
         current_datetime = DateTime.now
 
-        Assignment.where(id: start_project_sent.to_a).update_all(sent_start_email: current_datetime)
-        Assignment.where(id: reminder_project_sent.to_a).update_all(sent_reminder_email: current_datetime)
-        Assignment.where(id: ended_project_sent.to_a).update_all(sent_ended_email: current_datetime)
+        # Send start emails
+        process_email_queue(current_datetime,
+                            :start)
 
-        # And schedule our next run, unless this is the cron job
-        if not run_once
-          if (earliest = ProjectEvent.earliest)
-            ProcessPendingEmailsJob.set(wait_until: earliest).perform_later
-          end
+        # Send reminder emails
+        process_email_queue(current_datetime,
+                            :reminder)
+
+        # Send ended emails
+        process_email_queue(current_datetime,
+                            :ended)
+
+        # Reschedule job if this is the scheduled instance
+        interval = options[:reschedule_interval]
+        if interval
+          ProcessPendingEmailsJob
+              .set(wait: ActiveSupport::Duration.parse(interval))
+              .perform_later(options)
         end
       end
     end
   end
 
   private
+    def process_email_queue(current_datetime, queue)
+      assignment_set = Set.new
+
+      "pending_#{queue}_email".camelize.constantize.complete.each do |email|
+        send_project_emails(email, assignment_set, queue)
+      end
+
+      unless assignment_set.empty?
+        Assignment.where(id: assignment_set.to_a).update_all("sent_#{queue}_email" => current_datetime)
+      end
+    end
+
     def send_project_emails(email, assignment_set, email_method)
       # Add the group ids to the set
       assignment_set.merge(email.project.assignment_ids)

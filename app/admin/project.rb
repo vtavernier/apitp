@@ -35,16 +35,6 @@ ActiveAdmin.register Project do
     def scoped_collection
       Project.stats
     end
-
-    after_create do
-      # There will be emails to send after creating a project
-      ProcessPendingEmailsJob.perform_later
-    end
-
-    after_update do
-      # There will be emails to send after updating a project
-      ProcessPendingEmailsJob.perform_later
-    end
   end
 
   form do |f|
