@@ -40,7 +40,7 @@ ActiveAdmin.register Project do
       if project.persisted?
         # Notify all users that have been added to this project
         ProjectUser.users(project).includes(:user).each do |project_user|
-          ProjectMailer.start(project, project_user.user).deliver
+          ProjectMailer.start(project, project_user.user).deliver_later
         end
       end
     end
@@ -56,7 +56,7 @@ ActiveAdmin.register Project do
         ProjectUser.users(project).includes(:user).each do |project_user|
           # Only notify users who have been added to this project
           unless @existing_users.include? project_user.user_id
-            ProjectMailer.start(project, project_user.user).deliver
+            ProjectMailer.start(project, project_user.user).deliver_later
           end
         end
       end

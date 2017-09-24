@@ -9,7 +9,7 @@ class SubmissionsController < ApplicationController
 
     if submission.save
       # Send e-mail about submitted file
-      ProjectMailer.submitted(submission).deliver
+      ProjectMailer.submitted(submission).deliver_later
 
       redirect_to project_path(submission.project),
                   notice: "The file has been submitted at #{render_date(submission.created_at, submission.project.end_time, "due time")}."

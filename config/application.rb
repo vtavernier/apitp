@@ -19,5 +19,7 @@ module APITP
     config.time_zone = 'Paris'
 
     config.active_record.schema_format = :sql
+
+    config.active_job.queue_adapter = :que
   end
 end
