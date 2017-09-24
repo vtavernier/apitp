@@ -40,26 +40,32 @@ ActiveAdmin.register Group do
       row :updated_at
     end
 
-    panel I18n.t('active_admin.group.show.members') do
-      table_for group.users.ordered do
-        column :name
-        column :email
-        column do |user|
-          link_to I18n.t('active_admin.view'), admin_user_path(user)
+    columns do
+      column do
+        panel I18n.t('active_admin.group.show.members') do
+          table_for group.users.ordered do
+            column :name do |user|
+              link_to user.name, admin_user_path(user)
+            end
+            column :email do |user|
+              link_to user.email, "mailto:#{user.email}"
+            end
+          end
         end
       end
-    end
 
-    panel I18n.t('active_admin.group.show.assignments') do
-      table_for group.projects.stats.ordered do
-        column :display_name
-        column(:start_date) { |project| render_date project.start_time }
-        column(:end_date) { |project| render_date project.end_time }
-        column :submitted do |project|
-          span project.submitted, class: project_stats_class(project)
-        end
-        column do |project|
-          link_to I18n.t('active_admin.view'), admin_project_path(project)
+      column do
+        panel I18n.t('active_admin.group.show.assignments') do
+          table_for group.projects.stats.ordered do
+            column :display_name do |project|
+              link_to project.display_name, admin_project_path(project)
+            end
+            column(:start_date) { |project| render_date project.start_time }
+            column(:end_date) { |project| render_date project.end_time }
+            column :submitted do |project|
+              span project.submitted, class: project_stats_class(project)
+            end
+          end
         end
       end
     end
