@@ -16,10 +16,13 @@ module APITP
     # -- all .rb files in that directory are automatically loaded.
     config.autoload_paths << Rails.root.join('lib')
 
+    # Use local times
     config.time_zone = 'Paris'
 
+    # Only PostgreSQL is used, so dump specific schema
     config.active_record.schema_format = :sql
 
+    # Use Que for ActiveJob
     config.active_job.queue_adapter = :que
   end
 end
