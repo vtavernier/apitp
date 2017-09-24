@@ -29,7 +29,7 @@ ActiveAdmin.register_page "Dashboard" do
       end
       column do
         panel I18n.t('active_admin.dashboard.admin_groups') do
-          table_for Group.current.find_by_admin_user_id(current_admin_user.id) do
+          table_for Group.current.where(admin_user_id: current_admin_user.id) do
             column :display_name do |group|
               link_to group.display_name, admin_group_path(group)
             end
