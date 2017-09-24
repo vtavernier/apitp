@@ -1,6 +1,11 @@
 ActiveAdmin.register User do
   permit_params :name, :email, :password, :password_confirmation, :group_ids => []
 
+  scope :my_users, default: true do |scope|
+    scope.admin(current_admin_user)
+  end
+  scope :all
+
   collection_action :import, method: :get do
     # just render the view
   end

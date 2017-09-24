@@ -15,6 +15,13 @@ class User < ApplicationRecord
 
   scope :ordered, -> { order(:name, :email) }
 
+  scope :admin, -> (admin) {
+    joins(:group_memberships)
+      .joins('INNER JOIN groups ON group_memberships.group_id = groups.id')
+      .where('groups.admin_user_id = ?', admin)
+      .distinct
+  }
+
   def admin?
     false
   end
