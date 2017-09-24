@@ -64,4 +64,13 @@ class Project < ApplicationRecord
     self.year = SchoolDateHelper.school_year(self.start_time)
     self.max_upload_size = 500 * 1024 # 500kB
   end
+
+  after_save :check_resend
+
+  private
+    def check_resend
+      assignments.resend_start.update_all(sent_start_email: nil)
+      assignments.resend_reminder.update_all(sent_reminder_email: nil)
+      assignments.resend_ended.update_all(sent_ended_email: nil)
+    end
 end
