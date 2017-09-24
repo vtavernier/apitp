@@ -9,8 +9,8 @@ You can access the project on APITP at the following address:
 
 This project is due by <%= l @project.end_time, format: :long %>.
 
-<% unless @project.blank? %>
+<% unless @project.url.blank? %>
 The project material is located at <%= @project.url %>
 <% end %>
 
-<%= render 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>
+<%= render partial: 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>

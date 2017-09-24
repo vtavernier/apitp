@@ -4,8 +4,8 @@
 
 <p>This project is due by <%= l @project.end_time, format: :long %>.</p>
 
-<% unless @project.blank? %>
+<% unless @project.url.blank? %>
 <p>The project material is located at <%= link_to @project.url, @project.url %></p>
 <% end %>
 
-<%= render 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>
+<%= render partial: 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>

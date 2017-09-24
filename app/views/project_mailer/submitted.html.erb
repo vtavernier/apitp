@@ -14,8 +14,4 @@
 
 <p>The submitted file is considered final and cannot be changed.</p>
 
-<% admin = @project.assignment_group(@user).admin %>
-<p>
-  If you have any questions, feel free to contact your project administrator:
-  <%= link_to admin.name_email, "mailto:#{admin.email}" %>.
-</p>
+<%= render partial: 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>

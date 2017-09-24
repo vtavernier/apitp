@@ -10,4 +10,4 @@
   You haven't submitted a file for this project yet. You should submit a file immediately, or penalties may be applied.
 </p>
 
-<%= render 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>
+<%= render partial: 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>
