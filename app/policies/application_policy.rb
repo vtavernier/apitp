@@ -11,7 +11,8 @@ class ApplicationPolicy
   end
 
   def show?
-    scope.where(:id => record.id).exists?
+    # TODO: check show? for descendants
+    true
   end
 
   def create?

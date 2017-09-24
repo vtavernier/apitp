@@ -193,7 +193,8 @@ CREATE TABLE projects (
     url character varying,
     max_upload_size integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    owner_id integer
 );
 
 
@@ -759,6 +760,14 @@ ALTER TABLE ONLY group_memberships
 
 
 --
+-- Name: projects fk_rails_219ef9bf7d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY projects
+    ADD CONSTRAINT fk_rails_219ef9bf7d FOREIGN KEY (owner_id) REFERENCES admin_users(id);
+
+
+--
 -- Name: assignments fk_rails_21b0a6eb0c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -828,6 +837,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170923182803'),
 ('20170924110311'),
 ('20170924122541'),
-('20170924175248');
+('20170924175248'),
+('20170924180557');
 
 

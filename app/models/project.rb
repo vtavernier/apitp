@@ -23,6 +23,9 @@ class Project < ApplicationRecord
 
   has_many :submissions, dependent: :destroy
 
+  validates :owner, presence: true
+  belongs_to :owner, class_name: 'AdminUser', foreign_key: 'owner_id', inverse_of: :projects
+
   scope :started, -> { where('start_time <= ?', DateTime.now) }
   scope :current, -> { where('start_time <= ? AND end_time >= ?', Date.today, DateTime.now) }
   scope :ended, -> { where('end_time < ?', DateTime.now) }
@@ -50,6 +53,17 @@ class Project < ApplicationRecord
 
   scope :ordered, -> {
     order(:end_time, :name)
+  }
+
+  scope :owned_projects, -> (admin) {
+    where(owner: admin)
+  }
+
+  scope :admin_projects, -> (admin) {
+    joins('INNER JOIN assignments ON projects.id = assignments.project_id')
+    .joins('INNER JOIN groups ON assignments.group_id = groups.id')
+    .where('owner_id = :id OR admin_user_id = :id', { id: admin.id })
+    .distinct
   }
 
   def submitted

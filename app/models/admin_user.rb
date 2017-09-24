@@ -8,6 +8,10 @@ class AdminUser < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
+  has_many :projects, foreign_key: 'owner_id'
+
+  scope :super_admins, -> { where(super_admin: true) }
+
   def admin?
     true
   end

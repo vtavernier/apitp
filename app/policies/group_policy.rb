@@ -4,7 +4,7 @@ class GroupPolicy < ApplicationPolicy
   end
 
   def show?
-    user.admin? and super
+    user.admin?
   end
 
   def create?

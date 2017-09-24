@@ -24,7 +24,8 @@ ActiveAdmin.register Group do
     f.inputs do
       f.input :year
       f.input :name
-      f.input :admin, include_blank: false
+      f.input :admin, include_blank: false,
+              collection: AdminUser.all.map { |user| [ user.name_email, user.id ] }
       f.input :users, as: :check_boxes,
               collection: User.all.map { |user| [user.name_email, user.id] }
     end

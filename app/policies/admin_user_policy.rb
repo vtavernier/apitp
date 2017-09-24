@@ -6,7 +6,7 @@ class AdminUserPolicy < ApplicationPolicy
 
   def show?
     # Ok to show all admin details
-    user.admin? and super
+    user.admin?
   end
 
   def create?

@@ -1,12 +1,26 @@
 ActiveAdmin.register Project do
   permit_params :year, :name, :url, :max_upload_size,
                 :start_time_date, :start_time_time_hour, :start_time_time_minute,
-                :end_time_date, :end_time_time_hour, :end_time_time_minute,
-                :group_ids => []
+                :end_time_date, :end_time_time_hour, :end_time_time_minute, :group_ids => [] do
+    if Pundit.policy(current_admin_user, Project).chown?
+      [:owner_id]
+    else
+      []
+    end
+  end
 
-  scope :recent, default: true
-  scope :current
-  scope :ended
+  scope :my_current_projects, default: true do |scope|
+    scope.admin_projects(current_admin_user).current
+  end
+
+  scope :my_recent_projects do |scope|
+    scope.admin_projects(current_admin_user).recent
+  end
+
+  scope :all_my_projects do |scope|
+    scope.admin_projects(current_admin_user)
+  end
+
   scope :all
 
   index do
@@ -14,6 +28,7 @@ ActiveAdmin.register Project do
     id_column
     column :year
     column :name
+    column :owner
     column :start_time do |project|
       render_date project.start_time
     end
@@ -28,12 +43,13 @@ ActiveAdmin.register Project do
 
   filter :year
   filter :name
+  filter :owner
   filter :start_time
   filter :end_time
 
   controller do
     def scoped_collection
-      Project.stats
+      Project.stats.includes(:owner)
     end
   end
 
@@ -47,6 +63,9 @@ ActiveAdmin.register Project do
       f.input :end_time, as: :just_datetime_picker
       f.input :url
       f.input :max_upload_size
+      if Pundit.policy(current_admin_user, Project).chown?
+        f.input :owner, include_blank: false, collection: AdminUser.all.map { |user| [ user.name_email, user.id ] }
+      end
       f.input :groups, as: :check_boxes,
               collection: Group.where(year: f.object.year).map { |group| [group.display_name, group.id] }
     end
@@ -65,6 +84,9 @@ ActiveAdmin.register Project do
       row :url
       row :max_upload_size do |project|
         number_to_human_size(project.max_upload_size)
+      end
+      row :owner do |project|
+        link_to project.owner.name_email, admin_admin_user_path(project.owner)
       end
       row :created_at
       row :updated_at
@@ -99,14 +121,11 @@ ActiveAdmin.register Project do
         end
         column do |user_submission|
           unless (submission = user_submission.submission).nil?
-            begin
-              Pundit.authorize(current_admin_user, submission, :destroy?)
+            if Pundit.policy(current_admin_user, submission).destroy?
               link_to I18n.t('active_admin.delete'),
                       admin_submission_path(submission),
                       method: :delete,
                       data: { confirm: "Delete submission from #{user_submission.username} for #{project.name}?" }
-            rescue Pundit::NotAuthorizedError
-              # do not create a link to delete, user is not allowed
             end
           end
         end

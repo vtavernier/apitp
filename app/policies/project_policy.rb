@@ -6,7 +6,8 @@ class ProjectPolicy < ApplicationPolicy
 
   def show?
     # Project must exist in user scope
-    super
+    # Note: this is taken care of by the scope and a RecordNotFound
+    true
   end
 
   def create?
@@ -16,14 +17,16 @@ class ProjectPolicy < ApplicationPolicy
 
   def update?
     # Only admin users update projects
-    # TODO: Admin owning project or super_admin?
-    user.admin?
+    user.super_admin? or (user.admin? and record.owner_id == user.id)
   end
 
   def destroy?
     # Only admin users destroy projects
-    # TODO: Admin owning project or super_admin?
-    user.admin?
+    user.super_admin? or (user.admin? and record.owner_id == user.id)
+  end
+
+  def chown?
+    user.super_admin?
   end
 
   class Scope < Scope
