@@ -4,9 +4,6 @@
   "repository": "https://github.com/vtavernier/apitp",
   "scripts": {
     "dokku": {
-      "plugins": [
-        "postgres"
-      ],
       "predeploy": "bundle exec rake db:migrate"
     }
   }
