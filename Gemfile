@@ -49,6 +49,8 @@ gem 'exception_notification', '~> 4.2.2'
 
 # Background jobs with ActiveJobs + Que
 gem 'que', '~> 0.14.0'
+gem 'sinatra', '~> 2.0.0'
+gem 'que-web', '~> 0.5.0'
 
 # Locking on PostgreSQL
 gem 'with_advisory_lock', '~> 3.1.1'

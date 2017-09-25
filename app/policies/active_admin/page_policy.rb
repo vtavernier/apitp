@@ -10,6 +10,8 @@ module ActiveAdmin
       case record.name
         when 'Dashboard'
           user.admin?
+        when 'Que'
+          user.super_admin?
         else
           false
       end

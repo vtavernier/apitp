@@ -11,6 +11,10 @@ Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
+  authenticate :admin_user do
+    mount Que::Web, at: '/que'
+  end
+
   resources :project, only: [:index, :show]
   resources :submissions, only: [:create, :show]
 
