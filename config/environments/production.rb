@@ -45,7 +45,7 @@ Rails.application.configure do
   # config.action_cable.allowed_request_origins = [ 'http://example.com', /http:\/\/example.*/ ]
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = (ENV["APITP_SSL"] || "0").to_i != 0
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
@@ -67,7 +67,7 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Default URL options in production
-  config.action_mailer.default_url_options = { host: ENV["APITP_HOST"], force_ssl: true }
+  config.action_mailer.default_url_options = { host: ENV["APITP_HOST"] }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
