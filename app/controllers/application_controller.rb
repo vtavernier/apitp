@@ -3,17 +3,27 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   unless Rails.application.config.consider_all_requests_local
-    rescue_from ActiveRecord::RecordNotFound do
-      render 'error/not_found', status: 404
+    rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError do
+      respond_to do |format|
+        format.html { render 'error/not_found', status: 404 }
+        format.any  { render nothing: true, status: 404 }
+      end
     end
 
     rescue_from Pundit::NotAuthorizedError do
-      render 'error/forbidden', status: 403
+      respond_to do |format|
+        format.html { render 'error/forbidden', status: 403 }
+        format.any  { render nothing: true, status: 403 }
+      end
     end
 
     rescue_from Exception do |exception|
       ExceptionNotifier::notify_exception(exception, env: request.env, data: { user: current_user })
-      render 'error/internal', status: 500
+
+      respond_to do |format|
+        format.html { render 'error/internal', status: 500 }
+        format.any  { render nothing: true, status: 500 }
+      end
     end
   end
 

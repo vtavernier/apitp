@@ -19,10 +19,6 @@ Rails.application.routes.draw do
   resources :submissions, only: [:create, :show]
 
   root to: "project#index"
-  
-  get '/zero_downtime_check', to: 'application#zero_downtime_check'
 
-  unless Rails.application.config.consider_all_requests_local
-    get '*path', to: 'error#not_found', via: :all
-  end
+  get '/zero_downtime_check', to: 'application#zero_downtime_check'
 end
