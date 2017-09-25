@@ -1,12 +1,13 @@
 ActiveAdmin.register Project do
-  permit_params :year, :name, :url, :max_upload_size,
-                :start_time_date, :start_time_time_hour, :start_time_time_minute,
-                :end_time_date, :end_time_time_hour, :end_time_time_minute, :group_ids => [] do
+  permit_params do
+    params = [:year, :name, :url, :max_upload_size, :start_time_date, :start_time_time_hour, :start_time_time_minute,
+              :end_time_date, :end_time_time_hour, :end_time_time_minute, { :group_ids => [] }]
+
     if Pundit.policy(current_admin_user, Project).chown?
-      [:owner_id]
-    else
-      []
+      params << :owner_id
     end
+
+    params
   end
 
   scope :my_current_projects, default: true do |scope|
