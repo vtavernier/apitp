@@ -44,6 +44,6 @@ class SubmissionsController < ApplicationController
     Pundit.authorize(submission_user, submission, :show?)
 
     # Render the file
-    send_file submission.file.path, :x_sendfile => true
+    send_file submission.file.path
   end
 end
