@@ -2,4 +2,4 @@ WAIT=5
 TIMEOUT=60
 ATTEMPTS=3
 
-/users/sign_in          Projects
+/zero_downtime_check          APITP OK

@@ -16,4 +16,8 @@ class ApplicationController < ActionController::Base
       render 'error/internal', status: 500
     end
   end
+
+  def zero_downtime_check
+    render plain: 'APITP OK', status: 200
+  end
 end
