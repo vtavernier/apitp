@@ -92,4 +92,16 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Use Gmail for sending website email
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      address: 'smtp.gmail.com',
+      port: 587,
+      domain: ENV['APITP_EMAIL_HOST'],
+      user_name: ENV['APITP_EMAIL'],
+      password: ENV['APITP_EMAIL_PASSWORD'],
+      authentication: 'login',
+      enable_starttls_auto: true
+  }
 end
