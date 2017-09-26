@@ -9,14 +9,19 @@ RSpec.describe User, type: :model do
     it("requires a unique email") { is_expected.to validate_uniqueness_of(:email).case_insensitive }
   end
 
-  context "user methods" do
-    it { is_expected.to respond_to(:name_email) }
-    it { is_expected.to respond_to(:admin?) }
-    it { is_expected.to respond_to(:super_admin?) }
+  describe "#name_email" do
+    it("is defined") { is_expected.to respond_to(:name_email) }
+    it("returns the name") { expect(subject.name_email).to include(subject.name) }
+    it("returns the email") { expect(subject.name_email).to include(subject.email) }
+  end
 
-    it "is not an admin" do
-      expect(subject.admin?).to eq(false)
-      expect(subject.super_admin?).to eq(false)
-    end
+  describe "#admin?" do
+    it("is defined") { is_expected.to respond_to(:admin?) }
+    it("returns false") { expect(subject.admin?).to eq(false) }
+  end
+
+  describe "#super_admin?" do
+    it("is defined") { is_expected.to respond_to(:super_admin?) }
+    it("returns false") { expect(subject.super_admin?).to eq(false) }
   end
 end
