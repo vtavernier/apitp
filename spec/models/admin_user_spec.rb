@@ -1,4 +1,6 @@
 require 'rails_helper'
+require_relative './examples/name_email'
+require_relative './examples/admin'
 
 RSpec.describe AdminUser, type: :model do
   subject { build(described_class.name.underscore.to_sym) }
@@ -10,16 +12,9 @@ RSpec.describe AdminUser, type: :model do
     it("requires a unique email") { is_expected.to validate_uniqueness_of(:email).case_insensitive }
   end
 
-  describe "#name_email" do
-    it("is defined") { is_expected.to respond_to(:name_email) }
-    it("returns the name") { expect(subject.name_email).to include(subject.name) }
-    it("returns the email") { expect(subject.name_email).to include(subject.email) }
-  end
+  include_examples :name_email
 
-  describe "#admin?" do
-    it("is defined") { is_expected.to respond_to(:admin?) }
-    it("returns true") { expect(subject.admin?).to eq(true) }
-  end
+  include_examples :admin?, true
 
   describe "#super_admin?" do
     it("is defined") { is_expected.to respond_to(:super_admin?) }
