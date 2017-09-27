@@ -1,24 +1,24 @@
-# README
+# APITP Project management solution
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+APITP is a web application to manage school projects. Administrators (teachers)
+can create groups of students, imported from school listings, and assign
+projects to those groups. These projects are completed by the student by
+uploading their work as a file for the project before the due date. E-mail
+notifications remind the site users of approaching due dates.
 
-Things you may want to cover:
+## Technology
 
-* Ruby version
+This website has been developed with `Rails 5.1` on `Ruby 2.3.3`. PostgreSQL has
+been chosen as the only supported database for simplicity, and to support
+`Que` as an ActiveJob back-end. ActiveAdmin is used for generating most of the
+administrative interface.
 
-* System dependencies
+## Deployment
 
-* Configuration
+See [provision](provision/), requires Ansible, and Vagrant for testing.
 
-* Database creation
+## Running the test suite
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```bash
+bundle exec rake spec
+```
