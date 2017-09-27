@@ -1,0 +1,14 @@
+---
+# APT packages
+- name: Install common packages
+  apt:
+    update_cache=yes
+    state=latest
+    name={{item}}
+  with_items:
+  - curl
+  - wget
+  - htop
+  - vim
+  - tree
+  - software-properties-common

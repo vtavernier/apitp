@@ -1,0 +1,6 @@
+---
+distro: ubuntu
+distro_version: trusty
+dokku_key_name: deploy-key
+dokku_key_path: files/id_test.pub
+hostname: dokku.me

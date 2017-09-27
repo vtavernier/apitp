@@ -1,0 +1,14 @@
+---
+- hosts: all
+  tasks:
+    # Setup hostname
+    - name: Set hostname to {{hostname}}
+      hostname:
+        name: "{{ hostname }}"
+
+- hosts: all
+  roles:
+    - { role: swap, when: swap_file_path is defined and swap_file_size is defined }
+    - apt_essentials
+    - docker
+    - dokku

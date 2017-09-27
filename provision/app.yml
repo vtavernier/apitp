@@ -1,0 +1,84 @@
+---
+- hosts: all
+  vars:
+    host_uploads_directory: /srv/{{ app_name }}/uploads
+  vars_files:
+    - vars/app-common.yml
+    - vars/app-secrets.yml
+  tasks:
+    - name: Create {{ app_name }} dokku app
+      dokku_apps:
+        name: '{{ app_name }}'
+      tags:
+        - dokku.app
+    - name: Create and link database for {{ app_name }}
+      dokku_postgres:
+        name: '{{ app_name }}'
+        link: '{{ app_name }}'
+        state: linked
+      tags:
+        - dokku.postgres
+    - name: Setup uploads direcotry
+      file:
+        path: '{{ host_uploads_directory }}'
+        state: directory
+        owner: 32767
+        group: 32767
+        mode: 0755
+        recurse: true
+      tags:
+        - dokku.storage
+    - name: Setup storage mount
+      dokku_storage:
+        app: '{{ app_name }}'
+        host: '{{ host_uploads_directory }}'
+        guest: /app/uploads
+      tags:
+        - dokku.storage
+    - name: Remove default domain
+      dokku_domains:
+        app: '{{ app_name }}'
+        domain: '{{ app_name }}.{{ hostname }}'
+        state: absent
+      tags:
+        - dokku.domains
+    - name: Setup actual domain
+      dokku_domains:
+        app: '{{ app_name }}'
+        domain: '{{ hostname }}'
+      tags:
+        - dokku.domains
+    - name: Scale application
+      dokku_ps:
+        app: '{{ app_name }}'
+        state: scaled
+        scale:
+          - web=1
+          - work=1
+      tags:
+        - dokku.scale
+    - name: Set {{ app_name }} config
+      dokku_config:
+        app: '{{ app_name }}'
+        config:
+          - APITP_EMAIL={{ apitp_email }}
+          - APITP_EMAIL_HOST={{ apitp_email_host }}
+          - APITP_EMAIL_PASSWORD={{ apitp_email_password }}
+          - APITP_HOST={{ hostname }}
+          - APITP_POSTMASTER={{ apitp_postmaster }}
+          - APITP_SSL=1
+          - DOKKU_LETSENCRYPT_EMAIL={{ apitp_email }}
+          - RAILS_LOG_TO_STDOUT=1
+          - RAILS_SERVE_STATIC_FILES=1
+          - RAILS_ENV=production
+          - SECRET_KEY_BASE={{ apitp_secret }}
+      notify:
+        - rebuild app
+      tags:
+        - dokku.config
+  handlers:
+    - name: "rebuild app"
+      dokku_ps:
+        # ps:rebuild is currently broken, so we ps:rebuildall instead
+        #app: '{{ app_name }}'
+        state: rebuilt
