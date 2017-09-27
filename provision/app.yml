@@ -53,7 +53,7 @@
         app: '{{ app_name }}'
         state: scaled
         scale:
-          - web=1
+          - web={{ apitp_web_workers }}
           - work=1
       tags:
         - dokku.scale
