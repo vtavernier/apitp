@@ -63,13 +63,11 @@ $ git remote add prod dokku@my_server:apitp
 $ git push prod master
 ```
 
-9. Setup the database, either by:
-    1. Creating it from scratch
+9. Setup the database
 ```bash
+# Create database from scratch
 $ ssh dokku@my_server 'run apitp bundle exec rake db:structure:load'
-```
-    2. Restoring it from a backup
-```bash
+# *OR* restore it from a backup
 $ ssh dokku@my_server 'postgres:import apitp' <db.backup
 # If upgrading from a previous version
 $ ssh dokku@my_server 'run apitp bundle exec rake db:migrate'
