@@ -1,6 +1,6 @@
 FactoryGirl.define do
   sequence :group_name do |n|
-    "#{["TD","TP","CM"].sample} #{n}"
+    "#{["TD", "CM"].sample} #{n}"
   end
 
   factory :group do
