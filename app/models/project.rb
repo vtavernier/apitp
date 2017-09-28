@@ -16,7 +16,7 @@ class Project < ApplicationRecord
 
   validates :max_upload_size, presence: true,
             numericality: { greater_than: 0,
-                            less_than_or_equal_to: 1 * 1024 * 1024 }
+                            less_than_or_equal_to: Rails.configuration.x.apitp.max_upload_size }
 
   has_many :assignments, dependent: :delete_all
   has_many :groups, through: :assignments
@@ -83,7 +83,8 @@ class Project < ApplicationRecord
     self.start_time = DateTime.now.at_beginning_of_day
     self.end_time = start_time + 1.week
     self.year = SchoolDateHelper.school_year(self.start_time)
-    self.max_upload_size = 500 * 1024 # 500kB
+    # 500kB or max size / 2
+    self.max_upload_size = min(500 * 1024, Rails.configuration.x.apitp.max_upload_size / 2)
   end
 
   after_save :check_resend
