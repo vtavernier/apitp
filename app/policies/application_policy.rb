@@ -35,6 +35,10 @@ class ApplicationPolicy
     false
   end
 
+  def destroy_all?
+    destroy?
+  end
+
   def scope
     Pundit.policy_scope!(user, record.class)
   end
