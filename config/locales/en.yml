@@ -179,6 +179,7 @@ en:
       introduction: "%{name}, the file you tried to import into APITP could not be imported."
       reminder: "Please ensure the submitted file contains the required fields (name, email, group 1, group 2, etc.)"
       exception_details: "Here are the exception details:"
+      subject: "[APITP] Import failed"
     import_succeeded:
       title: "Import of %{file} succeeded"
       introduction: "%{name}, the file you uploaded to APITP was imported successfully."
@@ -186,6 +187,7 @@ en:
       no_created_users: "No additional users were created."
       created_groups: "The following groups were created:"
       no_created_groups: "No additional groups were created."
+      subject: "[APITP] Import succeeded"
   time:
     formats:
       long: "%B %d, %Y at %H:%M"
@@ -194,3 +196,12 @@ en:
     before: "%{diff} before %{reference}"
     in: "in %{diff}"
     ago: "%{diff} ago"
+  project_mailer:
+    start:
+      subject: "[APITP] Welcome to %{name}"
+    reminder:
+      subject: "[APITP] %{name} is due soon"
+    ended:
+      subject: "[APITP] %{name} is past due date"
+    submitted:
+      subject: "[APITP] File submitted for %{name}"
