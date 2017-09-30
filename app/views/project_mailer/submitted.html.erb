@@ -1,17 +1,18 @@
 <h2><%= @project.display_name %></h2>
 
 <p>
-  <%= @user.name %>, you have just submitted a file for the project
-  <%= link_to @project.display_name, project_url(id: @project.id) %> on <%= l @submission.created_at, format: :long %>.
-  You can review this file on the project page.
+  <%= t('mailer.project.submitted_header_html',
+        name: @user.name,
+        project: link_to(@project.display_name, project_url(id: @project.id)),
+        date: l(@submission.created_at, format: :long)) %>
 </p>
 
 <% if submission_late?(@project, @submission) %>
-  <p>Your submission was late, thus penalties may be applied to your grade for this project.</p>
+  <p><%= t('mailer.project.submitted_late') %></p>
 <% else %>
-  <p>Your submission was on time.</p>
+  <p><%= t('mailer.project.submitted_on_time') %></p>
 <% end %>
 
-<p>The submitted file is considered final and cannot be changed.</p>
+<p><%= t('mailer.project.submitted_footer') %></p>
 
 <%= render partial: 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>

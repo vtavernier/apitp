@@ -1,16 +1,15 @@
 <%= @project.display_name %>
 ===================
 
-<%= @user.name %>, you have been added to the project <%= @project.display_name %>.
+<%= t('mailer.project.start_header',
+      name: @user.name,
+      project: @project.display_name,
+      link: project_url(id: @project.id)) %>
 
-You can access the project on APITP at the following address:
-
-    <%= project_url(id: @project.id) %>
-
-This project is due by <%= l @project.end_time, format: :long %>.
+<%= t('mailer.project.start_body', date: l(@project.end_time, format: :long)) %>
 
 <% unless @project.url.blank? %>
-The project material is located at <%= @project.url %>
+  <%= t('mailer.project.start_subject', link: @project.url) %>
 <% end %>
 
 <%= render partial: 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>

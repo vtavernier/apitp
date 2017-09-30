@@ -1,11 +1,15 @@
 <h2><%= @project.display_name %></h2>
 
-<p><%= @user.name %>, you have been added to the project <%= link_to @project.display_name, project_url(id: @project.id) %></p>
+<p>
+  <%= t('mailer.project.start_header_html',
+        name: @user.name,
+        project: link_to(@project.display_name, project_url(id: @project.id))) %>
+</p>
 
-<p>This project is due by <%= l @project.end_time, format: :long %>.</p>
+<p><%= t('mailer.project.start_body', date: l(@project.end_time, format: :long)) %></p>
 
 <% unless @project.url.blank? %>
-<p>The project material is located at <%= link_to @project.url, @project.url %></p>
+<p><%= t('mailer.project.start_subject_html', link: link_to(@project.url, @project.url)) %></p>
 <% end %>
 
 <%= render partial: 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>

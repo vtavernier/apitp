@@ -1,4 +1,3 @@
 <p>
-  If you have any questions, feel free to contact your project administrator:
-  <%= link_to admin.name_email, "mailto:#{admin.email}" %>.
+  <%= t('mailer.project.admin_contact_html', link: link_to(admin.name_email, "mailto:#{admin.email}")) %>
 </p>

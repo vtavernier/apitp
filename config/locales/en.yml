@@ -40,6 +40,59 @@ en:
       group: "Group"
   mailer:
     project:
+      submitted_header_html: |
+        %{name}, you have just submitted a file for the project %{project} on %{date}.
+        You can review this file on the project page.
+      submitted_header: |
+        %{name}, you have just submitted a file for the project %{project} on %{date}.
+
+        You can review this file on the project page at the following address:
+
+            %{link}
+      submitted_late: |
+        Your submission was late, thus penalties may be applied to your grade for this project.
+      submitted_on_time: |
+        Your submission was on time.
+      submitted_footer: |
+        The submitted file is considered final and cannot be changed.
+      start_header_html: |
+        %{name}, you have been added to the project %{project}.
+      start_header: |
+        %{name}, you have been added to the project %{project}.
+
+        You can access the project on APITP at the following address:
+
+            %{link}
+      start_body: |
+        This project is due by %{date}.
+      start_subject_html: |
+        The project material is located at %{link}.
+      start_subject: |
+        The project material is located at %{link}.
+      reminder_body_html: |
+        %{name}, this is a reminder that the project %{project} is due by %{date}.
+      reminder_body: |
+        %{name}, this is a reminder that the project %{project} is due by %{date}.
+
+        You can access the project on APITP at the following address:
+
+            %{link}
+      reminder_submission: |
+        You haven't submitted a file for this project yet. Note that if you submit a file after the due date, penalties may be applied.
+      ended_body_html: |
+        %{name}, this is a reminder that the project %{project} was due by %{date}.
+      ended_body: |
+        %{name}, this is a reminder that the project %{project} was due by %{date}.
+
+        You can access the project on APITP at the following address:
+
+            %{link}
+      ended_body_submission: |
+        You haven't submitted a file for this project yet. You should submit a file immediately, or penalties may be applied.
+      admin_contact_html: |
+        If you have any questions, feel free to contact your project administrator: %{link}.
+      admin_contact: |
+        If you have any questions, feel free to contact your project administrator: %{email}.
       footer_html: |
         This mail was sent automatically by %{link}, a project management application.
         Please do not reply directly to this e-mail, but instead contact your teachers for assistance.
