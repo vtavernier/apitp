@@ -143,7 +143,7 @@ fr:
   project:
     project:
       due_date_present: 'Date de rendu : %{date}'
-      due_date_distance: date de rendu
+      due_date_distance: la date de rendu
       file_submitted: Fichier rendu le %{date}.
       file_not_submitted: Pas de fichier rendu.
       subject: Sujet
@@ -189,3 +189,8 @@ fr:
   time:
     formats:
       long: "%A %d %B %Y à %Hh%M"
+  date_helper:
+    after: "%{diff} après %{reference}"
+    before: "%{diff} avant %{reference}"
+    in: "dans %{diff}"
+    ago: "il y a %{diff}"

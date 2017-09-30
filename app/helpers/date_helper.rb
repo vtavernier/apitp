@@ -8,15 +8,15 @@ module DateHelper
     # Add reference name
     if reference_name
       if date >= reference
-        time_diff = "#{time_diff} after #{reference_name}"
+        time_diff = t('date_helper.after', diff: time_diff, reference: reference_name)
       else
-        time_diff = "#{time_diff} before #{reference_name}"
+        time_diff = t('date_helper.before', diff: time_diff, reference: reference_name)
       end
     else
       if date >= reference
-        time_diff = "in #{time_diff}"
+        time_diff = t('date_helper.in', diff: time_diff)
       else
-        time_diff = "#{time_diff} ago"
+        time_diff = t('date_helper.ago', diff: time_diff)
       end
     end
 
