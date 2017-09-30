@@ -37,7 +37,8 @@ en:
         end_time: "Due date"
     models:
       project: Project
-      group: "Group"
+      group: Group
+      projects: Projects
   mailer:
     project:
       submitted_header_html: |
