@@ -20,6 +20,9 @@ module APITP
     # Use local times
     config.time_zone = 'Paris'
 
+    # French
+    config.i18n.default_locale = :fr
+
     # Only PostgreSQL is used, so dump specific schema
     config.active_record.schema_format = :sql
 
