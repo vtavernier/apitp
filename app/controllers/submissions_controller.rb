@@ -15,16 +15,16 @@ class SubmissionsController < ApplicationController
       ProjectMailer.submitted(submission).deliver_later
 
       redirect_to project_path(submission.project),
-                  notice: t('.success',
+                  notice: I18n.t('.success',
                             date: render_date(submission.created_at,
                                               submission.project.end_time,
-                                              t('project.project.due_date_distance')))
+                                              I18n.t('project.project.due_date_distance')))
     else
       # Delete file after failure
       submission.file.file.delete
 
       redirect_to project_path(submission.project),
-                  alert: t('.error', submission.errors.first[1])
+                  alert: I18n.t('.error', submission.errors.first[1])
     end
   end
 

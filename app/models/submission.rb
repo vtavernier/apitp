@@ -5,7 +5,7 @@ class Submission < ApplicationRecord
   validates :user, presence: true
   validates :project, presence: true,
             uniqueness: { scope: :user,
-                          message: t('submission.unique.error') }
+                          message: I18n.t('submission.unique.error') }
 
   mount_uploader :file, SubmissionUploader
 
@@ -14,7 +14,7 @@ class Submission < ApplicationRecord
   def file_size
     unless file.file.nil?
       if file.file.size > project.max_upload_size
-        errors.add(:file, t('submission.size.error',
+        errors.add(:file, I18n.t('submission.size.error',
                             size: ApplicationController.helpers.number_to_human_size(file.file.size - project.max_upload_size)))
       end
     end

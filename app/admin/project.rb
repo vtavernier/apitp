@@ -107,7 +107,7 @@ ActiveAdmin.register Project do
           submission = user_submission.submission
 
           if submission.nil?
-            span t('active_admin.project.show.submission_missing'), class: 'submission-missing'
+            span I18n.t('active_admin.project.show.submission_missing'), class: 'submission-missing'
           else
 
             time_diff = submission.created_at - project.end_time
@@ -136,7 +136,7 @@ ActiveAdmin.register Project do
 
   sidebar I18n.t('active_admin.project.show.assignments'), only: :show do
     table_for project.groups do
-      column t('activerecord.attributes.group.display_name') do |group|
+      column I18n.t('activerecord.attributes.group.display_name') do |group|
         link_to group.display_name, admin_group_path(group)
       end
     end

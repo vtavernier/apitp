@@ -23,17 +23,17 @@ ActiveAdmin.register User do
       # Queue import job
       ImportJob.perform_later(uploader.store_path, current_admin_user.id, import_params[:format])
 
-      redirect_to collection_path, notice: t('admin.users.import_csv.queued')
+      redirect_to collection_path, notice: I18n.t('admin.users.import_csv.queued')
     rescue StandardError => e
       # Inform exception
-      redirect_to collection_path, alert: t('admin.users.import_csv.error', error: e.message)
+      redirect_to collection_path, alert: I18n.t('admin.users.import_csv.error', error: e.message)
     ensure
       file.tempfile.delete
     end
   end
 
   action_item :import, only: :index do
-    link_to 'Import users', import_admin_users_path
+    link_to I18n.t('admin.users.import_users'), import_admin_users_path
   end
 
   index do
@@ -90,7 +90,7 @@ ActiveAdmin.register User do
 
   sidebar I18n.t('active_admin.user.show.groups'), only: :show do
     table_for user.groups do
-      column t('activerecord.attributes.group.display_name') do |group|
+      column I18n.t('activerecord.attributes.group.display_name') do |group|
         link_to group.display_name, admin_group_path(group)
       end
     end

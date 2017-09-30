@@ -114,6 +114,7 @@ fr:
       import_csv:
         queued: "Le fichier envoyé est en cours d'importation."
         error: "Une erreur s'est produite lors de l'envoi : %{error}."
+      import_users: "Importer"
   admin_mailer:
     import_failed:
       title: "L'importation de %{file} a échoué"

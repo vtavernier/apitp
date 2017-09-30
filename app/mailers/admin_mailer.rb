@@ -3,7 +3,7 @@ class AdminMailer < ApplicationMailer
     @user = admin_user
     @file_name = file_name
     @exception = exception
-    mail(subject: t('admin_mailer.import_failed.subject'),
+    mail(subject: I18n.t('admin_mailer.import_failed.subject'),
          to: admin_user.email)
   end
 
@@ -12,7 +12,7 @@ class AdminMailer < ApplicationMailer
     @file_name = file_name
     @created_users = created_users
     @created_groups = created_groups
-    mail(subject: t('admin_mailer.import_succeeded.subject'),
+    mail(subject: I18n.t('admin_mailer.import_succeeded.subject'),
          to: admin_user.email)
   end
 end

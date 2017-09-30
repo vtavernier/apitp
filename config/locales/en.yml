@@ -114,6 +114,7 @@ en:
       import_csv:
         queued: "The uploaded file has been queued for import."
         error: "An error occurred while importing the file: %{error}."
+      import_users: "Import users"
   admin_mailer:
     import_failed:
       title: "Import of %{file} failed"
