@@ -23,10 +23,10 @@ ActiveAdmin.register User do
       # Queue import job
       ImportJob.perform_later(uploader.store_path, current_admin_user.id, import_params[:format])
 
-      redirect_to collection_path, notice: "The uploaded file has been queued for import."
+      redirect_to collection_path, notice: t('admin.users.import_csv.queued')
     rescue StandardError => e
       # Inform exception
-      redirect_to collection_path, alert: "An error occurred while importing the file: #{e.message}"
+      redirect_to collection_path, alert: t('admin.users.import_csv.error', error: e.message)
     ensure
       file.tempfile.delete
     end
