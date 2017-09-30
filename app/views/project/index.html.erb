@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3 col-xs-12 text-center">
-    <h2><%= title t('project.yours') %></h2>
+    <h2><%= title t('.yours') %></h2>
   </div>
 </div>
 <div class="row">
@@ -27,21 +27,21 @@
   %>
   <% if late_not_submitted.any? %>
     <div class="col-md-12">
-      <h3><%= t('project.late_projects') %></h3>
+      <h3><%= t('.late_projects') %></h3>
     </div>
     <%= render partial: 'project', collection: late_not_submitted %>
     <hr />
   <% end %>
   <% if not_submitted.any? %>
     <div class="col-md-12">
-      <h3><%= t('project.current_projects') %></h3>
+      <h3><%= t('.current_projects') %></h3>
     </div>
     <%= render partial: 'project', collection: not_submitted %>
     <hr />
   <% end %>
   <% if submitted.any? %>
     <div class="col-md-12">
-      <h3><%= t('project.completed_projects') %></h3>
+      <h3><%= t('.completed_projects') %></h3>
     </div>
     <%= render partial: 'project', collection: submitted %>
     <hr />

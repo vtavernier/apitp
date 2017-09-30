@@ -6,14 +6,14 @@
 <div class="row">
   <div class="col-md-6">
     <div class="panel panel-default">
-      <div class="panel-heading"><%= t('project.details') %></div>
+      <div class="panel-heading"><%= t('.details') %></div>
       <div class="panel-body">
         <dl class="row">
           <dt class="col-sm-4"><%= t('activerecord.attributes.project.name') %></dt>
           <dd class="col-sm-8"><%= @project.display_name %></dd>
           <% unless @project.url.blank? %>
-            <dt class="col-sm-4"><%= t('project.subject') %></dt>
-            <dd class="col-sm-8"><%= link_to "Link", @project.url, target: 'blank' %></dd>
+            <dt class="col-sm-4"><%= t('project.project.subject') %></dt>
+            <dd class="col-sm-8"><%= link_to t('.link'), @project.url, target: 'blank' %></dd>
           <% end %>
           <dt class="col-sm-4"><%= t('activerecord.attributes.project.start_time') %></dt>
           <dd class="col-sm-8"><%= render_date @project.start_time %></dd>
@@ -43,7 +43,7 @@
     <% submission = @project.submission %>
     <% submission_late = submission_late?(@project, submission) %>
     <div class="panel panel-<%= submission_status(@project, submission) %>">
-      <div class="panel-heading"><%= t('project.submitted_files') %> <% if submission_late %><strong>(<%= t('submission.late') %>)</strong><% end %></div>
+      <div class="panel-heading"><%= t('.submitted_files') %> <% if submission_late %><strong>(<%= t('submission.late') %>)</strong><% end %></div>
       <div class="panel-body">
         <% if submission %>
           <p>

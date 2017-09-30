@@ -115,17 +115,21 @@ en:
     not_submitted_late_notice: |
       Note that you have not submitted a file before the project due date. Penalties may be applied.
   project:
-    subject: Subject
-    due_date_present: 'Due date: %{date}'
-    due_date_distance: due date
-    file_submitted: File submitted on %{date}.
-    file_not_submitted: No file submitted yet.
-    yours: "Your projects"
-    late_projects: "Late projects"
-    current_projects: "Current projects"
-    completed_projects: "Completed projects"
-    details: "Project details"
-    submitted_files: "Submitted files"
+    project:
+      due_date_present: 'Due date: %{date}'
+      due_date_distance: due date
+      file_submitted: File submitted on %{date}.
+      file_not_submitted: No file submitted yet.
+      subject: "Subject"
+    show:
+      submitted_files: "Submitted files"
+      details: "Project details"
+      link: "Link"
+    index:
+      current_projects: "Current projects"
+      completed_projects: "Completed projects"
+      yours: "Your projects"
+      late_projects: "Late projects"
   assignment:
     details: "Assignment details"
   group:
