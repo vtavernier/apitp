@@ -29,5 +29,26 @@ RSpec.describe Project, type: :model do
     end
   end
 
+  describe "#stats" do
+    before(:all) do
+      @project = create(:project)
+      @group = create(:group, admin: @project.owner)
+      2.times { create(:user, groups: [@group]) }
+      @project.groups << @group
+      @project.save
+    end
+
+    subject { Project.stats.find(@project.id) }
+
+    it("reports user count") { expect(subject.user_count).to eq(2) }
+    it("reports submissions") { expect(subject.submission_count).to eq(0) }
+
+    after(:all) do
+      @project.destroy
+      @group.users.destroy_all
+      @group.destroy
+    end
+  end
+
   include_examples :display_name
 end
