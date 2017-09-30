@@ -7,6 +7,9 @@ fr:
     :submit: 'Envoyer'
     :required: 'requis'
   active_admin:
+    batch_actions:
+      labels:
+        reset_password: Réinitialiser le mot de passe pour
     scopes:
       all: Tous
       current: Courants
@@ -131,6 +134,8 @@ fr:
         queued: "Le fichier envoyé est en cours d'importation."
         error: "Une erreur s'est produite lors de l'envoi : %{error}."
       import_users: "Importer"
+      reset_password:
+        success: "Les utilisateurs sélectionnés vont recevoir un lien de réinitialisation de mot de passe."
   admin_mailer:
     import_failed:
       title: "L'importation de %{file} a échoué"

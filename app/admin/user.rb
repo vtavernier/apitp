@@ -36,6 +36,11 @@ ActiveAdmin.register User do
     link_to I18n.t('admin.users.import_users'), import_admin_users_path
   end
 
+  batch_action :reset_password do |ids|
+    ResetPasswordJob.perform_later(ids)
+    redirect_to request.referer, notice: I18n.t('admin.users.reset_password.success')
+  end
+
   index do
     selectable_column
     id_column

@@ -7,6 +7,9 @@ en:
     :submit: 'Submit'
     :required: 'required'
   active_admin:
+    batch_actions:
+      labels:
+        reset_password: Reset password
     scopes:
       all: All
       current: Current
@@ -131,6 +134,8 @@ en:
         queued: "The uploaded file has been queued for import."
         error: "An error occurred while importing the file: %{error}."
       import_users: "Import users"
+      reset_password:
+        success: "The selected users will receive a password reset link."
   admin_mailer:
     import_failed:
       title: "Import of %{file} failed"
