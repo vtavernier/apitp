@@ -14,8 +14,7 @@
   <body>
     <%= yield %>
     <div class="footer">
-      This mail was sent automatically by <%= link_to "APITP", root_url %>, a project management application.
-      Please do not reply directly to this e-mail, but instead contact your teachers for assistance.
+      <%= t('mailer.project.footer_html', link: link_to("APITP", root_url)) %>
     </div>
   </body>
 </html>

@@ -32,3 +32,13 @@ en:
         size: "Size"
       project:
         submitted: "Submitted"
+  mailer:
+    project:
+      footer_html: |
+        This mail was sent automatically by %{link}, a project management application.
+        Please do not reply directly to this e-mail, but instead contact your teachers for assistance.
+      footer: |
+        This mail was sent automatically by APITP, a project management application.
+        Please do not reply directly to this e-mail, but instead contact your teachers for assistance.
+
+        Access APITP at %{link}
