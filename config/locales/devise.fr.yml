@@ -2,6 +2,8 @@
 
 fr:
   devise:
+    failure:
+      unauthenticated: Vous devez vous connecter pour continuer.
     mailer:
       confirmation_instructions:
         action: Confirmer mon courriel
@@ -56,3 +58,6 @@ fr:
         updated_at: Date de mise à jour
     models:
       admin_user: Administrateur
+  sessions:
+    destroy:
+      sign_out: Déconnexion

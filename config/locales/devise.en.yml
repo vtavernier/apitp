@@ -2,6 +2,8 @@
 
 en:
   devise:
+    failure:
+      unauthenticated: "You need to sign in before continuing."
     mailer:
       confirmation_instructions:
         subject: "[APITP] Confirmation instructions"
@@ -13,3 +15,6 @@ en:
         subject: "[APITP] Email Changed"
       password_change:
         subject: "[APITP] Password Changed"
+    sessions:
+      destroy:
+        sign_out: Sign out
