@@ -5,10 +5,10 @@
       <h3 class="panel-title">
         <%= link_to project.display_name, project_path(project) %>
         <% unless project.url.blank? %>
-          (<%= link_to "Subject", project.url, target: 'blank' %>)
+          (<%= link_to t('project.subject'), project.url, target: 'blank' %>)
         <% end %>
         <% if submission_late?(project, submission) %>
-          <strong>(late)</strong>
+          <strong>(<%= t('submission.late').downcase %>)</strong>
         <% end %>
       </h3>
     </div>
@@ -16,13 +16,15 @@
     <div class="panel-body">
       <div class="row">
         <div class="col-md-6 col-xs-12">
-          <p>Due date: <%= render_date project.end_time %></p>
+          <p><%= t('project.due_date_present', date: render_date(project.end_time)) %></p>
         </div>
         <div class="col-md-6 col-xs-12">
           <% if submission = project.submission %>
-            <p><%= link_to "File submitted on #{render_date(submission.created_at, project.end_time, "due date")}", submission_path(submission) %></p>
+            <p><%= link_to t('project.file_submitted',
+                             date: render_date(submission.created_at, project.end_time, t('project.due_date_distance'))),
+                           submission_path(submission) %></p>
           <% else %>
-            <p><%= link_to "No file submitted yet.", project_path(project) %></p>
+            <p><%= link_to t('project.file_not_submitted'), project_path(project) %></p>
           <% end %>
         </div>
       </div>

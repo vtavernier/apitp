@@ -1,37 +1,43 @@
 en:
   active_admin:
     scopes:
-      all: "All"
-      current: "Current"
-      ended: "Ended"
-      administered: "Administered"
+      all: All
+      current: Current
+      ended: Ended
+      administered: Administered
     project:
       show:
-        assignments: "Group assignments"
-        submission_status: "Submission status"
-        submission_missing: "Submission missing"
+        assignments: Group assignments
+        submission_status: Submission status
+        submission_missing: Submission missing
     group:
       show:
-        members: "Group members"
-        assignments: "Group projects"
+        members: Group members
+        assignments: Group projects
     user:
       show:
-        groups: "Group memberships"
+        groups: Group memberships
     dashboard:
-      current_projects: "Current projects"
-      title: "APITP Dashboard"
-      ended_projects: "Ended projects"
-      admin_groups: "Administered groups"
-      ended_recently_projects: "Recently ended projects"
+      current_projects: Current projects
+      title: APITP Dashboard
+      ended_projects: Ended projects
+      admin_groups: Administered groups
+      ended_recently_projects: Recently ended projects
   activerecord:
     attributes:
       group:
-        display_name: "Name"
+        display_name: Name
       submission:
-        created_at: "Uploaded at"
-        size: "Size"
+        created_at: Uploaded at
+        size: Size
       project:
-        submitted: "Submitted"
+        submitted: Submitted
+        name: "Project name"
+        start_time: "Start date"
+        end_time: "Due date"
+    models:
+      project: Project
+      group: "Group"
   mailer:
     project:
       footer_html: |
@@ -42,3 +48,34 @@ en:
         Please do not reply directly to this e-mail, but instead contact your teachers for assistance.
 
         Access APITP at %{link}
+  submission:
+    late: Late
+    already_submitted_html: |
+      You have already submitted a file on %{date}: %{file} (%{size})
+    file_readonly: |
+      You can't edit this file now. If you really need to cancel your upload, send an e-mail to the assignment contact.
+    late_notice: |
+      Note that you submitted this file after the project due date. Penalties may be applied.
+    not_submitted_yet: |
+      You need to submit a file for this project. The maximum file size is %{size}.
+    not_submitted_late_notice: |
+      Note that you have not submitted a file before the project due date. Penalties may be applied.
+  project:
+    subject: Subject
+    due_date_present: 'Due date: %{date}'
+    due_date_distance: due date
+    file_submitted: File submitted on %{date}.
+    file_not_submitted: No file submitted yet.
+    yours: "Your projects"
+    late_projects: "Late projects"
+    current_projects: "Current projects"
+    completed_projects: "Completed projects"
+    details: "Project details"
+    submitted_files: "Submitted files"
+  assignment:
+    details: "Assignment details"
+  group:
+    contact: "Contact"
+  forms:
+    browse: "Browse"
+    upload: "Upload"
