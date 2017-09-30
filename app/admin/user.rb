@@ -11,7 +11,8 @@ ActiveAdmin.register User do
   end
 
   collection_action :import_csv, method: :post do
-    file = params[:file]
+    import_params = params.require(:import_csv).permit(:file, :format)
+    file = import_params[:file]
 
     begin
       # Store file locally
@@ -20,7 +21,7 @@ ActiveAdmin.register User do
       uploader.store!(file)
 
       # Queue import job
-      ImportJob.perform_later(uploader.store_path, current_admin_user.id, params[:format])
+      ImportJob.perform_later(uploader.store_path, current_admin_user.id, import_params[:format])
 
       redirect_to collection_path, notice: "The uploaded file has been queued for import."
     rescue StandardError => e

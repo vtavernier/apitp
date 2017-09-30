@@ -1,24 +1,13 @@
-<%= form_tag import_csv_admin_users_path, method: :post, multipart: true, class: 'formtastic' do %>
-  <%= field_set_tag nil, class: 'inputs' do %>
-    <ol>
-      <li class="file input required stringish">
-        <%= label_tag :file, 'File', class: 'label' %>
-        <%= file_field_tag 'file', required: 'required' %>
-      </li>
-      <li class="string input required stringish">
-        <%= label_tag :format, 'Format', class: 'label' %>
-        <%= select_tag 'format', options_for_select([ [ 'Comma (,)', ',' ], [ 'Semicolon (;)', ';' ], [ 'Tabulation (\t)', "\t" ] ]) %>
-      </li>
-    </ol>
+<%= semantic_form_for :import_csv, url: import_csv_admin_users_path, method: :post, multipart: true do |f| %>
+  <%= f.inputs do %>
+    <%= f.input :file, as: :file, required: true %>
+    <%= f.input :format, as: :select, collection: [[ 'Comma (,)', ',' ],
+                                                   [ 'Semicolon (;)', ';' ],
+                                                   [ 'Tabulation (\t)', "\t"]],
+                include_blank: false %>
   <% end %>
-  <%= field_set_tag nil, class: 'actions' do %>
-    <ol>
-      <li class="action input_action">
-        <%= submit_tag 'Upload', name: nil %>
-      </li>
-      <li class="cancel">
-        <%= link_to 'Cancel', collection_path %>
-      </li>
-    </ol>
+  <%= f.actions do %>
+    <%= f.action :submit, as: :button, label: 'Upload' %>
+    <%= f.action :cancel, as: :link, to: collection_path, label: 'Cancel', wrapper_html: { class: 'cancel' } %>
   <% end %>
 <% end %>
