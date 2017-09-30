@@ -26,8 +26,14 @@ en:
     attributes:
       user:
         name: Name
+        groups: Groups
       admin_user:
         name: Name
+        super_admin: Superuser
     models:
-      admin_user: Administrators
-      user: Users
+      admin_user:
+        one: Administrator
+        other: Administrators
+      user:
+        one: User
+        other: Users

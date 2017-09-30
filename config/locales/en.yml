@@ -1,4 +1,11 @@
 en:
+  formtastic:
+    :yes: 'Yes'
+    :no: 'No'
+    :create: 'Create'
+    :update: 'Update'
+    :submit: 'Submit'
+    :required: 'required'
   active_admin:
     scopes:
       all: All
@@ -55,12 +62,21 @@ en:
         created_at: Uploaded at
         size: Size
     models:
-      assignment: Assignment
-      group_membership: Group membership
-      group: Group
-      project: Project
-      projects: Projects
-      submission: Submission
+      assignment:
+       one: Assignment
+       other: Assignments
+      group_membership:
+        one: Group membership
+        other: Group membership
+      group:
+        one: Group
+        other: Groups
+      project:
+        one: Project
+        other: Projects
+      submission:
+        one: Submission
+        other: Submissions
   submissions:
     create:
       success: The file has been submitted at %{date}.

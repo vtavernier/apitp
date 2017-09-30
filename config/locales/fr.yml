@@ -1,4 +1,11 @@
 fr:
+  formtastic:
+    :yes: 'Oui'
+    :no: 'Non'
+    :create: 'Créer'
+    :update: 'Modifier'
+    :submit: 'Envoyer'
+    :required: 'requis'
   active_admin:
     scopes:
       all: Tous
@@ -55,12 +62,21 @@ fr:
         created_at: Envoyé le
         size: Taille
     models:
-      assignment: Affectation
-      group_membership: Affectation de groupe
-      group: Groupe
-      project: Projet
-      projects: Projets
-      submission: Rendus
+      assignment:
+        one: Affectation
+        other: Affectations
+      group_membership:
+        one: Affectation de groupe
+        other: Affectations de groupe
+      group:
+        one: Groupe
+        other: Groupes
+      project:
+        one: Projet
+        other: Projets
+      submission:
+        one: Rendu
+        other: Rendus
   submissions:
     create:
       success: Votre fichier a été enregistré à %{date}.

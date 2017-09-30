@@ -31,8 +31,10 @@ fr:
     attributes:
       user:
         name: Nom
+        groups: Groupes
       admin_user:
         name: Nom
+        super_admin: Super-utilisateur
         confirmation_sent_at: Date d'envoi de la confirmation
         confirmation_token: Clé de confirmation du mot de passe
         confirmed_at: Confirmé à
@@ -57,7 +59,12 @@ fr:
         unlock_token: Clé de déverrouillage
         updated_at: Date de mise à jour
     models:
-      admin_user: Administrateur
+      user:
+        one: Utilisateur
+        other: Utilisateurs
+      admin_user:
+        one: Administrateur
+        other: Administrateurs
   sessions:
     destroy:
       sign_out: Déconnexion
