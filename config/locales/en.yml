@@ -41,13 +41,12 @@ en:
         display_name: Name
       project:
         year: Year
-        name: Name
+        name: "Project name"
         start_time: "Start date"
         end_time: "Due date"
         url: "Subject link"
         max_upload_size: "Max submission size"
         submitted: Submitted
-        name: "Project name"
         owner: Owner
       submission:
         user: User
@@ -187,3 +186,6 @@ en:
       no_created_users: "No additional users were created."
       created_groups: "The following groups were created:"
       no_created_groups: "No additional groups were created."
+  time:
+    formats:
+      long: "%B %d, %Y at %H:%M"

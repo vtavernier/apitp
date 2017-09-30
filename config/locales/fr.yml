@@ -1,0 +1,191 @@
+fr:
+  active_admin:
+    scopes:
+      all: Tous
+      current: Courants
+      ended: Terminés
+      administered: Gérés
+    project:
+      show:
+        assignments: Affectations de groupe
+        submission_status: Etat des rendus
+        submission_missing: Rendus manquants
+    group:
+      show:
+        members: Membres du groupe
+        assignments: Projets affectés
+    user:
+      show:
+        groups: Appartenance aux groupes
+    dashboard:
+      current_projects: Projets courants
+      title: Tableau de bord
+      ended_projects: Projets terminés
+      admin_groups: Groupes gérés
+      ended_recently_projects: Projets récemment terminés
+  activerecord:
+    attributes:
+      assignment:
+        group: Groupe
+        project: Projet
+        sent_start_email: E-mail de début envoyé
+        sent_reminder_email: E-mail de rappel envoyé
+        sent_ended_email: E-mail de fin envoyé
+      group_membership:
+        group: Groupe
+        user: Utilisateur
+      group:
+        year: Année
+        name: Nom
+        admin: Administrateur
+        display_name: Nom
+      project:
+        year: Année
+        name: Nom du projet
+        start_time: Date de début
+        end_time: Date de rendu
+        url: Lien vers le sujet
+        max_upload_size: Taille max. de rendu
+        submitted: Rendu
+        owner: Propriétaire
+      submission:
+        user: Utilisateur
+        project: Projet
+        file: Fichier
+        created_at: Envoyé le
+        size: Taille
+    models:
+      assignment: Affectation
+      group_membership: Affectation de groupe
+      group: Groupe
+      project: Projet
+      projects: Projets
+      submission: Rendus
+  mailer:
+    project:
+      submitted_header_html: |
+        %{name}, vous venez juste d'envoyer un fichier pour le projet %{project} le %{date}.
+        Ce fichier est disponible sur la page du projet.
+      submitted_header: |
+        %{name}, vous venez juste d'envoyer un fichier pour le projet %{project} le %{date}.
+
+        Ce fichier est disponible sur la page du projet à l'adresse suivante :
+
+            %{link}
+      submitted_late: |
+        Votre rendu a été effectué en retard, des pénalités peuvent s'appliquer.
+      submitted_on_time: |
+        Votre rendu a été effectué à temps.
+      submitted_footer: |
+        Le fichier rendu est considéré final et ne peut être modifié.
+      start_header_html: |
+        %{name}, vous avez été ajouté au projet %{project}.
+      start_header: |
+        %{name}, vous avez été ajouté au projet %{project}.
+
+        Vous pouvez accéder au projet sur APITP à l'adresse suivante :
+
+            %{link}
+      start_body: |
+        Le rendu pour ce projet doit être effectué avant le %{date}.
+      start_subject_html: |
+        Le sujet est disponible à l'adresse suivante : %{link}.
+      start_subject: |
+        Le sujet est disponible à l'adresse suivante : %{link}.
+      reminder_body_html: |
+        %{name}, ceci est un rappel que le projet %{project} se termine le %{date}.
+      reminder_body: |
+        %{name}, ceci est un rappel que le projet %{project} se termine le %{date}.
+
+        Vous pouvez accéder au projet sur APITP à l'adresse suivante :
+
+            %{link}
+      reminder_submission: |
+        Vous n'avez pas encore rendu de fichier pour ce projet. Notez que si vous rendez un fichier en retard, des pénalités peuvent s'appliquer.
+      ended_body_html: |
+        %{name}, ceci est un rappel que le projet %{project} s'est terminé le %{date}.
+      ended_body: |
+        %{name}, ceci est un rappel que le projet %{project} s'est terminé le %{date}.
+
+        Vous pouvez accéder au projet sur APITP à l'adresse suivante :
+
+            %{link}
+      ended_body_submission: |
+        Vous n'avez pas encore rendu de fichier pour ce projet. Veuillez rendre un fichier immédiatement, ou des pénalités seront appliquées.
+      admin_contact_html: |
+        Si vous avez des questions, contactez votre responsable pour ce projet : %{link}.
+      admin_contact: |
+        Si vous avez des questions, contactez votre responsable pour ce projet : %{email}.
+      footer_html: |
+        Ce mail a été envoyé automatiquement par %{link}, application de gestion de projet.
+        Ne répondez pas directement à cet e-mail, contactez plutôt vos enseignants si vous rencontrez des problèmes.
+      footer: |
+        Ce mail a été envoyé automatiquement par APITP, application de gestion de projet.
+        Ne répondez pas directement à cet e-mail, contactez plutôt vos enseignants si vous rencontrez des problèmes.
+
+        Accédez à APITP à l'adresse %{link}
+  submissions:
+    create:
+      success: Votre fichier a été enregistré à %{date}.
+      error: "Erreur lors de l'envoi du fichier : %{error}."
+  submission:
+    late: En retard
+    already_submitted_html: |
+      Vous avez déjà rendu un fichie le %{date}: %{file} (%{size}).
+    file_readonly: |
+      Vous ne pouvez plus modifier ce fichier. Si cet envoi est une erreur, contactez votre responsable de projet.
+    late_notice: |
+      Vous avez envoyé ce fichier après la date de fin du projet. Des pénalités peuvent être appliquées.
+    not_submitted_yet: |
+      Vous devez encore envoyer un fichier pour ce projet. La taille maximale de l'envoi est de %{size}.
+    not_submitted_late_notice: |
+      Vous n'avez pas envoyé de fichier avant la date de fin du projet. Des pénalités peuvent être appliquées.
+  project:
+    project:
+      due_date_present: 'Date de rendu : %{date}'
+      due_date_distance: date de rendu
+      file_submitted: Fichier rendu le %{date}.
+      file_not_submitted: Pas de fichier rendu.
+      subject: Sujet
+    show:
+      submitted_files: Fichiers rendus
+      details: Détails du projet
+      link: Lien
+    index:
+      current_projects: Projets courants
+      completed_projects: Projets terminés
+      yours: Vos projets
+      late_projects: Projets en retard
+  assignment:
+    details: Détails de l'affectation
+  group:
+    contact: Contact
+  forms:
+    browse: Parcourir
+    upload: Envoyer
+    cancel: Annuler
+  admin:
+    users:
+      import:
+        comma: "Virgule (,)"
+        semicolon: "Point-virgule (;)"
+        tabulation: "Tabulation (\t)"
+      import_csv:
+        queued: "Le fichier envoyé est en cours d'importation."
+        error: "Une erreur s'est produite lors de l'envoi : %{error}."
+  admin_mailer:
+    import_failed:
+      title: "L'importation de %{file} a échoué"
+      introduction: "%{name}, le fichier que vous avez envoyé sur APITP n'a pu être importé."
+      reminder: "Veuillez vous assurer que le fichier envoyé contient les champs requis (name, email, group 1, group 2, etc.)"
+      exception_details: "Voici les détails de l'erreur :"
+    import_succeeded:
+      title: "L'importation de %{file} a réussi"
+      introduction: "%{name}, le fichier que vous avez envoyé sur APITP a été importé avec succès."
+      created_users: "Les utilisateurs suivants ont été créés :"
+      no_created_users: "Aucun utilisateur n'a été créé."
+      created_groups: "Les groupes suivants ont été créés :"
+      no_created_groups: "Aucun groupe n'a été créé."
+  time:
+    formats:
+      long: "%A %d %B %Y à %Hh%M"
