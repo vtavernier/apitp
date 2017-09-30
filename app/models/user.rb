@@ -14,13 +14,7 @@ class User < ApplicationRecord
   has_many :submissions, dependent: :destroy
 
   scope :ordered, -> { order(:name, :email) }
-
-  scope :admin, -> (admin) {
-    joins(:group_memberships)
-      .joins('INNER JOIN groups ON group_memberships.group_id = groups.id')
-      .where('groups.admin_user_id = ?', admin)
-      .distinct
-  }
+  scope :admin, -> (admin) { from("administered_users(#{sanitize_sql(admin.id)}) AS #{self.table_name}") }
 
   def admin?
     false

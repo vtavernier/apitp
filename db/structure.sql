@@ -28,6 +28,42 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE users (
+    id bigint NOT NULL,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0 NOT NULL,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip inet,
+    last_sign_in_ip inet,
+    name character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: administered_users(integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION administered_users(target_admin_user_id integer) RETURNS SETOF users
+    LANGUAGE sql
+    AS $$
+        SELECT DISTINCT users.*
+        FROM users
+        INNER JOIN group_memberships ON users.id = group_memberships.user_id
+        INNER JOIN groups ON group_memberships.group_id = groups.id
+        WHERE groups.admin_user_id = target_admin_user_id
+      $$;
+
+
+--
 -- Name: admin_users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -219,27 +255,6 @@ CREATE TABLE submissions (
     user_id bigint,
     project_id bigint,
     file character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: users; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE users (
-    id bigint NOT NULL,
-    email character varying DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying,
-    reset_password_sent_at timestamp without time zone,
-    sign_in_count integer DEFAULT 0 NOT NULL,
-    current_sign_in_at timestamp without time zone,
-    last_sign_in_at timestamp without time zone,
-    current_sign_in_ip inet,
-    last_sign_in_ip inet,
-    name character varying,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
@@ -838,6 +853,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170924110311'),
 ('20170924122541'),
 ('20170924175248'),
-('20170924180557');
+('20170924180557'),
+('20170930222448');
 
 
