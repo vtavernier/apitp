@@ -22,3 +22,12 @@ en:
       edit:
         account_details: Account details
         min_password_length: "%{count} characters minimum"
+  activerecord:
+    attributes:
+      user:
+        name: Name
+      admin_user:
+        name: Name
+    models:
+      admin_user: Administrators
+      user: Users

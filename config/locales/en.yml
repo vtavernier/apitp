@@ -25,20 +25,43 @@ en:
       ended_recently_projects: Recently ended projects
   activerecord:
     attributes:
+      assignment:
+        group: Group
+        project: Project
+        sent_start_email: Sent project start e-mail
+        sent_reminder_email: Sent project reminder e-mail
+        sent_ended_email: Sent project ended e-mail
+      group_membership:
+        group: Group
+        user: User
       group:
+        year: Year
+        name: Name
+        admin: Administrator
         display_name: Name
-      submission:
-        created_at: Uploaded at
-        size: Size
       project:
-        submitted: Submitted
-        name: "Project name"
+        year: Year
+        name: Name
         start_time: "Start date"
         end_time: "Due date"
+        url: "Subject link"
+        max_upload_size: "Max submission size"
+        submitted: Submitted
+        name: "Project name"
+        owner: Owner
+      submission:
+        user: User
+        project: Project
+        file: File
+        created_at: Uploaded at
+        size: Size
     models:
-      project: Project
+      assignment: Assignment
+      group_membership: Group membership
       group: Group
+      project: Project
       projects: Projects
+      submission: Submission
   mailer:
     project:
       submitted_header_html: |
