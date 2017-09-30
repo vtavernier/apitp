@@ -46,17 +46,18 @@ ActiveAdmin.register User do
     id_column
     column :name
     column :email
-    column :current_sign_in_at
-    column :sign_in_count
-    column :created_at
+    column :groups do |user|
+      user.groups
+          .map { |group| link_to(group.name, admin_group_path(group), title: group.display_name) }
+          .join(' | ')
+          .html_safe
+    end
     actions
   end
 
   filter :name
   filter :email
-  filter :current_sign_in_at
-  filter :sign_in_count
-  filter :created_at
+  filter :groups
 
   controller do
     def update
