@@ -58,6 +58,7 @@ en:
         max_upload_size: "Max submission size"
         submitted: Submitted
         owner: Owner
+        display_name: "Project name"
       submission:
         user: User
         project: Project

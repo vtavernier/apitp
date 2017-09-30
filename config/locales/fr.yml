@@ -58,6 +58,7 @@ fr:
         max_upload_size: Taille max. de rendu
         submitted: Rendu
         owner: Propriétaire
+        display_name: Nom du projet
       submission:
         user: Utilisateur
         project: Projet
