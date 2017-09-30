@@ -125,6 +125,7 @@ fr:
     browse: Parcourir
     upload: Envoyer
     cancel: Annuler
+    back: "Retour"
   admin:
     users:
       import:
@@ -232,3 +233,13 @@ fr:
         Ne répondez pas directement à cet e-mail, contactez plutôt vos enseignants si vous rencontrez des problèmes.
 
         Accédez à APITP à l'adresse %{link}
+  error:
+    forbidden:
+      title: "Accès refusé"
+      message: "Vous n'avez pas les autorisations requies pour accéder à cette ressource."
+    internal:
+      message: "Une erreur est survenue lors du traitement de votre requête."
+      title: "Erreur interne"
+    not_found:
+      title: "Page non trouvée"
+      message: "La page que vous avez demandée est introuvable."

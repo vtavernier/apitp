@@ -125,6 +125,7 @@ en:
     browse: "Browse"
     upload: "Upload"
     cancel: "Cancel"
+    back: "Back"
   admin:
     users:
       import:
@@ -232,3 +233,13 @@ en:
         Please do not reply directly to this e-mail, but instead contact your teachers for assistance.
 
         Access APITP at %{link}
+  error:
+    forbidden:
+      title: "Forbidden"
+      message: "You are not allowed to access this resource."
+    internal:
+      title: "Internal server error"
+      message: "An error occurred while processing your request."
+    not_found:
+      title: "Page not found"
+      message: "The page you requested could not be found."
