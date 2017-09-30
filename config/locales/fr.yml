@@ -140,6 +140,10 @@ fr:
       Vous devez encore envoyer un fichier pour ce projet. La taille maximale de l'envoi est de %{size}.
     not_submitted_late_notice: |
       Vous n'avez pas envoyé de fichier avant la date de fin du projet. Des pénalités peuvent être appliquées.
+    unique:
+      error: "Vous ne pouvez rendre qu'un seul fichier par projet."
+    size:
+      error: "Le fichier sélectionné est trop volumineux (de %{size}) pour ce projet."
   project:
     project:
       due_date_present: 'Date de rendu : %{date}'

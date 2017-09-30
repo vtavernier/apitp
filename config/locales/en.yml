@@ -140,6 +140,10 @@ en:
       You need to submit a file for this project. The maximum file size is %{size}.
     not_submitted_late_notice: |
       Note that you have not submitted a file before the project due date. Penalties may be applied.
+    unique:
+      error: "You can only upload one file per project."
+    size:
+      error: "The chosen file is %{size} too big for this project."
   project:
     project:
       due_date_present: 'Due date: %{date}'
