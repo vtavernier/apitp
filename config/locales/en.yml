@@ -133,3 +133,23 @@ en:
   forms:
     browse: "Browse"
     upload: "Upload"
+    cancel: "Cancel"
+  admin:
+    users:
+      import:
+        comma: "Comma (,)"
+        semicolon: "Semicolon (;)"
+        tabulation: "Tabulation (\t)"
+  admin_mailer:
+    import_failed:
+      title: "Import of %{file} failed"
+      introduction: "%{name}, the file you tried to import into APITP could not be imported."
+      reminder: "Please ensure the submitted file contains the required fields (name, email, group 1, group 2, etc.)"
+      exception_details: "Here are the exception details:"
+    import_succeeded:
+      title: "Import of %{file} succeeded"
+      introduction: "%{name}, the file you uploaded to APITP was imported successfully."
+      created_users: "The following users were created:"
+      no_created_users: "No additional users were created."
+      created_groups: "The following groups were created:"
+      no_created_groups: "No additional groups were created."

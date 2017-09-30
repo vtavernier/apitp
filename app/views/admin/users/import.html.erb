@@ -1,13 +1,13 @@
 <%= semantic_form_for :import_csv, url: import_csv_admin_users_path, method: :post, multipart: true do |f| %>
   <%= f.inputs do %>
     <%= f.input :file, as: :file, required: true %>
-    <%= f.input :format, as: :select, collection: [[ 'Comma (,)', ',' ],
-                                                   [ 'Semicolon (;)', ';' ],
-                                                   [ 'Tabulation (\t)', "\t"]],
+    <%= f.input :format, as: :select, collection: [[ t('.comma'), ',' ],
+                                                   [ t('.semicolon'), ';' ],
+                                                   [ t('.tabulation'), "\t"]],
                 include_blank: false %>
   <% end %>
   <%= f.actions do %>
-    <%= f.action :submit, as: :button, label: 'Upload' %>
-    <%= f.action :cancel, as: :link, to: collection_path, label: 'Cancel', wrapper_html: { class: 'cancel' } %>
+    <%= f.action :submit, as: :button, label: t('forms.upload') %>
+    <%= f.action :cancel, as: :link, to: collection_path, label: t('forms.cancel'), wrapper_html: { class: 'cancel' } %>
   <% end %>
 <% end %>

@@ -1,9 +1,9 @@
-<h2>Import of <%= @file_name %> succeeded</h2>
+<h2><%= t('.title', file: @file_name) %></h2>
 
-<p><%= @user.name %>, the file you uploaded to APITP was imported successfully.</p>
+<p><%= t('.introduction', name: @user.name) %></p>
 
 <% unless @created_users.empty? %>
-<p>The following users were created: </p>
+<p><%= t('.created_users') %></p>
 
 <ul>
   <% @created_users.each do |user| %>
@@ -11,11 +11,11 @@
   <% end %>
 </ul>
 <% else %>
-<p>No additional users were created.</p>
+<p><%= t('.no_created_users') %></p>
 <% end %>
 
 <% unless @created_groups.empty? %>
-<p>The following groups were created: </p>
+<p><%= t('.created_groups') %></p>
 
 <ul>
   <% @created_groups.each do |group| %>
@@ -23,5 +23,5 @@
   <% end %>
 </ul>
 <% else %>
-<p>No additional groups were created.</p>
+<p><%= t('.no_created_groups') %></p>
 <% end %>
