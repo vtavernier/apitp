@@ -1,0 +1,58 @@
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+
+fr:
+  devise:
+    mailer:
+      confirmation_instructions:
+        action: Confirmer mon courriel
+        greeting: Bienvenue %{recipient}!
+        instruction: 'Vous pouvez confirmer votre courriel grâce au lien ci-dessous:'
+        subject: '[APITP] Instructions de confirmation'
+      password_change:
+        greeting: Bonjour %{recipient}!
+        message: Nous vous contactons pour vous notifier que votre mot de passe a été modifié.
+        subject: '[APITP] Mot de passe modifié'
+      reset_password_instructions:
+        action: Changer mon mot de passe
+        greeting: Bonjour %{recipient}!
+        instruction: 'Quelqu''un a demandé un lien pour changer votre mot de passe, le voici :'
+        instruction_2: Si vous n'avez pas émis cette demande, merci d'ignorer ce courriel.
+        instruction_3: Votre mot de passe ne changera pas tant que vous n'aurez pas cliqué sur ce lien et renseigné un nouveau mot de passe.
+        subject: '[APITP] Instructions pour changer le mot de passe'
+      unlock_instructions:
+        action: Débloquer mon compte
+        greeting: Bonjour %{recipient}!
+        instruction: 'Suivez ce lien pour débloquer votre compte:'
+        message: Votre compte a été bloqué suite à un nombre d'essais de connexions manquées trop important
+        subject: '[APITP] Instructions pour déverrouiller le compte'
+  activerecord:
+    attributes:
+      user:
+        name: Nom
+      admin_user:
+        name: Nom
+        confirmation_sent_at: Date d'envoi de la confirmation
+        confirmation_token: Clé de confirmation du mot de passe
+        confirmed_at: Confirmé à
+        created_at: Enregistré à
+        current_password: Mot de passe actuel
+        current_sign_in_at: Date de la connexion actuelle
+        current_sign_in_ip: IP de la connexion actuelle
+        email: Courriel
+        encrypted_password: Mot de passe crypté
+        failed_attempts: Tentatives échouées
+        last_sign_in_at: Date de la dernière connexion
+        last_sign_in_ip: IP de la dernière connexion
+        locked_at: Verrouillé à
+        password: Mot de passe
+        password_confirmation: Confirmation du mot de passe
+        remember_created_at: Mémorisé à
+        remember_me: Se souvenir de moi?
+        reset_password_sent_at: Clé de réinitialisation créée à
+        reset_password_token: Clé de réinitialisation du mot de passe
+        sign_in_count: Nombre des connexions
+        unconfirmed_email: Courriel non confirmé
+        unlock_token: Clé de déverrouillage
+        updated_at: Date de mise à jour
+    models:
+      admin_user: Administrateur

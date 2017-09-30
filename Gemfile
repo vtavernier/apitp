@@ -10,6 +10,8 @@ end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
+# Rails i18n
+gem 'rails-i18n', '~> 5.0.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
@@ -29,6 +31,8 @@ gem 'bootstrap-sass', '~> 3.3.7'
 
 # Devise authentication
 gem 'devise', '~> 4.3.0'
+# Devise i18n
+gem 'devise-i18n', '~> 1.2.0'
 # Pundit authorization
 gem 'pundit', '~> 1.1.0'
 # ActiveAdmin dashboard

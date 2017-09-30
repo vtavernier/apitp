@@ -1,0 +1,16 @@
+fr:
+  errors:
+    messages:
+      invalid_date: "n'est pas une date valide"
+      invalid_time: "n'est pas une heure valide"
+      invalid_datetime: "n'est pas une date valide"
+      is_at: "doit être un(e) %{restriction}"
+      before: "doit être avant %{restriction}"
+      on_or_before: "doit être le ou avant le %{restriction}"
+      after: "doit être après %{restriction}"
+      on_or_after: "doit être le ou après le %{restriction}"
+  validates_timeliness:
+    error_value_formats:
+      date: '%d %B %Y'
+      time: '%H:%M:%S'
+      datetime: '%Y-%m-%d %H:%M:%S'
