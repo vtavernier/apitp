@@ -84,7 +84,7 @@ class Project < ApplicationRecord
     self.end_time = start_time + 1.week
     self.year = SchoolDateHelper.school_year(self.start_time)
     # 500kB or max size / 2
-    self.max_upload_size = min(500 * 1024, Rails.configuration.x.apitp.max_upload_size / 2)
+    self.max_upload_size = [500 * 1024, Rails.configuration.x.apitp.max_upload_size / 2].min
   end
 
   after_save :check_resend

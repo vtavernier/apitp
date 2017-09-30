@@ -16,5 +16,18 @@ RSpec.describe Project, type: :model do
     it("requires an owner") { is_expected.to validate_presence_of(:owner) }
   end
 
+  describe "#set_defaults" do
+    subject { described_class.new }
+    before(:each) { subject.set_defaults }
+
+    it("does not set the owner") { expect(subject.owner).to be_nil }
+    it("does not set the name") { expect(subject.name).to be_nil }
+    it("sets all attributes required except owner and name") do
+      subject.owner = create(:admin_user)
+      subject.name = generate(:project_name)
+      expect(subject).to be_valid
+    end
+  end
+
   include_examples :display_name
 end
