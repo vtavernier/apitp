@@ -18,3 +18,7 @@ en:
     sessions:
       destroy:
         sign_out: Sign out
+    registrations:
+      edit:
+        account_details: Account details
+        min_password_length: %{count} characters minimum
