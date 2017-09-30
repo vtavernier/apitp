@@ -1,18 +1,18 @@
 <%= @project.display_name %>
 ===================
 
-<%= t('mailer.project.submitted_header',
+<%= t('.header',
       name: @user.name,
       project: @project.display_name,
       date: l(@submission.created_at, format: :long),
       link: project_url(id: @project.id)) %>
 
 <% if submission_late?(@project, @submission) %>
-<%= t('mailer.project.submitted_late') %>
+<%= t('.submitted_late') %>
 <% else %>
-<%= t('mailer.project.submitted_on_time') %>
+<%= t('.submitted_on_time') %>
 <% end %>
 
-<%= t('mailer.project.submitted_footer') %>
+<%= t('.submitted_footer') %>
 
 <%= render partial: 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>

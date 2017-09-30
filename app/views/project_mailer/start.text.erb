@@ -1,15 +1,15 @@
 <%= @project.display_name %>
 ===================
 
-<%= t('mailer.project.start_header',
+<%= t('.header',
       name: @user.name,
       project: @project.display_name,
       link: project_url(id: @project.id)) %>
 
-<%= t('mailer.project.start_body', date: l(@project.end_time, format: :long)) %>
+<%= t('.body', date: l(@project.end_time, format: :long)) %>
 
 <% unless @project.url.blank? %>
-  <%= t('mailer.project.start_subject', link: @project.url) %>
+  <%= t('.material', link: @project.url) %>
 <% end %>
 
 <%= render partial: 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>

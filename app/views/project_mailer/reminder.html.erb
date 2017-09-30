@@ -1,14 +1,14 @@
 <h2><%= @project.display_name %></h2>
 
 <p>
-  <%= t('mailer.project.reminder_body_html',
+  <%= t('.body_html',
         name: @user.name,
         project: link_to(@project.display_name, project_url(id: @project.id)),
         date: l(@project.end_time, format: :long)) %>
 </p>
 
 <p>
-  <%= t('mailer.project.reminder_submission') %>
+  <%= t('.submission') %>
 </p>
 
 <%= render partial: 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>

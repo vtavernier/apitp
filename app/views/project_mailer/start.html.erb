@@ -1,15 +1,15 @@
 <h2><%= @project.display_name %></h2>
 
 <p>
-  <%= t('mailer.project.start_header_html',
+  <%= t('.header_html',
         name: @user.name,
         project: link_to(@project.display_name, project_url(id: @project.id))) %>
 </p>
 
-<p><%= t('mailer.project.start_body', date: l(@project.end_time, format: :long)) %></p>
+<p><%= t('.body', date: l(@project.end_time, format: :long)) %></p>
 
 <% unless @project.url.blank? %>
-<p><%= t('mailer.project.start_subject_html', link: link_to(@project.url, @project.url)) %></p>
+<p><%= t('.material_html', link: link_to(@project.url, @project.url)) %></p>
 <% end %>
 
 <%= render partial: 'admin_contact', locals: { admin: @project.assignment_group(@user).admin } %>

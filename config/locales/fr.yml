@@ -61,69 +61,6 @@ fr:
       project: Projet
       projects: Projets
       submission: Rendus
-  mailer:
-    project:
-      submitted_header_html: |
-        %{name}, vous venez juste d'envoyer un fichier pour le projet %{project} le %{date}.
-        Ce fichier est disponible sur la page du projet.
-      submitted_header: |
-        %{name}, vous venez juste d'envoyer un fichier pour le projet %{project} le %{date}.
-
-        Ce fichier est disponible sur la page du projet à l'adresse suivante :
-
-            %{link}
-      submitted_late: |
-        Votre rendu a été effectué en retard, des pénalités peuvent s'appliquer.
-      submitted_on_time: |
-        Votre rendu a été effectué à temps.
-      submitted_footer: |
-        Le fichier rendu est considéré final et ne peut être modifié.
-      start_header_html: |
-        %{name}, vous avez été ajouté au projet %{project}.
-      start_header: |
-        %{name}, vous avez été ajouté au projet %{project}.
-
-        Vous pouvez accéder au projet sur APITP à l'adresse suivante :
-
-            %{link}
-      start_body: |
-        Le rendu pour ce projet doit être effectué avant le %{date}.
-      start_subject_html: |
-        Le sujet est disponible à l'adresse suivante : %{link}.
-      start_subject: |
-        Le sujet est disponible à l'adresse suivante : %{link}.
-      reminder_body_html: |
-        %{name}, ceci est un rappel que le projet %{project} se termine le %{date}.
-      reminder_body: |
-        %{name}, ceci est un rappel que le projet %{project} se termine le %{date}.
-
-        Vous pouvez accéder au projet sur APITP à l'adresse suivante :
-
-            %{link}
-      reminder_submission: |
-        Vous n'avez pas encore rendu de fichier pour ce projet. Notez que si vous rendez un fichier en retard, des pénalités peuvent s'appliquer.
-      ended_body_html: |
-        %{name}, ceci est un rappel que le projet %{project} s'est terminé le %{date}.
-      ended_body: |
-        %{name}, ceci est un rappel que le projet %{project} s'est terminé le %{date}.
-
-        Vous pouvez accéder au projet sur APITP à l'adresse suivante :
-
-            %{link}
-      ended_body_submission: |
-        Vous n'avez pas encore rendu de fichier pour ce projet. Veuillez rendre un fichier immédiatement, ou des pénalités seront appliquées.
-      admin_contact_html: |
-        Si vous avez des questions, contactez votre responsable pour ce projet : %{link}.
-      admin_contact: |
-        Si vous avez des questions, contactez votre responsable pour ce projet : %{email}.
-      footer_html: |
-        Ce mail a été envoyé automatiquement par %{link}, application de gestion de projet.
-        Ne répondez pas directement à cet e-mail, contactez plutôt vos enseignants si vous rencontrez des problèmes.
-      footer: |
-        Ce mail a été envoyé automatiquement par APITP, application de gestion de projet.
-        Ne répondez pas directement à cet e-mail, contactez plutôt vos enseignants si vous rencontrez des problèmes.
-
-        Accédez à APITP à l'adresse %{link}
   submissions:
     create:
       success: Votre fichier a été enregistré à %{date}.
@@ -201,11 +138,74 @@ fr:
     in: "dans %{diff}"
     ago: "il y a %{diff}"
   project_mailer:
+    admin_contact:
+      contact_html: |
+        Si vous avez des questions, contactez votre responsable pour ce projet : %{link}.
+      contact: |
+        Si vous avez des questions, contactez votre responsable pour ce projet : %{email}.
     start:
       subject: "[APITP] Bienvenue sur le projet %{name}"
+      header_html: |
+        %{name}, vous avez été ajouté au projet %{project}.
+      header: |
+        %{name}, vous avez été ajouté au projet %{project}.
+
+        Vous pouvez accéder au projet sur APITP à l'adresse suivante :
+
+            %{link}
+      body: |
+        Le rendu pour ce projet doit être effectué avant le %{date}.
+      material_html: |
+        Le sujet est disponible à l'adresse suivante : %{link}.
+      material: |
+        Le sujet est disponible à l'adresse suivante : %{link}.
     reminder:
       subject: "[APITP] %{name} se termine bientôt"
+      body_html: |
+        %{name}, ceci est un rappel que le projet %{project} se termine le %{date}.
+      body: |
+        %{name}, ceci est un rappel que le projet %{project} se termine le %{date}.
+
+        Vous pouvez accéder au projet sur APITP à l'adresse suivante :
+
+            %{link}
+      submission: |
+        Vous n'avez pas encore rendu de fichier pour ce projet. Notez que si vous rendez un fichier en retard, des pénalités peuvent s'appliquer.
     ended:
       subject: "[APITP] Date de rendu pour %{name} passée"
+      body_html: |
+        %{name}, ceci est un rappel que le projet %{project} s'est terminé le %{date}.
+      body: |
+        %{name}, ceci est un rappel que le projet %{project} s'est terminé le %{date}.
+
+        Vous pouvez accéder au projet sur APITP à l'adresse suivante :
+
+            %{link}
+      submission: |
+        Vous n'avez pas encore rendu de fichier pour ce projet. Veuillez rendre un fichier immédiatement, ou des pénalités seront appliquées.
     submitted:
       subject: "[APITP] Fichier rendu pour %{name}"
+      header_html: |
+        %{name}, vous venez juste d'envoyer un fichier pour le projet %{project} le %{date}.
+        Ce fichier est disponible sur la page du projet.
+      header: |
+        %{name}, vous venez juste d'envoyer un fichier pour le projet %{project} le %{date}.
+
+        Ce fichier est disponible sur la page du projet à l'adresse suivante :
+
+            %{link}
+      submitted_late: |
+        Votre rendu a été effectué en retard, des pénalités peuvent s'appliquer.
+      submitted_on_time: |
+        Votre rendu a été effectué à temps.
+      submitted_footer: |
+        Le fichier rendu est considéré final et ne peut être modifié.
+    layout:
+      footer_html: |
+        Ce mail a été envoyé automatiquement par %{link}, application de gestion de projet.
+        Ne répondez pas directement à cet e-mail, contactez plutôt vos enseignants si vous rencontrez des problèmes.
+      footer: |
+        Ce mail a été envoyé automatiquement par APITP, application de gestion de projet.
+        Ne répondez pas directement à cet e-mail, contactez plutôt vos enseignants si vous rencontrez des problèmes.
+
+        Accédez à APITP à l'adresse %{link}
