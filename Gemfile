@@ -71,6 +71,7 @@ group :development, :test do
   # Testing gems
   gem 'factory_girl', '~> 4.8.0'
   gem 'rspec-rails', '~> 3.6.0'
+  gem 'faker', '~> 1.8.4'
   gem 'ffaker', '~> 2.7.0'
   gem 'shoulda-matchers', '~> 3.1.2'
 end

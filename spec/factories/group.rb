@@ -1,6 +1,6 @@
 FactoryGirl.define do
   sequence :group_name do |n|
-    "#{["TD", "CM"].sample} #{n}"
+    "#{["TD", "CM"].sample} #{(Group.maximum(:id) || 0) + 1}"
   end
 
   factory :group do
