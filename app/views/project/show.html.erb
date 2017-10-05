@@ -29,7 +29,7 @@
       <div class="panel-body">
         <% assignment_group = @project.assignment_group(current_user) %>
         <dl class="row">
-          <dt class="col-sm-4"><%= t('activerecord.models.group') %></dt>
+          <dt class="col-sm-4"><%= t('activerecord.models.group', count: 1) %></dt>
           <dd class="col-sm-8"><%= assignment_group.display_name %></dd>
           <dt class="col-sm-4"><%= t('group.contact') %></dt>
           <dd class="col-sm-8"><%= link_to assignment_group.admin.name,

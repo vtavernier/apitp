@@ -88,7 +88,9 @@ ActiveAdmin.register Project do
       row :end_time do |project|
         render_date(project.end_time)
       end
-      row :url
+      row :url do |project|
+        link_to project.url, project.url
+      end
       row :max_upload_size do |project|
         number_to_human_size(project.max_upload_size)
       end
@@ -117,7 +119,7 @@ ActiveAdmin.register Project do
           else
 
             time_diff = submission.created_at - project.end_time
-            link_to render_date(submission.created_at, project.end_time, "due date"),
+            link_to render_date(submission.created_at, project.end_time, I18n.t('project.due_date_distance')),
                     submission_path(submission), class: time_diff > 0 ? 'submission-late' : 'submission-ok'
           end
         end

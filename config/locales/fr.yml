@@ -19,7 +19,7 @@ fr:
       show:
         assignments: Affectations de groupe
         submission_status: Etat des rendus
-        submission_missing: Rendus manquants
+        submission_missing: Rendu manquant
     group:
       show:
         members: Membres du groupe
@@ -33,6 +33,9 @@ fr:
       ended_projects: Projets terminés
       admin_groups: Groupes gérés
       ended_recently_projects: Projets récemment terminés
+  attributes:
+    created_at: Créé le
+    updated_at: Mis à jour le
   activerecord:
     attributes:
       assignment:
@@ -59,6 +62,7 @@ fr:
         submitted: Rendu
         owner: Propriétaire
         display_name: Nom du projet
+        groups: Groupes
       submission:
         user: Utilisateur
         project: Projet
@@ -104,7 +108,6 @@ fr:
   project:
     project:
       due_date_present: 'Date de rendu : %{date}'
-      due_date_distance: la date de rendu
       file_submitted: Fichier rendu le %{date}.
       file_not_submitted: Pas de fichier rendu.
       subject: Sujet
@@ -117,6 +120,7 @@ fr:
       completed_projects: Projets terminés
       yours: Vos projets
       late_projects: Projets en retard
+    due_date_distance: la date de rendu
   assignment:
     details: Détails de l'affectation
   group:
