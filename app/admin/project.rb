@@ -48,6 +48,12 @@ ActiveAdmin.register Project do
   filter :start_time
   filter :end_time
 
+  before_create do |project|
+    if project.owner.nil?
+      project.owner = current_admin_user
+    end
+  end
+
   controller do
     def scoped_collection
       Project.stats.includes(:owner)
@@ -55,7 +61,7 @@ ActiveAdmin.register Project do
   end
 
   form do |f|
-    f.object.set_defaults if f.object.new_record?
+    f.object.set_defaults(current_admin_user) if f.object.empty?
 
     f.inputs do
       f.input :year
