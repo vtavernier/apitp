@@ -111,6 +111,12 @@ ActiveAdmin.register Project do
           link_to user_submission.email,
                   "mailto:#{user_submission.email}"
         end
+        column I18n.t('activerecord.attributes.submission.file') do |user_submission|
+          if (submission = user_submission.submission)
+            link_to "#{File.basename(submission.file.path)} (#{number_to_human_size(submission.file.size)})",
+                    submission_path(submission)
+          end
+        end
         column I18n.t('activerecord.attributes.submission.created_at') do |user_submission|
           submission = user_submission.submission
 
@@ -121,11 +127,6 @@ ActiveAdmin.register Project do
             time_diff = submission.created_at - project.end_time
             link_to render_date(submission.created_at, project.end_time, I18n.t('project.due_date_distance')),
                     submission_path(submission), class: time_diff > 0 ? 'submission-late' : 'submission-ok'
-          end
-        end
-        column I18n.t('activerecord.attributes.submission.size') do |user_submission|
-          if user_submission.submission
-            number_to_human_size(user_submission.submission.file.size)
           end
         end
         column do |user_submission|

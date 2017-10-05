@@ -47,6 +47,8 @@ class SubmissionsController < ApplicationController
     Pundit.authorize(submission_user, submission, :show?)
 
     # Render the file
-    send_file submission.file.path
+    extension = File.extname(submission.file.path)
+    file_name = "#{submission.project_id}_#{submission.project.display_name}_#{submission.user_id}_#{submission.user.name}_#{submission.id}"
+    send_file submission.file.path, filename: (file_name.parameterize + extension)
   end
 end
