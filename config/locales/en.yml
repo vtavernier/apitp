@@ -88,7 +88,7 @@ en:
   submissions:
     create:
       success: The file has been submitted at %{date}.
-      error: "Error while uploading the file: %{error}."
+      error: "Error while uploading the file: %{error}"
   submission:
     late: Late
     already_submitted_html: |

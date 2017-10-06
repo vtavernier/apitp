@@ -88,7 +88,7 @@ fr:
   submissions:
     create:
       success: Votre fichier a été enregistré à %{date}.
-      error: "Erreur lors de l'envoi du fichier : %{error}."
+      error: "Erreur lors de l'envoi du fichier : %{error}"
   submission:
     late: En retard
     already_submitted_html: |
