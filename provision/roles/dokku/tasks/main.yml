@@ -52,10 +52,8 @@
 - name: Enable letsencrypt cron-job
   command: 'dokku letsencrypt:cron-job --add'
 - name: Add deployment key
-  shell:
-    cmd: |
-      dokku ssh-keys:add {{ dokku_key_name }} - <<-KEY
-      {{ lookup('file', dokku_key_path) }}
-      KEY
+  dokku_ssh_keys:
+    name: "{{ dokku_key_name }}"
+    public_key: "{{ lookup('file', dokku_key_path) }}"
   tags:
     - dokku.ssh-key

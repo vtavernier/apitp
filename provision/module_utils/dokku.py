@@ -4,14 +4,20 @@ class DokkuError(Exception):
 	def __init__(self, message):
 		self.message = message
 
-def dokku_exec(args):
+def dokku_exec(args, **kwargs):
+	stdin = subprocess.PIPE if 'stdin' in kwargs else None
+
 	# Start the process, no stdin, redirect stderr to stdout
 	proc = subprocess.Popen(args,
 		stdout=subprocess.PIPE,
 		stderr=subprocess.STDOUT,
-		stdin=None)
+		stdin=stdin)
 	# Read output
 	lines = []
+
+	if 'stdin' in kwargs:
+		proc.stdin.write(kwargs['stdin'])
+		proc.stdin.close()
 	for stdout_line in iter(proc.stdout.readline, ""):
 		lines.append(stdout_line)
 	proc.stdout.close()
@@ -35,14 +41,14 @@ class DokkuRun(object):
 		pass
 
 
-	def exec_cmd(self, args):
-		self.raw_exec_cmd(args)
+	def exec_cmd(self, args, **kwargs):
+		self.raw_exec_cmd(args, **kwargs)
 		return True
 
 
-	def raw_exec_cmd(self, args):
+	def raw_exec_cmd(self, args, **kwargs):
 		try:
-			return dokku_exec(['dokku'] + args)
+			return dokku_exec(['dokku'] + args, **kwargs)
 		except subprocess.CalledProcessError as ex:
 			raise DokkuError(ex.output)
 
@@ -435,3 +441,27 @@ class PsEntity(AppGlobalEntity):
 			self.require_app()
 			return self.ensure_scale(parse_params(self.params['scale']))
 
+
+class SshKeysEntity(Entity):
+	def __init__(self):
+		Entity.__init__(self, 'ssh-keys')
+		self.keys = None
+
+	def list_raw(self):
+		try:
+			return self.raw_exec_cmd([self.command_base() + 'list'])
+		except DokkuError as ex:
+			return []
+
+	def list(self):
+		return { split[1].split('=', 1)[1].strip('"'): split[0]
+				 for split in [item.split() for item in self.list_raw()] }
+
+	def create_cmd(self, name):
+		return [self.command_base() + 'add', name, '-']
+
+	def create(self, name):
+		return self.exec_cmd(self.create_cmd(name), stdin=self.params['public_key'])
+
+	def destroy_cmd(self, name):
+		return [self.command_base() + 'remove', name]
