@@ -21,7 +21,7 @@ class SubmissionsController < ApplicationController
                                                    I18n.t('project.due_date_distance')))
     else
       # Delete file after failure
-      submission.file.file.delete
+      submission.file.file.delete unless submission.file.file.nil?
 
       redirect_to project_path(submission.project),
                   alert: I18n.t('submissions.create.error', error: submission.errors.first[1])

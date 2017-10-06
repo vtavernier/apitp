@@ -9,6 +9,7 @@ class Submission < ApplicationRecord
 
   mount_uploader :file, SubmissionUploader
 
+  validates_presence_of :file, message: I18n.t('submission.file_required')
   validate :file_size
 
   def file_size

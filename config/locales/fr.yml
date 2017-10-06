@@ -105,6 +105,7 @@ fr:
       error: "Vous ne pouvez rendre qu'un seul fichier par projet."
     size:
       error: "Le fichier sélectionné est trop volumineux (de %{size}) pour ce projet."
+    file_required: "Vous devez sélectionner un fichier à envoyer."
   project:
     project:
       due_date_present: 'Date de rendu : %{date}'

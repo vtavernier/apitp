@@ -105,6 +105,7 @@ en:
       error: "You can only upload one file per project."
     size:
       error: "The chosen file is %{size} too big for this project."
+    file_required: "You must select a file to upload."
   project:
     project:
       due_date_present: 'Due date: %{date}'
