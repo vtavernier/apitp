@@ -1,6 +1,7 @@
 <div class="row">
   <div class="col-md-6 col-md-offset-3 col-xs-12 text-center">
-    <h2><%= title t('.forgot_your_password') %></h2>
+    <h2><%= # noinspection RailsI18nInspection
+            title t('.forgot_your_password') %></h2>
   </div>
 </div>
 <div class="row">
@@ -14,7 +15,8 @@
       </div>
 
       <div class="actions form-group">
-        <%= f.submit t('.send_me_reset_password_instructions'), class: 'btn btn-info' %>
+        <%= # noinspection RailsI18nInspection
+            f.submit t('.send_me_reset_password_instructions'), class: 'btn btn-info' %>
       </div>
     <% end %>
 

@@ -132,6 +132,7 @@ ActiveAdmin.register Project do
         column do |user_submission|
           unless (submission = user_submission.submission).nil?
             if Pundit.policy(current_admin_user, submission).destroy?
+              # noinspection RailsI18nInspection
               link_to I18n.t('active_admin.delete'),
                       admin_submission_path(submission),
                       method: :delete,

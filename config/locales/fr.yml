@@ -247,3 +247,10 @@ fr:
     not_found:
       title: "Page non trouvée"
       message: "La page que vous avez demandée est introuvable."
+  devise:
+    sessions:
+      destroy:
+        sign_out: "Déconnexion"
+    registrations:
+      edit:
+        min_password_length: Au moins %{count} caractères
