@@ -32,9 +32,27 @@ class ProcessPendingEmailsJob < ApplicationJob
   private
     def process_email_queue(current_datetime, queue)
       assignment_set = Set.new
+      has_example_email = false
 
       "pending_#{queue}_email".camelize.constantize.complete.each do |email|
-        send_project_emails(email, assignment_set, queue)
+        # Only send one example.com email of each kind
+        if email.user.email =~ /@example\.com$/
+          if has_example_email
+            next
+          else
+            has_example_email = true
+          end
+        end
+
+        target = email.user.email
+        if target =~ /@example.com$/
+          # Redirect message to project owner if debugging
+          target = email.project.owner.email
+        else
+          # Send to normal recipient
+        end
+
+        send_project_emails(email, assignment_set, queue, target)
       end
 
       unless assignment_set.empty?
@@ -42,10 +60,10 @@ class ProcessPendingEmailsJob < ApplicationJob
       end
     end
 
-    def send_project_emails(email, assignment_set, email_method)
+    def send_project_emails(email, assignment_set, email_method, target)
       # Add the group ids to the set
       assignment_set.merge(email.project.assignment_ids)
       # Schedule the mail delivery
-      ProjectMailer.send(email_method, email.project, email.user).deliver_later
+      ProjectMailer.send(email_method, email.project, email.user, target).deliver_later
     end
 end
