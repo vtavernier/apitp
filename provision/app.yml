@@ -62,8 +62,10 @@
         app: '{{ app_name }}'
         config:
           - APITP_EMAIL={{ apitp_email }}
-          - APITP_EMAIL_HOST={{ apitp_email_host }}
-          - APITP_EMAIL_PASSWORD={{ apitp_email_password }}
+          - APITP_MAILGUN_KEY={{ apitp_mailgun_key }}
+          - APITP_MAILGUN_DOMAIN={{ apitp_mailgun_domain }}
+          #- APITP_EMAIL_HOST={{ apitp_email_host }}
+          #- APITP_EMAIL_PASSWORD={{ apitp_email_password }}
           - APITP_HOST={{ hostname }}
           - APITP_POSTMASTER={{ apitp_postmaster }}
           - APITP_SSL=1
