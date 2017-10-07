@@ -3,7 +3,7 @@ distro: debian
 distro_version: stretch
 dokku_key_name: deploy-key
 dokku_key_path: files/id_prod.pub
-hostname: apitp.duckdns.org
+hostname: apitp.fr.to
 swap_file_path: /swap
 swap_file_size: 512000
 apitp_web_workers: 4
