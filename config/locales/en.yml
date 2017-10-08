@@ -106,6 +106,7 @@ en:
     size:
       error: "The chosen file is %{size} too big for this project."
     file_required: "You must select a file to upload."
+    file_readonly_warning_html: "<em>Warning</em>: a file cannot be changed once it's submitted."
   project:
     project:
       due_date_present: 'Due date: %{date}'

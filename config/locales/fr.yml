@@ -106,6 +106,7 @@ fr:
     size:
       error: "Le fichier sélectionné est trop volumineux (de %{size}) pour ce projet."
     file_required: "Vous devez sélectionner un fichier à envoyer."
+    file_readonly_warning_html: "<em>Attention</em> : le fichier envoyé ne pourra pas être modifié."
   project:
     project:
       due_date_present: 'Date de rendu : %{date}'
