@@ -116,6 +116,7 @@ en:
       submitted_files: "Submitted files"
       details: "Project details"
       link: "Link"
+      max_size_alert: "The file you have chosen is too big for this project."
     index:
       current_projects: "Current projects"
       completed_projects: "Completed projects"

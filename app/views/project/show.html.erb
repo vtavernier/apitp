@@ -63,9 +63,9 @@
               <p>
                 <%= t('submission.not_submitted_yet', size: number_to_human_size(@project.max_upload_size)) %>
                 <span class="btn btn-default btn-file">
-                  <%= t('forms.browse') %> <%= f.file_field :file %>
+                  <%= t('forms.browse') %> <%= f.file_field :file, class: 'upload-notify-input', 'data-max-size' => @project.max_upload_size, 'data-max-size-alert' => t('.max_size_alert') %>
                 </span>
-                <%= f.submit t('forms.upload'), class: 'btn btn-success' %>
+                <%= f.submit t('forms.upload'), class: 'btn btn-success upload-notify-target' %>
               </p>
             </div>
           <% end %>

@@ -116,6 +116,7 @@ fr:
       submitted_files: Fichiers rendus
       details: Détails du projet
       link: Lien
+      max_size_alert: "Le fichier que vous avez sélectionné est trop volumineux."
     index:
       current_projects: Projets courants
       completed_projects: Projets terminés
