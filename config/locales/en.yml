@@ -121,6 +121,7 @@ en:
       details: "Project details"
       link: "Link"
       max_size_alert: "The file you have chosen is too big for this project."
+      team_required: "You need to be in a team to submit a file for this project."
     index:
       current_projects: "Current projects"
       completed_projects: "Completed projects"

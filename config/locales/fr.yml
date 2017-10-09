@@ -121,6 +121,7 @@ fr:
       details: Détails du projet
       link: Lien
       max_size_alert: "Le fichier que vous avez sélectionné est trop volumineux."
+      team_required: "Vous devez être dans une équipe pour ce projet."
     index:
       current_projects: Projets courants
       completed_projects: Projets terminés

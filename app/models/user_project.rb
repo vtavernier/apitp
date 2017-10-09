@@ -3,6 +3,7 @@ class UserProject < Project
 
   belongs_to :user
   belongs_to :submission
+  belongs_to :team
 
   scope :of_user, -> (user) {
     where(user: user).where('start_time <= ?', DateTime.now).includes(:submission)

@@ -57,21 +57,25 @@
             <p><%= t('submission.late_notice') %></p>
           <% end %>
         <% else %>
-          <%= form_for Submission.new(user: current_user, project: @project), html: { multipart: true } do |f| %>
-            <%= f.hidden_field :project_id %>
-            <div class="input-group">
-              <p>
-                <%= t('submission.not_submitted_yet', size: number_to_human_size(@project.max_upload_size)) %>
-                <span class="btn btn-default btn-file">
+          <% if Rails.configuration.x.apitp.team_submissions and @project.team_id.nil? %>
+            <p class="alert"><%= t('.team_required') %></p>
+          <% else %>
+            <%= form_for Submission.new(user: current_user, project: @project), html: { multipart: true } do |f| %>
+              <%= f.hidden_field :project_id %>
+              <div class="input-group">
+                <p>
+                  <%= t('submission.not_submitted_yet', size: number_to_human_size(@project.max_upload_size)) %>
+                  <span class="btn btn-default btn-file">
                   <%= t('forms.browse') %> <%= f.file_field :file, class: 'upload-notify-input', 'data-max-size' => @project.max_upload_size, 'data-max-size-alert' => t('.max_size_alert') %>
                 </span>
-                <%= f.submit t('forms.upload'), class: 'btn btn-success upload-notify-target' %>
-              </p>
-            </div>
-          <% end %>
-          <p><%= t('submission.file_readonly_warning_html') %></p>
-          <% if submission_late %>
-            <p><%= t('submission.not_submitted_late_notice') %></p>
+                  <%= f.submit t('forms.upload'), class: 'btn btn-success upload-notify-target' %>
+                </p>
+              </div>
+            <% end %>
+            <p><%= t('submission.file_readonly_warning_html') %></p>
+            <% if submission_late %>
+              <p><%= t('submission.not_submitted_late_notice') %></p>
+            <% end %>
           <% end %>
         <% end %>
       </div>
