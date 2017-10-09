@@ -14,8 +14,12 @@ class Submission < ApplicationRecord
 
   belongs_to :team
   if Rails.configuration.x.apitp.team_submissions
-    validate :team, presence: true
+    validates :team, presence: true
   end
+
+  validates :project, presence: true,
+            uniqueness: { scope: :team,
+                          message: I18n.t('submission.unique.error')}
 
   def file_size
     unless file.file.nil?

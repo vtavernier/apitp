@@ -5,8 +5,10 @@ class SubmissionPolicy < ApplicationPolicy
   end
 
   def show?
-    # Only show if admin or same user
-    user.admin? or user.id == record.user_id
+    # Only show if admin or same user, or in team
+    user.admin? or
+        user.id == record.user_id or
+        record.team.user_ids.include? user.id
   end
 
   def create?

@@ -102,43 +102,97 @@ ActiveAdmin.register Project do
     end
 
     panel I18n.t('active_admin.project.show.submission_status') do
-      table_for project.user_submissions do
-        column :name do |user_submission|
-          link_to user_submission.username,
-                  admin_user_path(id: user_submission.user_id)
-        end
-        column :email do |user_submission|
-          link_to user_submission.email,
-                  "mailto:#{user_submission.email}"
-        end
-        column I18n.t('activerecord.attributes.submission.file') do |user_submission|
-          if (submission = user_submission.submission)
-            link_to "#{File.basename(submission.file.path)} (#{number_to_human_size(submission.file.size)})",
-                    submission_path(submission)
+      def all_submissions
+        submissions_ary = []
+        submissions_hash = Hash.new { |hash, key| ary = []; submissions_ary << [ key, ary ]; hash[key] = ary; }
+
+        project.user_submissions.each do |user_submission|
+          if user_submission.nil?
+            # single user, just add to list
+            submissions_ary << [ nil, [ user_submission ] ]
+          else
+            submissions_hash[user_submission.team_id] << user_submission
           end
         end
-        column I18n.t('activerecord.attributes.submission.created_at') do |user_submission|
-          submission = user_submission.submission
 
-          if submission.nil?
+        submissions_ary
+      end
+
+      table_for(all_submissions) do
+        def submissions_of(user_submissions)
+          seen = Set.new
+          user_submissions.reduce([]) do |submissions, us|
+            s = us.submission
+            if s.nil?
+              submissions << nil
+            else
+              if seen.include? s.id or s.user_id != us.user_id
+                unless seen.include? s.id
+                  submissions << nil
+                end
+              else
+                seen.add(s.id)
+                submissions << s
+              end
+            end
+            submissions
+          end
+        end
+
+        column :id do |team_id, _user_submissions|
+          if team_id
+            link_to team_id, admin_team_path(id: team_id)
+          end
+        end
+        column :name do |_team_id, user_submissions|
+          user_submissions.uniq(&:user_id).map do |user_submission|
+            "#{link_to user_submission.username, admin_user_path(id: user_submission.user_id)} <#{link_to user_submission.email, "mailto:#{user_submission.email}"}>"
+          end.join('<br/>').html_safe
+        end
+        column I18n.t('activerecord.attributes.submission.file') do |_team_id, user_submissions|
+          submissions_of(user_submissions).map do |submission|
+            if submission.nil?
+              div
+            else
+              link_to "#{File.basename(submission.file.path)} (#{number_to_human_size(submission.file.size)})",
+                      submission_path(submission)
+            end
+          end.join('<br/>').html_safe
+        end
+        column I18n.t('activerecord.attributes.submission.created_at') do |team_id, user_submissions|
+          found_submission = false
+          submitted = submissions_of(user_submissions).collect do |submission|
+            if submission.nil?
+              div
+            else
+              if team_id.nil? or team_id == submission.team_id
+                found_submission = true
+              end
+
+              time_diff = submission.created_at - project.end_time
+              link_to render_date(submission.created_at, project.end_time, I18n.t('project.due_date_distance')),
+                      submission_path(submission), class: time_diff > 0 ? 'submission-late' : 'submission-ok'
+            end
+          end
+
+          unless found_submission
             span I18n.t('active_admin.project.show.submission_missing'), class: 'submission-missing'
           else
-
-            time_diff = submission.created_at - project.end_time
-            link_to render_date(submission.created_at, project.end_time, I18n.t('project.due_date_distance')),
-                    submission_path(submission), class: time_diff > 0 ? 'submission-late' : 'submission-ok'
+            submitted.join('<br/>').html_safe
           end
         end
-        column do |user_submission|
-          unless (submission = user_submission.submission).nil?
-            if Pundit.policy(current_admin_user, submission).destroy?
+        column do |_team_id, user_submissions|
+          submissions_of(user_submissions).map do |submission|
+            if not submission.nil? and Pundit.policy(current_admin_user, submission).destroy?
               # noinspection RailsI18nInspection
               link_to I18n.t('active_admin.delete'),
                       admin_submission_path(submission),
                       method: :delete,
-                      data: { confirm: "Delete submission from #{user_submission.username} for #{project.name}?" }
+                      data: { confirm: "Delete submission from #{submission.user.name} for #{project.name}?" }
+            else
+              div
             end
-          end
+          end.join('<br/>').html_safe
         end
       end
     end

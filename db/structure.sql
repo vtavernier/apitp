@@ -262,20 +262,40 @@ CREATE TABLE submissions (
 
 
 --
+-- Name: team_memberships; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE team_memberships (
+    id bigint NOT NULL,
+    team_id bigint,
+    group_membership_id bigint
+);
+
+
+--
 -- Name: user_submissions; Type: VIEW; Schema: public; Owner: -
 --
 
 CREATE VIEW user_submissions AS
- SELECT DISTINCT users.id AS user_id,
-    users.name AS username,
-    users.email,
-    assignments.project_id,
-    submissions.id AS submission_id
-   FROM (((users
-     JOIN group_memberships ON ((group_memberships.user_id = users.id)))
-     JOIN assignments ON ((assignments.group_id = group_memberships.group_id)))
-     LEFT JOIN submissions ON (((submissions.project_id = assignments.project_id) AND (submissions.user_id = users.id))))
-  ORDER BY users.name, users.email;
+ SELECT a.user_id,
+    a.username,
+    a.email,
+    a.project_id,
+    submissions.id AS submission_id,
+    a.team_id,
+    submissions.team_id AS submission_team_id
+   FROM (( SELECT users.id AS user_id,
+            users.name AS username,
+            users.email,
+            assignments.project_id,
+            team_memberships.team_id
+           FROM ((((users
+             JOIN group_memberships ON ((group_memberships.user_id = users.id)))
+             JOIN assignments ON ((assignments.group_id = group_memberships.group_id)))
+             LEFT JOIN submissions submissions_1 ON (((submissions_1.project_id = assignments.project_id) AND (submissions_1.user_id = users.id))))
+             LEFT JOIN team_memberships ON ((team_memberships.group_membership_id = group_memberships.id)))) a
+     LEFT JOIN submissions ON ((((submissions.user_id = a.user_id) OR ((submissions.team_id IS NOT NULL) AND (submissions.team_id = a.team_id))) AND (submissions.project_id = a.project_id))))
+  ORDER BY a.username, a.email;
 
 
 --
@@ -375,8 +395,12 @@ CREATE VIEW project_events AS
 
 CREATE VIEW project_statistics AS
  SELECT user_submissions.project_id,
-    count(user_submissions.submission_id) AS submission_count,
-    count(*) AS user_count
+    count(DISTINCT
+        CASE
+            WHEN ((user_submissions.team_id IS NOT NULL) AND (user_submissions.submission_team_id IS NULL)) THEN NULL::bigint
+            ELSE user_submissions.submission_id
+        END) AS submission_count,
+    ((count(*) - count(user_submissions.team_id)) + count(DISTINCT user_submissions.team_id)) AS user_count
    FROM user_submissions
   GROUP BY user_submissions.project_id;
 
@@ -471,17 +495,6 @@ ALTER SEQUENCE submissions_id_seq OWNED BY submissions.id;
 
 
 --
--- Name: team_memberships; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE team_memberships (
-    id bigint NOT NULL,
-    team_id bigint,
-    group_membership_id bigint
-);
-
-
---
 -- Name: team_memberships_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -534,7 +547,7 @@ ALTER SEQUENCE teams_id_seq OWNED BY teams.id;
 --
 
 CREATE VIEW user_projects AS
- SELECT DISTINCT projects.id,
+ SELECT projects.id,
     projects.year,
     projects.name,
     projects.start_time,
@@ -543,13 +556,12 @@ CREATE VIEW user_projects AS
     projects.max_upload_size,
     projects.created_at,
     projects.updated_at,
-    submissions.id AS submission_id,
-    users.id AS user_id
-   FROM ((((users
-     JOIN group_memberships ON ((group_memberships.user_id = users.id)))
-     JOIN assignments ON ((assignments.group_id = group_memberships.group_id)))
-     JOIN projects ON ((projects.id = assignments.project_id)))
-     LEFT JOIN submissions ON (((submissions.project_id = projects.id) AND (submissions.user_id = users.id))));
+    user_submissions.submission_id,
+    user_submissions.user_id,
+    projects.owner_id,
+    user_submissions.team_id
+   FROM (projects
+     JOIN user_submissions ON ((projects.id = user_submissions.project_id)));
 
 
 --
@@ -822,6 +834,13 @@ CREATE INDEX index_submissions_on_project_id ON submissions USING btree (project
 
 
 --
+-- Name: index_submissions_on_project_id_and_team_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_submissions_on_project_id_and_team_id ON submissions USING btree (project_id, team_id);
+
+
+--
 -- Name: index_submissions_on_team_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1008,6 +1027,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20171006164000'),
 ('20171009173158'),
 ('20171009173440'),
-('20171009173544');
+('20171009173544'),
+('20171009191018'),
+('20171009201936'),
+('20171009220749'),
+('20171011173615');
 
 

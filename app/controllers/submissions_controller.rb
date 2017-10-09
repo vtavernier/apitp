@@ -6,6 +6,7 @@ class SubmissionsController < ApplicationController
     submission = Submission.new(file: params[:submission][:file])
     submission.project = UserProject.of_user(current_user).find(params[:submission][:project_id])
     submission.user = current_user
+    submission.team = submission.project.team
 
     # Ensure access
     authorize submission
