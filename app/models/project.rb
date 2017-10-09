@@ -28,10 +28,10 @@ class Project < ApplicationRecord
   belongs_to :owner, class_name: 'AdminUser', foreign_key: 'owner_id', inverse_of: :projects
 
   scope :started, -> { where('start_time <= ?', DateTime.now) }
-  scope :current, -> { where('start_time <= ? AND end_time >= ?', Date.today, DateTime.now) }
+  scope :current, -> { where('start_time <= :now AND end_time >= :now', { now: DateTime.now }) }
   scope :ended, -> { where('end_time < ?', DateTime.now) }
   scope :ended_recently, -> { where('end_time >= ? AND end_time <= ?', DateTime.now - 1.week, DateTime.now) }
-  scope :recent, -> { where(<<-SQL, { today: Date.today, in_one_week: Date.today + 1.week, one_week_ago: Date.today - 1.week })
+  scope :recent, -> { where(<<-SQL, { today: DateTime.now.at_beginning_of_day, in_one_week: (DateTime.now + 1.week).at_beginning_of_day, one_week_ago: (DateTime.now - 1.week).at_beginning_of_day })
       (:today <= start_time AND :in_one_week >= start_time) OR
       (:today >= end_time AND :one_week_ago <= end_time) OR
       (:today >= start_time AND :today <= end_time)
