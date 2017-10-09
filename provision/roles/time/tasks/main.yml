@@ -1,0 +1,5 @@
+---
+- name: Set the server time zone
+  timezone:
+    name: Europe/Paris
+
