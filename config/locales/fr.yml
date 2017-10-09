@@ -33,6 +33,9 @@ fr:
       ended_projects: Projets terminés
       admin_groups: Groupes gérés
       ended_recently_projects: Projets récemment terminés
+    team:
+      show:
+        members: "Membres"
   attributes:
     created_at: Créé le
     updated_at: Mis à jour le
@@ -264,3 +267,5 @@ fr:
       non_unique: "Ce projet serait assigné à des utilisateurs via plusieurs groupes. Les utilisateurs suivants se verraient assigner le projet plusieurs fois : %{users}."
     group:
       non_unique: "Les utilisateurs suivants seraient assignés à des projets en double : %{users}."
+  team:
+    must_be_on_same_group: "Tous les membres de l'équipe doivent appartenir au même groupe."

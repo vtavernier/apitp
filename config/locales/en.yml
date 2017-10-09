@@ -33,6 +33,9 @@ en:
       ended_projects: Ended projects
       admin_groups: Administered groups
       ended_recently_projects: Recently ended projects
+    team:
+      show:
+        members: "Members"
   attributes:
     created_at: Created at
     updated_at: Updated at
@@ -257,3 +260,5 @@ en:
       non_unique: "This project is assigned to users through overlapping groups. The following users would be assigned twice to the project: %{users}."
     group:
       non_unique: "The following users would be assigned multiple times to some projects: %{users}."
+  team:
+    must_be_on_same_group: "All the members of the team must belong to the same group."

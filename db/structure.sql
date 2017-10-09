@@ -256,7 +256,8 @@ CREATE TABLE submissions (
     project_id bigint,
     file character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    team_id bigint
 );
 
 
@@ -470,6 +471,65 @@ ALTER SEQUENCE submissions_id_seq OWNED BY submissions.id;
 
 
 --
+-- Name: team_memberships; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE team_memberships (
+    id bigint NOT NULL,
+    team_id bigint,
+    group_membership_id bigint
+);
+
+
+--
+-- Name: team_memberships_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE team_memberships_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: team_memberships_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE team_memberships_id_seq OWNED BY team_memberships.id;
+
+
+--
+-- Name: teams; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE teams (
+    id bigint NOT NULL,
+    group_id bigint
+);
+
+
+--
+-- Name: teams_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE teams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE teams_id_seq OWNED BY teams.id;
+
+
+--
 -- Name: user_projects; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -561,6 +621,20 @@ ALTER TABLE ONLY submissions ALTER COLUMN id SET DEFAULT nextval('submissions_id
 
 
 --
+-- Name: team_memberships id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY team_memberships ALTER COLUMN id SET DEFAULT nextval('team_memberships_id_seq'::regclass);
+
+
+--
+-- Name: teams id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY teams ALTER COLUMN id SET DEFAULT nextval('teams_id_seq'::regclass);
+
+
+--
 -- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -637,6 +711,22 @@ ALTER TABLE ONLY schema_migrations
 
 ALTER TABLE ONLY submissions
     ADD CONSTRAINT submissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: team_memberships team_memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY team_memberships
+    ADD CONSTRAINT team_memberships_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: teams teams_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY teams
+    ADD CONSTRAINT teams_pkey PRIMARY KEY (id);
 
 
 --
@@ -732,6 +822,13 @@ CREATE INDEX index_submissions_on_project_id ON submissions USING btree (project
 
 
 --
+-- Name: index_submissions_on_team_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_submissions_on_team_id ON submissions USING btree (team_id);
+
+
+--
 -- Name: index_submissions_on_user_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -743,6 +840,27 @@ CREATE INDEX index_submissions_on_user_id ON submissions USING btree (user_id);
 --
 
 CREATE UNIQUE INDEX index_submissions_on_user_id_and_project_id ON submissions USING btree (user_id, project_id);
+
+
+--
+-- Name: index_team_memberships_on_group_membership_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_team_memberships_on_group_membership_id ON team_memberships USING btree (group_membership_id);
+
+
+--
+-- Name: index_team_memberships_on_team_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_team_memberships_on_team_id ON team_memberships USING btree (team_id);
+
+
+--
+-- Name: index_teams_on_group_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_teams_on_group_id ON teams USING btree (group_id);
 
 
 --
@@ -775,6 +893,14 @@ ALTER TABLE ONLY group_memberships
 
 
 --
+-- Name: team_memberships fk_rails_1ea9bc3275; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY team_memberships
+    ADD CONSTRAINT fk_rails_1ea9bc3275 FOREIGN KEY (group_membership_id) REFERENCES group_memberships(id);
+
+
+--
 -- Name: projects fk_rails_219ef9bf7d; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -799,6 +925,22 @@ ALTER TABLE ONLY assignments
 
 
 --
+-- Name: submissions fk_rails_5e82686e67; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY submissions
+    ADD CONSTRAINT fk_rails_5e82686e67 FOREIGN KEY (team_id) REFERENCES teams(id);
+
+
+--
+-- Name: team_memberships fk_rails_61c29b529e; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY team_memberships
+    ADD CONSTRAINT fk_rails_61c29b529e FOREIGN KEY (team_id) REFERENCES teams(id);
+
+
+--
 -- Name: submissions fk_rails_8d85741475; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -820,6 +962,14 @@ ALTER TABLE ONLY submissions
 
 ALTER TABLE ONLY group_memberships
     ADD CONSTRAINT fk_rails_d05778f88b FOREIGN KEY (group_id) REFERENCES groups(id);
+
+
+--
+-- Name: teams fk_rails_d0580aece0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY teams
+    ADD CONSTRAINT fk_rails_d0580aece0 FOREIGN KEY (group_id) REFERENCES groups(id);
 
 
 --
@@ -855,6 +1005,9 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170924175248'),
 ('20170924180557'),
 ('20170930222448'),
-('20171006164000');
+('20171006164000'),
+('20171009173158'),
+('20171009173440'),
+('20171009173544');
 
 

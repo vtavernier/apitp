@@ -12,6 +12,11 @@ class Submission < ApplicationRecord
   validates_presence_of :file, message: I18n.t('submission.file_required')
   validate :file_size
 
+  belongs_to :team
+  if Rails.configuration.x.apitp.team_submissions
+    validate :team, presence: true
+  end
+
   def file_size
     unless file.file.nil?
       if file.file.size > project.max_upload_size
