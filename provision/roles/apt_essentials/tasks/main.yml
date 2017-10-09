@@ -12,3 +12,5 @@
   - vim
   - tree
   - software-properties-common
+  - rsync
+
