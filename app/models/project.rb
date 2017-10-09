@@ -1,5 +1,6 @@
 class Project < ApplicationRecord
   include DisplayNameConcern
+  include UnicityConcern
 
   validates :year, presence: true
   validates :name, presence: true, uniqueness: { scope: :year }
@@ -97,6 +98,8 @@ class Project < ApplicationRecord
   end
 
   after_save :check_resend
+
+  validate :project_assignment_uniqueness
 
   private
     def check_resend

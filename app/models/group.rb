@@ -1,5 +1,6 @@
 class Group < ApplicationRecord
   include DisplayNameConcern
+  include UnicityConcern
 
   validates :year, presence: true
   validates :name, presence: true, uniqueness: { scope: :year }
@@ -16,4 +17,6 @@ class Group < ApplicationRecord
   scope :current, -> { where(year: SchoolDateHelper.school_year) }
 
   scope :administered, -> (admin) { where(admin_user_id: admin.id) }
+
+  validate :group_assignment_uniqueness
 end

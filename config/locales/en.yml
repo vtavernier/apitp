@@ -250,3 +250,10 @@ en:
     not_found:
       title: "Page not found"
       message: "The page you requested could not be found."
+  unicity:
+    user:
+      non_unique: "This user would be a member of groups with overlapping projects."
+    project:
+      non_unique: "This project is assigned to users through overlapping groups. The following users would be assigned twice to the project: %{users}."
+    group:
+      non_unique: "The following users would be assigned multiple times to some projects: %{users}."

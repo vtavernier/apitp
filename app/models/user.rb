@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   include NameEmailConcern
+  include UnicityConcern
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -15,6 +16,8 @@ class User < ApplicationRecord
 
   scope :ordered, -> { order(:name, :email) }
   scope :admin, -> (admin) { from("administered_users(#{sanitize_sql(admin.id)}) AS #{self.table_name}") }
+
+  validate :user_assignment_uniqueness
 
   def admin?
     false

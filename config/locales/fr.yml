@@ -257,3 +257,10 @@ fr:
     registrations:
       edit:
         min_password_length: Au moins %{count} caractères
+  unicity:
+    user:
+      non_unique: "Cet utilisateur deviendrait membre de groupes dont les projets sont en conflit."
+    project:
+      non_unique: "Ce projet serait assigné à des utilisateurs via plusieurs groupes. Les utilisateurs suivants se verraient assigner le projet plusieurs fois : %{users}."
+    group:
+      non_unique: "Les utilisateurs suivants seraient assignés à des projets en double : %{users}."
