@@ -283,12 +283,14 @@ CREATE VIEW user_submissions AS
     a.project_id,
     submissions.id AS submission_id,
     a.team_id,
-    submissions.team_id AS submission_team_id
+    submissions.team_id AS submission_team_id,
+    a.group_id
    FROM (( SELECT users.id AS user_id,
             users.name AS username,
             users.email,
             assignments.project_id,
-            team_memberships.team_id
+            team_memberships.team_id,
+            assignments.group_id
            FROM ((((users
              JOIN group_memberships ON ((group_memberships.user_id = users.id)))
              JOIN assignments ON ((assignments.group_id = group_memberships.group_id)))
@@ -1031,6 +1033,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20171009191018'),
 ('20171009201936'),
 ('20171009220749'),
-('20171011173615');
+('20171011173615'),
+('20171011193137');
 
 

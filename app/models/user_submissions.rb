@@ -8,4 +8,5 @@ class UserSubmissions < ApplicationRecord
   belongs_to :submission
   belongs_to :team
   belongs_to :submission_team, class_name: 'Team'
+  belongs_to :group
 end
