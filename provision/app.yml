@@ -69,6 +69,7 @@
           - APITP_HOST={{ hostname }}
           - APITP_POSTMASTER={{ apitp_postmaster }}
           - APITP_SSL=1
+          - APITP_TEAM_SUBMISSIONS=1
           - DOKKU_LETSENCRYPT_EMAIL={{ apitp_email }}
           - RAILS_LOG_TO_STDOUT=1
           - RAILS_SERVE_STATIC_FILES=1
