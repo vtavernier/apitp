@@ -129,6 +129,11 @@ fr:
       yours: Vos projets
       late_projects: Projets en retard
     due_date_distance: la date de rendu
+    export:
+      submitted: Ok
+      late: "En retard"
+      sent: "Envoyé"
+      grade: "Note"
   assignment:
     details: Détails de l'affectation
   group:
@@ -150,6 +155,9 @@ fr:
       import_users: "Importer"
       reset_password:
         success: "Les utilisateurs sélectionnés vont recevoir un lien de réinitialisation de mot de passe."
+    project:
+      export_csv: "Exporter (CSV)"
+      export_xls: "Exporter (XLS)"
   admin_mailer:
     import_failed:
       title: "L'importation de %{file} a échoué"

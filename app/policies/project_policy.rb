@@ -29,6 +29,10 @@ class ProjectPolicy < ApplicationPolicy
     user.super_admin?
   end
 
+  def export?
+    user.admin?
+  end
+
   class Scope < Scope
     def resolve
       if user.admin?

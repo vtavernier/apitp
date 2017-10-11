@@ -79,6 +79,21 @@ ActiveAdmin.register Project do
     f.actions
   end
 
+  member_action :export, method: :get do
+    respond_to do |format|
+      format.csv { send_data resource.to_csv, filename: resource.name.parameterize + '.csv' }
+      format.xls { send_data resource.to_xls, filename: resource.name.parameterize + '.xls' }
+    end
+  end
+
+  action_item :export_csv, only: :show do
+    link_to I18n.t('admin.project.export_csv'), export_admin_project_path(project, format: :csv)
+  end
+
+  action_item :export_xls, only: :show do
+    link_to I18n.t('admin.project.export_xls'), export_admin_project_path(project, format: :xls)
+  end
+
   show do
     columns do
       column span: 3 do
@@ -115,23 +130,7 @@ ActiveAdmin.register Project do
     end
 
     panel I18n.t('active_admin.project.show.submission_status') do
-      def all_submissions
-        submissions_ary = []
-        submissions_hash = Hash.new { |hash, key| ary = []; submissions_ary << [ key, ary ]; hash[key] = ary; }
-
-        project.user_submissions.each do |user_submission|
-          if user_submission.team_id.nil?
-            # single user, just add to list
-            submissions_ary << [ nil, [ user_submission ] ]
-          else
-            submissions_hash[user_submission.team_id] << user_submission
-          end
-        end
-
-        submissions_ary
-      end
-
-      table_for(all_submissions) do
+      table_for(project.all_submissions) do
         def submissions_of(user_submissions)
           seen = Set.new
           user_submissions.reduce([]) do |submissions, us|

@@ -97,11 +97,88 @@ class Project < ApplicationRecord
            self.owner_id.nil?)
   end
 
+  def all_submissions
+    submissions_ary = []
+    submissions_hash = Hash.new { |hash, key| ary = []; submissions_ary << [ key, ary ]; hash[key] = ary; }
+
+    user_submissions.each do |user_submission|
+      if user_submission.team_id.nil?
+        # single user, just add to list
+        submissions_ary << [ nil, [ user_submission ] ]
+      else
+        submissions_hash[user_submission.team_id] << user_submission
+      end
+    end
+
+    submissions_ary
+  end
+
+  def to_xls(options = {})
+    wb = Spreadsheet::Workbook.new
+    sheet = wb.create_worksheet name: name
+
+    current_row = 0
+    export_lines do |line|
+      sheet.row(current_row).replace line
+      current_row += 1
+    end
+
+    file_contents = StringIO.new
+    wb.write(file_contents)
+    return file_contents.string.force_encoding('binary')
+  end
+
+  def to_csv(options = {})
+    CSV.generate(options) do |csv|
+      export_lines do |line|
+        csv << line
+      end
+    end
+  end
+
   after_save :check_resend
 
   validate :project_assignment_uniqueness
 
   private
+    def export_lines
+      # Load all submissions
+      all_submissions.group_by { |_team_id, us| us.first.group_id }.each do |group_id, submissions|
+        # Max count
+        max_count = submissions.map { |_team_id, s| s.uniq(&:user_id).length }.max
+        filler = max_count.times.collect { "" }
+        full_filler = (max_count + 2).times.collect { "" }
+        # Group header
+        yield([ Group.where(id: group_id).pluck(:name).first ] + full_filler)
+        # Column headers
+        yield([ I18n.t('activerecord.models.team', count: 1) ] + filler + [ I18n.t('project.export.sent'), I18n.t('project.export.grade') ])
+        # Process
+        submissions.each do |team_id, us|
+          # Get the list of users
+          users = us.uniq(&:user_id).collect(&:username)
+          if users.length < max_count
+            users.concat(Array.new(max_count - users.length, ""))
+          end
+
+          # Submission status
+          earliest_submission = us.map(&:submission).reject(&:nil?).min_by(&:created_at)
+          submission_status = if earliest_submission.nil?
+                                ""
+                              else
+                                if earliest_submission.created_at > end_time
+                                  I18n.t('project.export.late')
+                                else
+                                  I18n.t('project.export.submitted')
+                                end
+                              end
+
+          yield([ team_id ] + users + [ submission_status, "" ])
+        end
+
+        yield([ "" ] + full_filler)
+      end
+    end
+
     def check_resend
       assignments.resend_start.update_all(sent_start_email: nil)
       assignments.resend_reminder.update_all(sent_reminder_email: nil)

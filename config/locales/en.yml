@@ -129,6 +129,11 @@ en:
       yours: "Your projects"
       late_projects: "Late projects"
     due_date_distance: due date
+    export:
+      sent: "Sent"
+      grade: "Grade"
+      submitted: "Ok"
+      late: "Late"
   assignment:
     details: "Assignment details"
   group:
@@ -150,6 +155,9 @@ en:
       import_users: "Import users"
       reset_password:
         success: "The selected users will receive a password reset link."
+    project:
+      export_csv: "Export (CSV)"
+      export_xls: "Export (XLS)"
   admin_mailer:
     import_failed:
       title: "Import of %{file} failed"
