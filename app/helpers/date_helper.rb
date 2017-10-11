@@ -2,6 +2,11 @@ module DateHelper
   include ActionView::Helpers::DateHelper
 
   def render_date(date, reference = DateTime.now, reference_name = nil)
+    # Format
+    "#{l(date, format: :long)} (#{render_date_diff(date, reference, reference_name)})"
+  end
+
+  def render_date_diff(date, reference = DateTime.now, reference_name = nil)
     # Compute time diff in words
     time_diff = distance_of_time_in_words(date, reference)
 
@@ -20,7 +25,7 @@ module DateHelper
       end
     end
 
-    # Format
-    "#{l(date, format: :long)} (#{time_diff})"
+    # Return the date diff
+    time_diff
   end
 end

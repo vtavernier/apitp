@@ -80,25 +80,38 @@ ActiveAdmin.register Project do
   end
 
   show do
-    attributes_table do
-      row :display_name
-      row :start_time do |project|
-        render_date(project.start_time)
+    columns do
+      column span: 3 do
+        attributes_table do
+          row :display_name
+          row :start_time do |project|
+            render_date(project.start_time)
+          end
+          row :end_time do |project|
+            render_date(project.end_time)
+          end
+          row :url do |project|
+            link_to project.url, project.url
+          end
+          row :max_upload_size do |project|
+            number_to_human_size(project.max_upload_size)
+          end
+          row :owner do |project|
+            link_to project.owner.name_email, admin_admin_user_path(project.owner)
+          end
+          row :created_at
+          row :updated_at
+        end
       end
-      row :end_time do |project|
-        render_date(project.end_time)
+      column do
+        panel I18n.t('active_admin.project.show.assignments') do
+          table_for project.groups do
+            column I18n.t('activerecord.attributes.group.display_name') do |group|
+              link_to group.display_name, admin_group_path(group)
+            end
+          end
+        end
       end
-      row :url do |project|
-        link_to project.url, project.url
-      end
-      row :max_upload_size do |project|
-        number_to_human_size(project.max_upload_size)
-      end
-      row :owner do |project|
-        link_to project.owner.name_email, admin_admin_user_path(project.owner)
-      end
-      row :created_at
-      row :updated_at
     end
 
     panel I18n.t('active_admin.project.show.submission_status') do
@@ -170,8 +183,9 @@ ActiveAdmin.register Project do
               end
 
               time_diff = submission.created_at - project.end_time
-              link_to render_date(submission.created_at, project.end_time, I18n.t('project.due_date_distance')),
-                      submission_path(submission), class: time_diff > 0 ? 'submission-late' : 'submission-ok'
+              link_to I18n.l(submission.created_at, format: :long),
+                      submission_path(submission), class: time_diff > 0 ? 'submission-late' : 'submission-ok',
+                      title: render_date_diff(submission.created_at, project.end_time, I18n.t('project.due_date_distance'))
             end
           end
 
@@ -197,13 +211,4 @@ ActiveAdmin.register Project do
       end
     end
   end
-
-  sidebar I18n.t('active_admin.project.show.assignments'), only: :show do
-    table_for project.groups do
-      column I18n.t('activerecord.attributes.group.display_name') do |group|
-        link_to group.display_name, admin_group_path(group)
-      end
-    end
-  end
-
 end
