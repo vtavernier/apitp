@@ -39,24 +39,23 @@ en:
   attributes:
     created_at: Created at
     updated_at: Updated at
+    group: Group
+    groups: Groups
+    user: User
+    year: Year
+    project: Project
   activerecord:
     attributes:
       assignment:
-        group: Group
-        project: Project
         sent_start_email: Sent project start e-mail
         sent_reminder_email: Sent project reminder e-mail
         sent_ended_email: Sent project ended e-mail
       group_membership:
-        group: Group
-        user: User
       group:
-        year: Year
         name: Name
         admin: Administrator
         display_name: Name
       project:
-        year: Year
         name: "Project name"
         start_time: "Start date"
         end_time: "Due date"
@@ -65,13 +64,12 @@ en:
         submitted: Submitted
         owner: Owner
         display_name: "Project name"
-        groups: Groups
       submission:
-        user: User
-        project: Project
         file: File
         created_at: Uploaded at
         size: Size
+      team:
+        group_membership_ids: Members
     models:
       assignment:
        one: Assignment
@@ -88,6 +86,9 @@ en:
       submission:
         one: Submission
         other: Submissions
+      team:
+        one: Team
+        other: Teams
   submissions:
     create:
       success: The file has been submitted at %{date}.

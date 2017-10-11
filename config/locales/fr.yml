@@ -39,24 +39,23 @@ fr:
   attributes:
     created_at: Créé le
     updated_at: Mis à jour le
+    group: Groupe
+    groups: Groupes
+    user: Utilisateur
+    year: Année
+    project: Projet
   activerecord:
     attributes:
       assignment:
-        group: Groupe
-        project: Projet
         sent_start_email: E-mail de début envoyé
         sent_reminder_email: E-mail de rappel envoyé
         sent_ended_email: E-mail de fin envoyé
       group_membership:
-        group: Groupe
-        user: Utilisateur
       group:
-        year: Année
         name: Nom
         admin: Administrateur
         display_name: Nom
       project:
-        year: Année
         name: Nom du projet
         start_time: Date de début
         end_time: Date de rendu
@@ -65,13 +64,12 @@ fr:
         submitted: Rendu
         owner: Propriétaire
         display_name: Nom du projet
-        groups: Groupes
       submission:
-        user: Utilisateur
-        project: Projet
         file: Fichier
         created_at: Envoyé le
         size: Taille
+      team:
+        group_membership_ids: Membres
     models:
       assignment:
         one: Affectation
@@ -88,6 +86,9 @@ fr:
       submission:
         one: Rendu
         other: Rendus
+      team:
+        one: Equipe
+        other: Equipes
   submissions:
     create:
       success: Votre fichier a été enregistré à %{date}.
