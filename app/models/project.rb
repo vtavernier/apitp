@@ -136,6 +136,7 @@ class Project < ApplicationRecord
     end
   end
 
+  before_save :prepare_check_resend
   after_save :check_resend
 
   validate :project_assignment_uniqueness
@@ -179,9 +180,31 @@ class Project < ApplicationRecord
       end
     end
 
+    def prepare_check_resend
+      @start_time_changed = start_time_changed?
+      @end_time_changed = end_time_changed?
+    end
+
     def check_resend
-      assignments.resend_start.update_all(sent_start_email: nil)
-      assignments.resend_reminder.update_all(sent_reminder_email: nil)
-      assignments.resend_ended.update_all(sent_ended_email: nil)
+      if @start_time_changed
+        if start_time >= DateTime.now
+          # If the project has been moved to a future date, e-mails should be sent
+          assignments.resend_start.update_all(sent_start_email: nil)
+        end
+      end
+
+      if @end_time_changed
+        if end_time >= DateTime.now
+          # If the project has been moved to a future date, e-mails should be sent again
+          assignments.resend_ended.update_all(sent_ended_email: nil)
+        end
+      end
+
+      if @start_time_changed or @end_time_changed
+        if (start_time + (end_time - start_time) * 6/7) >= DateTime.now
+          # See above
+          assignments.resend_reminder.update_all(sent_reminder_email: nil)
+        end
+      end
     end
 end
