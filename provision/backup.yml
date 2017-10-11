@@ -1,0 +1,101 @@
+---
+- hosts: all
+  vars:
+    backup_key_path: files/id_backup.pub
+  vars_files:
+    - vars/app-common.yml
+  tasks:
+    - name: Install backup requirements
+      apt:
+        state: latest
+        name: "{{ item }}"
+      with_items:
+        - acl
+        - rssh
+        - xz-utils
+      tags:
+        - app.backup
+    - name: Install the backup script
+      copy:
+        content: |
+          #!/bin/bash
+
+          # Enable Bash "strict mode"
+          # The script aborts on undefined variables and failing commands
+          set -euo pipefail
+
+          BASE_REL=srv/{{ app_name }}
+          BACK_REL=$BASE_REL/backups
+
+          BASE=/$BASE_REL
+          BACK=/$BACK_REL
+
+          # cd to server directory
+          cd $BASE
+
+          # Backup database
+          dokku postgres:export {{ app_name }} >$BACK/{{ app_name }}.backup
+
+          # Backup everything
+          NAME=$BACK/APITP_$(date +%Y%m%dT%H%M%S).tar.xz
+          tar -C / -cJf $BACK/APITP_$(date +%Y%m%dT%H%M%S).tar.xz $BASE_REL/uploads $BACK_REL/{{ app_name }}.backup
+          chown debian:debian $NAME
+          chmod 0644 $NAME
+
+          # Cleanup
+          rm -f $BACK/{{ app_name }}.backup
+        dest: /usr/local/bin/do-backup-{{ app_name }}
+      tags:
+        - app.backup
+    - name: Set backup script to executable
+      file:
+        path: /usr/local/bin/do-backup-{{ app_name }}
+        mode: 0755
+      tags:
+        - app.backup
+    - name: Create the backups directory
+      file:
+        path: /srv/{{ app_name }}/backups
+        owner: debian
+        group: debian
+        state: directory
+        mode: 0755
+      tags:
+        - app.backup
+    - name: Allow backup user to write backups directory
+      acl:
+        path: /srv/{{ app_name }}/backups
+        entity: backup
+        etype: user
+        permissions: rwx
+        state: present
+      tags:
+        - app.backup.remote
+    - name: Run {{ app_name }} backups regularly
+      cron:
+        name: backup {{ app_name }}
+        job: /usr/local/bin/do-backup-{{ app_name }}
+        hour: 0,2,4,8,10,12,14,16,18,20,22
+        minute: 0
+      tags:
+        - app.backup
+    - name: Set rssh as the login shell for backup
+      user:
+        name: backup
+        shell: /usr/bin/rssh
+      tags:
+        - app.backup.remote
+    - name: Allow rsync with rssh
+      copy:
+        content: |
+          allowrsync
+        dest: /etc/rssh.conf
+      tags:
+        - app.backup.remote
+    - name: Add backup user ssh key
+      authorized_key:
+        user: backup
+        state: present
+        key: "{{ lookup('file', backup_key_path) }}"
+      tags:
+        - app.backup.remote
