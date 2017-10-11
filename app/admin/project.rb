@@ -107,7 +107,7 @@ ActiveAdmin.register Project do
         submissions_hash = Hash.new { |hash, key| ary = []; submissions_ary << [ key, ary ]; hash[key] = ary; }
 
         project.user_submissions.each do |user_submission|
-          if user_submission.nil?
+          if user_submission.team_id.nil?
             # single user, just add to list
             submissions_ary << [ nil, [ user_submission ] ]
           else
