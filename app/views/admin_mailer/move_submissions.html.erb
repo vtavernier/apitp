@@ -1,0 +1,7 @@
+<h2><%= t('.title') %></h2>
+
+<p><%= t('.introduction', name: @user.name) %></p>
+
+<pre>
+  <%= @messages.join("\n") %>
+</pre>

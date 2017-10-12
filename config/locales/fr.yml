@@ -33,6 +33,10 @@ fr:
       ended_projects: Projets terminés
       admin_groups: Groupes gérés
       ended_recently_projects: Projets récemment terminés
+      admin_actions: "Actions d'administration"
+      move_submissions:
+        notice: "L'opération va être exécutée en arrière-plan."
+        action: "Assigner les fichiers soumis aux équipes"
     team:
       show:
         members: "Membres"
@@ -173,6 +177,10 @@ fr:
       created_groups: "Les groupes suivants ont été créés :"
       no_created_groups: "Aucun groupe n'a été créé."
       subject: "[APITP] L'importation a réussi"
+    move_submissions:
+      subject: "[APITP] Résultats de l'assignation d'équipes aux fichiers soumis"
+      title: "Résultats de l'assignation d'équipes aux fichiers soumis"
+      introduction: "Voici les résultats de cette opération :"
   time:
     formats:
       long: "%A %d %B %Y à %Hh%M"

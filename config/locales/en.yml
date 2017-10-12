@@ -33,6 +33,10 @@ en:
       ended_projects: Ended projects
       admin_groups: Administered groups
       ended_recently_projects: Recently ended projects
+      admin_actions: "Management actions"
+      move_submissions:
+        notice: "The operation will take place in the background."
+        action: "Assign submissions to teams"
     team:
       show:
         members: "Members"
@@ -173,6 +177,10 @@ en:
       created_groups: "The following groups were created:"
       no_created_groups: "No additional groups were created."
       subject: "[APITP] Import succeeded"
+    move_submissions:
+      subject: "[APITP] Submission team assignment results"
+      title: "Submission team assignment results"
+      introduction: "Here are the results of this operation :"
   time:
     formats:
       long: "%B %d, %Y at %H:%M"

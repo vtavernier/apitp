@@ -16,5 +16,14 @@ module ActiveAdmin
           false
       end
     end
+
+    def move_submissions?
+      case record.name
+        when 'Dashboard'
+          user.super_admin?
+        else
+          false
+      end
+    end
   end
 end

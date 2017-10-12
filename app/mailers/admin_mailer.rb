@@ -15,4 +15,11 @@ class AdminMailer < ApplicationMailer
     mail(subject: I18n.t('admin_mailer.import_succeeded.subject'),
          to: admin_user.email)
   end
+
+  def move_submissions(admin_user, messages)
+    @user = admin_user
+    @messages = messages
+    mail(subject: I18n.t('admin_mailer.move_submissions.subject'),
+         to: admin_user.email)
+  end
 end

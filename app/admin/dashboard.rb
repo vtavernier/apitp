@@ -2,6 +2,11 @@ ActiveAdmin.register_page "Dashboard" do
 
   menu priority: 1, label: proc{ I18n.t("active_admin.dashboard.title") }
 
+  page_action :move_submissions, method: :post do
+    MoveSubmissionsJob.perform_later(current_admin_user)
+    redirect_to admin_dashboard_path, notice: I18n.t('active_admin.dashboard.move_submissions.notice')
+  end
+
   content title: proc{ I18n.t("active_admin.dashboard.title") } do
     columns do
       column do
@@ -32,6 +37,16 @@ ActiveAdmin.register_page "Dashboard" do
           table_for Group.current.where(admin_user_id: current_admin_user.id) do
             column :display_name do |group|
               link_to group.display_name, admin_group_path(group)
+            end
+          end
+        end
+        if Pundit.policy(current_admin_user, 'Dashboard').move_submissions?
+          panel I18n.t('active_admin.dashboard.admin_actions') do
+            ul do
+              li do
+                link_to I18n.t('active_admin.dashboard.move_submissions.action'),
+                        admin_dashboard_move_submissions_path, method: :post
+              end
             end
           end
         end
