@@ -40,7 +40,7 @@ ActiveAdmin.register_page "Dashboard" do
             end
           end
         end
-        if Pundit.policy(current_admin_user, 'Dashboard').move_submissions?
+        if Pundit.policy(current_admin_user, active_admin_config).move_submissions?
           panel I18n.t('active_admin.dashboard.admin_actions') do
             ul do
               li do
