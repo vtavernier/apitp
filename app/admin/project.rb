@@ -94,6 +94,10 @@ ActiveAdmin.register Project do
     link_to I18n.t('admin.project.export_xls'), export_admin_project_path(project, format: :xls)
   end
 
+  action_item :submit, only: :show do
+    link_to I18n.t('admin.project.submit'), new_admin_submission_path
+  end
+
   show do
     columns do
       column span: 3 do

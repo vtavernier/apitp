@@ -48,6 +48,7 @@ fr:
     user: Utilisateur
     year: Année
     project: Projet
+    team: Equipe
   activerecord:
     attributes:
       assignment:
@@ -162,6 +163,7 @@ fr:
     project:
       export_csv: "Exporter (CSV)"
       export_xls: "Exporter (XLS)"
+      submit: "Envoyer un fichier"
   admin_mailer:
     import_failed:
       title: "L'importation de %{file} a échoué"

@@ -14,11 +14,9 @@ class SubmissionPolicy < ApplicationPolicy
   def create?
     # Only users can create submissions for themselves,
     # for projects they are part of
-    not user.admin? and
-        user.id == record.user_id and
-        not (user.group_ids & record.project.group_ids).empty?
-        not scope.where(project_id: record.project_id,
-                        user_id: record.user_id).exists?
+    user.super_admin? or
+      (not user.admin? and
+        (user.id == record.user_id and not (user.group_ids & record.project.group_ids).empty?))
   end
 
   def update?

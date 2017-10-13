@@ -48,6 +48,7 @@ en:
     user: User
     year: Year
     project: Project
+    team: Team
   activerecord:
     attributes:
       assignment:
@@ -162,6 +163,7 @@ en:
     project:
       export_csv: "Export (CSV)"
       export_xls: "Export (XLS)"
+      submit: "Submit a file"
   admin_mailer:
     import_failed:
       title: "Import of %{file} failed"

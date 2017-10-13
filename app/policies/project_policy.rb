@@ -33,6 +33,10 @@ class ProjectPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def submit?
+    user.admin?
+  end
+
   class Scope < Scope
     def resolve
       if user.admin?
