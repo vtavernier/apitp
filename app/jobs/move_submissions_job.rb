@@ -5,24 +5,24 @@ class MoveSubmissionsJob < ApplicationJob
     messages = []
 
     begin
-      ActiveRecord::Base.transaction do
-        UserSubmissions.where(submission_team_id: nil).where.not(submission_id: nil, team_id: nil).each do |user_submission|
-          if UserSubmissions.where('submission_id != ?', user_submission.submission_id)
-                 .exists?(project_id: user_submission.project_id,
-                          team_id: user_submission.team_id,
-                          submission_team_id: user_submission.team_id)
-            messages << "#{user_submission.submission_id} (#{user_submission.user.name_email} on #{user_submission.project_id}) not updated because it would conflict with another submission for this team"
-          else
-            submission = user_submission.submission
-            submission.team_id = user_submission.team_id
-            if submission.valid?
-              submission.save
-              messages << "Assigned #{submission.id} from #{submission.user.name_email} to its team"
-            else
-              messages << "Submission #{submission.id} from #{submission.user.name_email} could not be assigned to a team"
-            end
-          end
-        end
+      results = Submission.connection.execute <<-SQL
+        UPDATE submissions
+        SET team_id = t.team_id
+        FROM (SELECT
+                min(submission_id) AS submission_id,
+                team_id
+              FROM user_submissions
+              WHERE submission_team_id IS NULL
+                    AND team_id IS NOT NULL
+                    AND submission_id IS NOT NULL
+              GROUP BY project_id, team_id
+              HAVING COUNT(DISTINCT user_id) = 1) t
+        WHERE submissions.id = t.submission_id
+        RETURNING submissions.id, t.team_id;
+      SQL
+
+      results.each do |result|
+        messages << "Assigned #{result['id']} to #{result['team_id']}"
       end
     rescue StandardError => e
       messages << "#{e}"
