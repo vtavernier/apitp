@@ -12,9 +12,11 @@ class Submission < ApplicationRecord
   validates_presence_of :file, message: I18n.t('submission.file_required')
   validate :file_size
 
-  belongs_to :team
   if Rails.configuration.x.apitp.team_submissions
+    belongs_to :team
     validates :team, presence: true
+  else
+    belongs_to :team, optional: true
   end
 
   validates :project, presence: true,
