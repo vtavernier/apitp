@@ -43,7 +43,7 @@
               -C / -cJf $NAME \
               $BASE_REL/uploads \
               $BACK_REL/{{ app_name }}.backup
-          chown debian:debian $NAME
+          chown debian:debian $NAME $BACK/{{ app_name }}.list
           chmod 0644 $NAME
 
           # Cleanup
