@@ -177,12 +177,20 @@ ActiveAdmin.register Project do
         end
         column I18n.t('activerecord.attributes.submission.created_at') do |team_id, user_submissions|
           found_submission = false
-          submitted = submissions_of(user_submissions).collect do |submission|
+          user_submission_count = 0
+
+          rq = user_submissions
+          user_set = Set.new(rq.map(&:user_id))
+          submitted = submissions_of(rq).collect do |submission|
             if submission.nil?
               div
             else
               if team_id.nil? or team_id == submission.team_id
                 found_submission = true
+              end
+
+              if submission.team_id.nil?
+                user_submission_count += 1
               end
 
               time_diff = submission.created_at - project.end_time
@@ -192,7 +200,7 @@ ActiveAdmin.register Project do
             end
           end
 
-          unless found_submission
+          if not found_submission and (user_submission_count == 0 and not user_set.empty?)
             span I18n.t('active_admin.project.show.submission_missing'), class: 'submission-missing'
           else
             submitted.join('<br/>').html_safe
