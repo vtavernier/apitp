@@ -37,8 +37,12 @@
           dokku postgres:export {{ app_name }} >$BACK/{{ app_name }}.backup
 
           # Backup everything
-          NAME=$BACK/APITP_$(date +%Y%m%dT%H%M%S).tar.xz
-          tar -C / -cJf $BACK/APITP_$(date +%Y%m%dT%H%M%S).tar.xz $BASE_REL/uploads $BACK_REL/{{ app_name }}.backup
+          NAME=$BACK/{{ app_name }}_$(date +%Y%m%dT%H%M%S).tar.xz
+
+          tar --no-check-device --listed-incremental=$BACK/{{ app_name }}.list \
+              -C / -cJf $NAME \
+              $BASE_REL/uploads \
+              $BACK_REL/{{ app_name }}.backup
           chown debian:debian $NAME
           chmod 0644 $NAME
 
@@ -71,12 +75,20 @@
         state: present
       tags:
         - app.backup.remote
+    - name: Daily incremental backups
+      cron:
+        name: clear backup state for {{ app_name }}
+        job: /bin/rm -f /srv/{{ app_name }}/backups/{{ app_name }}.list
+        hour: 0
+        minute: 0
+      tags:
+        - app.backup
     - name: Run {{ app_name }} backups regularly
       cron:
         name: backup {{ app_name }}
         job: /usr/local/bin/do-backup-{{ app_name }}
         hour: 0,2,4,8,10,12,14,16,18,20,22
-        minute: 0
+        minute: 30
       tags:
         - app.backup
     - name: Set rssh as the login shell for backup
