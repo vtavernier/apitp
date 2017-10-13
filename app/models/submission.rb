@@ -21,7 +21,8 @@ class Submission < ApplicationRecord
 
   validates :project, presence: true,
             uniqueness: { scope: :team,
-                          message: I18n.t('submission.unique.error')}
+                          message: I18n.t('submission.unique.error')},
+            unless: -> (record) { record.team_id.nil? }
 
   def file_size
     unless file.file.nil?
