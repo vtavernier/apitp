@@ -213,7 +213,7 @@ ActiveAdmin.register Project do
               link_to I18n.t('active_admin.delete'),
                       admin_submission_path(submission),
                       method: :delete,
-                      data: { confirm: "Delete submission from #{submission.user.name} for #{project.name}?" }
+                      data: { confirm: "Delete submission #{File.basename(submission.file.path)} for #{project.name}?" }
             else
               div
             end

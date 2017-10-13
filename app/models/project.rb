@@ -77,7 +77,7 @@ class Project < ApplicationRecord
   end
 
   def user_submissions
-    UserSubmissions.project(self).includes(:submission)
+    UserSubmissions.project(self).includes(:submission).includes(:user)
   end
 
   def set_defaults(owner)
