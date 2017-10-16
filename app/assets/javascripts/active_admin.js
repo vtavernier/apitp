@@ -3,6 +3,7 @@
 (function($) {
   $(function() {
     function updateTeamGroupMemberships(currentId) {
+      var allowCrossGroups = $('#team_cross_group').prop('checked');
       $('#team_group_membership_ids_input').find('li.choice').each(function (i, item) {
         var input = $(item).find('input[type=checkbox]');
         if (input.attr('data-group-id') === currentId) {
@@ -16,7 +17,9 @@
         } else {
           $(item).hide();
           input.data('checked-status', input.prop('checked'));
-          input.prop('checked', false);
+          if (!allowCrossGroups) {
+            input.prop('checked', false);
+          }
         }
       });
     }

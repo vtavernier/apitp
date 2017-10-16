@@ -74,6 +74,7 @@ en:
         created_at: Uploaded at
         size: Size
       team:
+        cross_group: Allow different groups
         group_membership_ids: Members
     models:
       assignment:

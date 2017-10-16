@@ -74,6 +74,7 @@ fr:
         created_at: Envoyé le
         size: Taille
       team:
+        cross_group: Autoriser groupes différents
         group_membership_ids: Membres
     models:
       assignment:

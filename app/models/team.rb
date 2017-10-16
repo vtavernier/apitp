@@ -10,7 +10,7 @@ class Team < ApplicationRecord
 
   validates :group, presence: true
 
-  validate :ensure_same_group
+  validate :ensure_same_group, unless: :cross_group?
 
   private
     def ensure_same_group

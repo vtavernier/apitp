@@ -530,7 +530,8 @@ ALTER SEQUENCE team_memberships_id_seq OWNED BY team_memberships.id;
 
 CREATE TABLE teams (
     id bigint NOT NULL,
-    group_id bigint
+    group_id bigint,
+    cross_group boolean
 );
 
 
@@ -1044,6 +1045,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20171009220749'),
 ('20171011173615'),
 ('20171011193137'),
-('20171013192618');
+('20171013192618'),
+('20171016085633');
 
 

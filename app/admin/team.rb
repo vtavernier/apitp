@@ -1,5 +1,5 @@
 ActiveAdmin.register Team do
-  permit_params :group_id, :group_membership_ids => []
+  permit_params :group_id, :cross_group, :group_membership_ids => []
 
   index do
     selectable_column
@@ -20,6 +20,7 @@ ActiveAdmin.register Team do
   form do |f|
     f.inputs do
       f.input :group, include_blank: false
+      f.input :cross_group
       f.input :group_membership_ids, as: :check_boxes,
               collection: GroupMembership
                               .joins('LEFT OUTER JOIN team_memberships ON team_memberships.group_membership_id = group_memberships.id')
