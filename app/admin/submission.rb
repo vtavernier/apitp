@@ -1,8 +1,14 @@
 ActiveAdmin.register Submission do
-  menu false
   permit_params :project_id, :user_id, :team_id, :file
 
   controller do
+    def update
+      if params[:submission][:file].nil?
+        params[:submission].delete(:file)
+      end
+      super
+    end
+
     def destroy
       destroy! do |format|
         format.html { redirect_to admin_project_path(resource.project) }

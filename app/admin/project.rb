@@ -195,7 +195,7 @@ ActiveAdmin.register Project do
 
               time_diff = submission.created_at - project.end_time
               link_to I18n.l(submission.created_at, format: :long),
-                      submission_path(submission), class: time_diff > 0 ? 'submission-late' : 'submission-ok',
+                      admin_submission_path(submission), class: time_diff > 0 ? 'submission-late' : 'submission-ok',
                       title: render_date_diff(submission.created_at, project.end_time, I18n.t('project.due_date_distance'))
             end
           end
@@ -208,12 +208,21 @@ ActiveAdmin.register Project do
         end
         column do |_team_id, user_submissions|
           submissions_of(user_submissions).map do |submission|
-            if not submission.nil? and Pundit.policy(current_admin_user, submission).destroy?
+            if not submission.nil?
+              policy = Pundit.policy(current_admin_user, submission)
               # noinspection RailsI18nInspection
-              link_to I18n.t('active_admin.delete'),
-                      admin_submission_path(submission),
-                      method: :delete,
-                      data: { confirm: "Delete submission #{File.basename(submission.file.path)} for #{project.name}?" }
+              [
+                if policy.edit?
+                  link_to I18n.t('active_admin.edit'),
+                          edit_admin_submission_path(submission)
+                end,
+                if policy.destroy?
+                  link_to I18n.t('active_admin.delete'),
+                          admin_submission_path(submission),
+                          method: :delete,
+                          data: { confirm: "Delete submission #{File.basename(submission.file.path)} for #{project.name}?" }
+                end
+              ].reject(&:nil?).join(' | ').html_safe
             else
               div
             end

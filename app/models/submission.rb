@@ -9,7 +9,7 @@ class Submission < ApplicationRecord
 
   mount_uploader :file, SubmissionUploader
 
-  validates_presence_of :file, message: I18n.t('submission.file_required')
+  validates_presence_of :file, message: I18n.t('submission.file_required'), if: -> { new_record? or file_changed? }
   validate :file_size
 
   if Rails.configuration.x.apitp.team_submissions
