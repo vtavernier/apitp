@@ -31,6 +31,7 @@ ActiveAdmin.register Submission do
               include_blank: (not Rails.configuration.x.apitp.team_submissions),
               collection: Team
                             .includes(:team_memberships)
+                            .includes(:users)
                             .map { |team| [ team.users.collect(&:name_email).join(' | '), team.id, :'data-group' => team.group_id ] }
                             .sort_by(&:first)
       f.input :file, as: :file
