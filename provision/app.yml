@@ -64,17 +64,24 @@
           - APITP_EMAIL={{ apitp_email }}
           - APITP_MAILGUN_KEY={{ apitp_mailgun_key }}
           - APITP_MAILGUN_DOMAIN={{ apitp_mailgun_domain }}
-          #- APITP_EMAIL_HOST={{ apitp_email_host }}
-          #- APITP_EMAIL_PASSWORD={{ apitp_email_password }}
           - APITP_HOST={{ hostname }}
           - APITP_POSTMASTER={{ apitp_postmaster }}
           - APITP_SSL=1
-          - APITP_TEAM_SUBMISSIONS=1
           - DOKKU_LETSENCRYPT_EMAIL={{ apitp_email }}
           - RAILS_LOG_TO_STDOUT=1
           - RAILS_SERVE_STATIC_FILES=1
           - RAILS_ENV=production
           - SECRET_KEY_BASE={{ apitp_secret }}
+      notify:
+        - rebuild app
+      tags:
+        - dokku.config
+    - name: Set APITP_TEAM_SUBMISSIONS
+      dokku_config:
+        app: '{{ app_name }}'
+        config:
+          - APITP_TEAM_SUBMISSIONS={{ apitp_team_submissions }}
+      when: apitp_team_submissions == 1
       notify:
         - rebuild app
       tags:
