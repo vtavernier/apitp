@@ -10,6 +10,7 @@
   roles:
     - { role: swap, when: swap_file_path is defined and swap_file_size is defined }
     - apt_essentials
+    - { role: firewall, tags: [ firewall ] }
     - time
-    - docker
-    - dokku
+    - { role: docker, tags: [ docker ] }
+    - { role: dokku, tags: [ dokku ] }

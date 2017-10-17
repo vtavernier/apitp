@@ -1,0 +1,7 @@
+---
+- name: Deploy IPv4 rules
+  template: src=rules.v4.j2 dest=/etc/iptables/rules.v4
+- name: Deploy IPv6 rules
+  template: src=rules.v6.j2 dest=/etc/iptables/rules.v6
+- name: Load new iptables rules
+  systemd: name=netfilter-persistent.service state=restarted
