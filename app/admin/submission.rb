@@ -1,5 +1,5 @@
 ActiveAdmin.register Submission do
-  permit_params :project_id, :user_id, :team_id, :file
+  permit_params :project_id, :user_id, :team_id, :file, :created_at
 
   controller do
     def update
@@ -35,6 +35,9 @@ ActiveAdmin.register Submission do
                             .map { |team| [ team.users.collect(&:name_email).join(' | '), team.id, :'data-group' => team.group_id ] }
                             .sort_by(&:first)
       f.input :file, as: :file
+      if not f.object.new_record?
+        f.input :created_at
+      end
     end
     f.actions
   end
