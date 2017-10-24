@@ -48,8 +48,19 @@ class SubmissionsController < ApplicationController
     Pundit.authorize(submission_user, submission, :show?)
 
     # Render the file
-    extension = File.extname(submission.file.path)
-    file_name = "#{submission.project_id}_#{submission.project.display_name}_#{submission.user_id}_#{submission.user.name}_#{submission.id}"
-    send_file submission.file.path, filename: (file_name.parameterize + extension)
+    full_name = if admin_user_signed_in?
+                  extension_match = submission.file.path.match /(\.[a-zA-Z0-9]{2,5})+$/
+                  extension  = if extension_match
+                                 extension_match.to_s
+                               else
+                                 File.extname(submission.file.path)
+                               end
+                  file_name = "#{submission.project_id}_#{submission.project.display_name}_#{submission.user_id}_#{submission.user.name}_#{submission.id}"
+                  file_name.parameterize + extension
+                else
+                  File.basename(submission.file.path)
+                end
+
+    send_file submission.file.path, filename: full_name
   end
 end
