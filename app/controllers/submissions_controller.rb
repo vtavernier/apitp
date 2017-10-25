@@ -55,7 +55,14 @@ class SubmissionsController < ApplicationController
                                else
                                  File.extname(submission.file.path)
                                end
-                  file_name = "#{submission.project_id}_#{submission.project.display_name}_#{submission.user_id}_#{submission.user.name}_#{submission.id}"
+
+                  submission_users = if submission.team_id.nil?
+                                       [ submission.user.name ]
+                                     else
+                                       submission.team.users.order(:name).pluck(:name)
+                                     end
+
+                  file_name = "#{submission.project.name}_#{submission_users.join('_')}_#{submission.id}"
                   file_name.parameterize + extension
                 else
                   File.basename(submission.file.path)
