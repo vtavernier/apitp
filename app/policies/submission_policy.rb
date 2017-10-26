@@ -20,8 +20,8 @@ class SubmissionPolicy < ApplicationPolicy
   end
 
   def update?
-    # Submissions cannot be updated, unless by a super admin
-    user.super_admin?
+    # Submissions cannot be updated, unless by an admin
+    user.admin?
   end
 
   def destroy?
