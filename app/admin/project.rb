@@ -165,6 +165,16 @@ ActiveAdmin.register Project do
             "#{link_to user_submission.username, admin_user_path(id: user_submission.user_id)} <#{link_to user_submission.email, "mailto:#{user_submission.email}"}>"
           end.join('<br/>').html_safe
         end
+        column I18n.t('activerecord.models.group') do |team_id, user_submissions|
+          groups = if user_submissions.any? { |us| us.team_id.nil? }
+                     user_submissions.collect(&:group)
+                   else
+                     [ user_submissions.map { |us| us.team.group }.first ]
+                   end
+          groups.map do |group|
+            link_to group.name, admin_group_path(group)
+          end.join('<br/>').html_safe
+        end
         column I18n.t('activerecord.attributes.submission.file') do |_team_id, user_submissions|
           submissions_of(user_submissions).map do |submission|
             if submission.nil?
