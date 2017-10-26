@@ -144,7 +144,9 @@ class Project < ApplicationRecord
   private
     def export_lines
       # Load all submissions
-      all_submissions.group_by { |_team_id, us| us.first.group_id }.each do |group_id, submissions|
+      all_submissions.group_by { |_team_id, us| us.first.group_id }
+                     .sort_by { |_group_id, submissions| submissions.map { |_team_id, us| us.first.group.name } }
+                     .each do |group_id, submissions|
         # Max count
         max_count = submissions.map { |_team_id, s| s.uniq(&:user_id).length }.max
         filler = max_count.times.collect { "" }
