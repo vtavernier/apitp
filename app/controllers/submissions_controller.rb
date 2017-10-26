@@ -49,7 +49,7 @@ class SubmissionsController < ApplicationController
 
     # Render the file
     full_name = if admin_user_signed_in?
-                  extension_match = submission.file.path.match /(\.[a-zA-Z0-9]{2,5})+$/
+                  extension_match = submission.file.path.match /(\.[a-zA-Z0-9]{1,5})+$/
                   extension  = if extension_match
                                  extension_match.to_s
                                else
