@@ -396,8 +396,8 @@ CREATE VIEW project_events AS
 --
 
 CREATE VIEW project_statistics AS
- SELECT a.project_id,
-    (a.submission_count + COALESCE(b.count, 0)) AS submission_count,
+ SELECT DISTINCT a.project_id,
+    (a.submission_count + COALESCE(b.count, (0)::bigint)) AS submission_count,
     a.user_count
    FROM (( SELECT user_submissions.project_id,
             count(DISTINCT
@@ -409,7 +409,7 @@ CREATE VIEW project_statistics AS
            FROM user_submissions
           GROUP BY user_submissions.project_id) a
      LEFT JOIN ( SELECT user_submissions.project_id,
-            1 AS count
+            count(user_submissions.submission_id) AS count
            FROM user_submissions
           WHERE ((user_submissions.team_id IS NOT NULL) AND (user_submissions.submission_team_id IS NULL))
           GROUP BY user_submissions.project_id, user_submissions.team_id
@@ -1046,6 +1046,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20171011173615'),
 ('20171011193137'),
 ('20171013192618'),
-('20171016085633');
+('20171016085633'),
+('20171027163220');
 
 
