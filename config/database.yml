@@ -8,8 +8,8 @@ default: &default
 development:
   <<: *default
   database: APITP_development
-  username: railsdev
-  password: railsdev
+  username: postgres
+  password: postgres
   host: localhost
 
 # Warning: The database defined as "test" will be erased and
@@ -18,8 +18,8 @@ development:
 test:
   <<: *default
   database: APITP_test
-  username: railsdev
-  password: railsdev
+  username: postgres
+  password: postgres
   host: localhost
 
 # On Heroku and other platform providers, you may have a full connection URL
