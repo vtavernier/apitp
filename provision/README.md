@@ -40,10 +40,9 @@ system.yml                   Playbook to setup the system
 4. Update the `hostname` variable in `inventory/group_vars/prod` to match the
    target hostname of the server.
 
-5. Ensure `python` is installed on the target server, and password-less sudo is
-   configured.
+5. Ensure password-less sudo is configured on the server.
 ```bash
-$ ssh my_server 'sudo sh -c "apt-get update -q && apt-get install -y python"'
+$ ssh my_server 'sudo echo ok'
 # Note: must not ask for a password
 ```
 

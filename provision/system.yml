@@ -1,11 +1,23 @@
 ---
+# Bootstrap python
+- hosts: all
+  gather_facts: no
+  tasks:
+    - name: Install python for Ansible
+      raw: test -e /usr/bin/python || (apt update -qqy && apt install -qqy python-minimal)
+      register: output
+      changed_when: output.stdout != ""
+      tags:
+        - ansible.python
+
+# Setup hostname
 - hosts: all
   tasks:
-    # Setup hostname
     - name: Set hostname to {{hostname}}
       hostname:
         name: "{{ hostname }}"
 
+# Main roles
 - hosts: all
   roles:
     - { role: swap, when: swap_file_path is defined and swap_file_size is defined }
