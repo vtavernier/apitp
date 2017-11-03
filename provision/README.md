@@ -28,8 +28,9 @@ system.yml                   Playbook to setup the system
 
 ## Deploying a new instance
 
-1. Copy `vars/app-secrets.yml.tmpl` to `vars/app-secrets.yml`, and fill in the
-   variables.
+1. Either copy `vars/app-secrets.template.yml` to `vars/app-secrets.yml` and fill in the
+   variables, or if you have the Vault password, put it in the `.vault_pass` and use the
+   configuration under version control in this repository.
 
 2. Edit the `[prod]` section in `inventory/hosts` to match the SSH host you are
    setting up.
