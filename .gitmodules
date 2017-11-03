@@ -1,0 +1,3 @@
+[submodule "provision/lib/dokku"]
+	path = provision/lib/dokku
+	url = git@github.com:vtavernier/dokku-ansible.git
