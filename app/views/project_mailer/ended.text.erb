@@ -4,7 +4,7 @@
 <%= t('.body',
       name: @user.name,
       project: @project.display_name,
-      date: l(@project.end_time, format: :readable),
+      date: l(@project.end_time, format: :long),
       link: project_url(id: @project.id)) %>
 
 <%= t('.submission') %>
