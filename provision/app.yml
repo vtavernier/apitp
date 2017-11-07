@@ -76,6 +76,7 @@
         app: '{{ app_name }}'
         config:
           - APITP_EMAIL={{ apitp_email }}
+          - APITP_GPG_KEY={{ apitp_gpg_key }}
           - APITP_MAILGUN_KEY={{ apitp_mailgun_key }}
           - APITP_MAILGUN_DOMAIN={{ apitp_mailgun_domain }}
           - APITP_HOST={{ hostname }}
