@@ -68,6 +68,10 @@ gem 'mailgun-ruby', '~> 1.1.8'
 # Export XLS files
 gem 'spreadsheet', '~> 1.1.4'
 
+# GPG
+gem 'mail-gpg', '~> 0.3.1'
+gem 'gpgme', '~> 2.0.14'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

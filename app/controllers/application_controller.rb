@@ -30,4 +30,10 @@ class ApplicationController < ActionController::Base
   def zero_downtime_check
     render plain: 'APITP OK', status: 200
   end
+
+  def gpg_key
+    key = Rails.configuration.x.apitp.gpg_public_key
+    keydata = GPGME::Key.export(key.keyid, armor: true)
+    send_data(keydata, filename: "#{Rails.configuration.x.apitp.gpg_private_key.primary_uid.name.parameterize}.asc", type: 'text/plain')
+  end
 end

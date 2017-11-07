@@ -21,4 +21,7 @@ Rails.application.routes.draw do
   root to: "project#index"
 
   get '/zero_downtime_check', to: 'application#zero_downtime_check'
+  if Rails.configuration.x.apitp.gpg_public_key
+    get '/gpg_key', to: 'application#gpg_key', as: :gpg_key
+  end
 end

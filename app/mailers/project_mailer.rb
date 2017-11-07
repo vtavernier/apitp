@@ -5,21 +5,21 @@ class ProjectMailer < ApplicationMailer
     @project = project
     @user = user
     mail(subject: I18n.t('project_mailer.start.subject', name: @project.display_name),
-         to: recipient)
+         to: recipient, gpg: gpg_options)
   end
 
   def reminder(project, user, recipient)
     @project = project
     @user = user
     mail(subject: I18n.t('project_mailer.reminder.subject', name: @project.display_name),
-         to: recipient)
+         to: recipient, gpg: gpg_options)
   end
 
   def ended(project, user, recipient)
     @project = project
     @user = user
     mail(subject: I18n.t('project_mailer.ended.subject', name: @project.display_name),
-         to: recipient)
+         to: recipient, gpg: gpg_options)
   end
 
   def submitted(submission)
@@ -34,6 +34,6 @@ class ProjectMailer < ApplicationMailer
                 end
 
     mail(subject: I18n.t('project_mailer.submitted.subject', name: @project.display_name),
-         to: recipient)
+         to: recipient, gpg: gpg_options)
   end
 end
