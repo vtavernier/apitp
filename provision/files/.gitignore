@@ -1,3 +1,4 @@
 db.backup
 letsencrypt/
 *.pub
+dokku-ansible-deploy-key
