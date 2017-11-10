@@ -1,5 +1,5 @@
 <footer class="footer">
   <p>© <%= Date.today.year %> <a href="https://github.com/vtavernier/apitp">APITP GitHub</a> | <%= link_to 'Admin', admin_root_path %><% if Rails.configuration.x.apitp.gpg_public_key %>
-   | <%= link_to "Clé GPG", gpg_key_path %>
+   | <%= link_to "Clé PGP", gpg_key_path %>
   <% end %></p>
 </footer>
