@@ -81,6 +81,7 @@
           - APITP_MAILGUN_DOMAIN={{ apitp_mailgun_domain }}
           - APITP_HOST={{ hostname }}
           - APITP_POSTMASTER={{ apitp_postmaster }}
+          - APITP_MAX_UPLOAD_SIZE={{ apitp_max_upload_size_mb * 1024 * 1024 }}
           - APITP_SSL=1
           - DOKKU_LETSENCRYPT_EMAIL={{ apitp_email }}
           - RAILS_LOG_TO_STDOUT=1
@@ -91,6 +92,24 @@
         - rebuild app
       tags:
         - dokku.config
+    - name: Create nginx config extra dir
+      file:
+        path: '{{ dokku_homedir }}/{{ app_name }}/nginx.conf.d'
+        state: directory
+        owner: dokku
+        group: dokku
+        mode: 0755
+      register: nginx_conf_d
+    - name: Add nginx config for upload size
+      copy:
+        content: |
+          client_max_body_size {{ apitp_max_upload_size_mb }}m;
+        dest: '{{ nginx_conf_d.path }}/upload.conf'
+        owner: dokku
+        group: dokku
+        mode: 0644
+      notify:
+        - reload nginx
     - name: Set APITP_TEAM_SUBMISSIONS
       dokku_config:
         app: '{{ app_name }}'
@@ -107,3 +126,5 @@
         # ps:rebuild is currently broken, so we ps:rebuildall instead
         #app: '{{ app_name }}'
         state: rebuilt
+    - name: "reload nginx"
+      systemd: name=nginx.service state=reloaded
