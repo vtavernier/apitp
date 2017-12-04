@@ -32,7 +32,7 @@
         state: linked
       tags:
         - dokku.postgres
-    - name: Setup uploads direcotry
+    - name: Setup uploads directory
       file:
         path: '{{ host_uploads_directory }}'
         state: directory
