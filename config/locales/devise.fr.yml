@@ -27,6 +27,13 @@ fr:
         instruction: 'Suivez ce lien pour débloquer votre compte:'
         message: Votre compte a été bloqué suite à un nombre d'essais de connexions manquées trop important
         subject: '[APITP] Instructions pour déverrouiller le compte'
+    sessions:
+      destroy:
+        sign_out: Déconnexion
+    registrations:
+      edit:
+        account_details: Paramètres du compte
+        min_password_length: "Au moins %{count} caractères"
   activerecord:
     attributes:
       user:
@@ -65,6 +72,3 @@ fr:
       admin_user:
         one: Administrateur
         other: Administrateurs
-  sessions:
-    destroy:
-      sign_out: Déconnexion
