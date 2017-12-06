@@ -10,11 +10,7 @@ ActiveAdmin.register Project do
     params
   end
 
-  scope :my_current_projects, default: true do |scope|
-    scope.admin_projects(current_admin_user).current
-  end
-
-  scope :my_recent_projects do |scope|
+  scope :my_recent_projects, default: true do |scope|
     scope.admin_projects(current_admin_user).recent
   end
 
