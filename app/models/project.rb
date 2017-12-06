@@ -30,7 +30,6 @@ class Project < ApplicationRecord
   scope :started, -> { where('start_time <= ?', DateTime.now) }
   scope :current, -> { where('start_time <= :now AND end_time >= :now', { now: DateTime.now }) }
   scope :ended, -> { where('end_time < ?', DateTime.now) }
-  scope :ended_recently, -> { where('end_time >= ? AND end_time <= ?', DateTime.now - 1.week, DateTime.now) }
   scope :recent, -> { where(<<-SQL, { today: DateTime.now.at_beginning_of_day, in_one_week: (DateTime.now + 1.week).at_beginning_of_day, two_weeks_ago: (DateTime.now - 2.week).at_beginning_of_day })
       (:today <= start_time AND :in_one_week >= start_time) OR
       (:today >= end_time AND :two_weeks_ago <= end_time) OR

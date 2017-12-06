@@ -32,11 +32,11 @@ en:
       title: APITP Dashboard
       ended_projects: Ended projects
       admin_groups: Administered groups
-      ended_recently_projects: Recently ended projects
       admin_actions: "Management actions"
       move_submissions:
         notice: "The operation will take place in the background."
         action: "Assign submissions to teams"
+      recent_projects: "Recent projects"
     team:
       show:
         members: "Members"

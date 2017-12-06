@@ -32,11 +32,11 @@ fr:
       title: Tableau de bord
       ended_projects: Projets terminés
       admin_groups: Groupes gérés
-      ended_recently_projects: Projets récemment terminés
       admin_actions: "Actions d'administration"
       move_submissions:
         notice: "L'opération va être exécutée en arrière-plan."
         action: "Assigner les fichiers soumis aux équipes"
+      recent_projects: "Projets récents"
     team:
       show:
         members: "Membres"
