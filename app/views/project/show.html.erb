@@ -1,13 +1,13 @@
-<div class="row">
-  <div class="col-md-6 col-md-offset-3 col-xs-12 text-center">
+<div class="row mb-3">
+  <div class="col text-center">
     <h2><%= title @project.display_name %></h2>
   </div>
 </div>
 <div class="row">
   <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading"><%= t('.details') %></div>
-      <div class="panel-body">
+    <div class="card">
+      <div class="card-header"><%= t('.details') %></div>
+      <div class="card-body">
         <dl class="row">
           <dt class="col-sm-4"><%= t('activerecord.attributes.project.name') %></dt>
           <dd class="col-sm-8"><%= @project.display_name %></dd>
@@ -24,9 +24,9 @@
     </div>
   </div>
   <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading"><%= t('assignment.details') %></div>
-      <div class="panel-body">
+    <div class="card">
+      <div class="card-header"><%= t('assignment.details') %></div>
+      <div class="card-body">
         <% assignment_group = @project.assignment_group(current_user) %>
         <dl class="row">
           <dt class="col-sm-4"><%= t('activerecord.models.group', count: 1) %></dt>
@@ -39,12 +39,12 @@
     </div>
   </div>
 
-  <div class="col-md-12">
+  <div class="col-md-12 mt-3">
     <% submission = @project.submission %>
     <% submission_late = submission_late?(@project, submission) %>
-    <div class="panel panel-<%= submission_status(@project, submission) %>">
-      <div class="panel-heading"><%= t('.submitted_files') %> <% if submission_late %><strong>(<%= t('submission.late') %>)</strong><% end %></div>
-      <div class="panel-body">
+    <div class="card border-<%= submission_status(@project, submission) %>">
+      <div class="card-header"><%= t('.submitted_files') %> <% if submission_late %><strong class="badge badge-pill badge-danger text-lowercase"><%= t('submission.late') %></strong><% end %></div>
+      <div class="card-body">
         <% if submission %>
           <p>
             <%= t('submission.already_submitted_html',
@@ -65,7 +65,7 @@
               <div class="input-group">
                 <p>
                   <%= t('submission.not_submitted_yet', size: number_to_human_size(@project.max_upload_size)) %>
-                  <span class="btn btn-default btn-file">
+                  <span class="btn btn-light btn-file">
                   <%= t('forms.browse') %> <%= f.file_field :file, class: 'upload-notify-input', 'data-max-size' => @project.max_upload_size, 'data-max-size-alert' => t('.max_size_alert') %>
                 </span>
                   <%= f.submit t('forms.upload'), class: 'btn btn-success upload-notify-target' %>

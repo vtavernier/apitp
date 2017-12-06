@@ -283,3 +283,8 @@ en:
       non_unique: "The following users would be assigned multiple times to some projects: %{users}."
   team:
     must_be_on_same_group: "All the members of the team must belong to the same group."
+  devise:
+    passwords:
+      edit:
+        password: "New password"
+        password_confirmation: "New password confirmation"

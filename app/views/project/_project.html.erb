@@ -1,28 +1,33 @@
 <% submission = project.submission %>
-<div class="col-md-12">
-  <div class="panel panel-<%= submission_status(project, submission) %>">
-    <div class="panel-heading">
-      <h3 class="panel-title">
+<div class="col-12 mb-3">
+  <div class="card border-<%= submission_status(project, submission) %>">
+    <div class="card-header bg-<%= submission_status(project, submission) %>">
+      <h4 class="card-title m-0 submission-<%= submission_status(project, submission) %>">
         <%= link_to project.display_name, project_path(project) %>
         <% unless project.url.blank? %>
-          (<%= link_to t('.subject'), project.url, target: '_blank' %>)
+          <%= link_to t('.subject'), project.url, target: '_blank', class: 'badge badge-pill badge-light text-dark text-lowercase' %>
         <% end %>
         <% if submission_late?(project, submission) %>
-          <strong>(<%= t('submission.late').downcase %>)</strong>
+          <strong class="badge badge-pill badge-dark text-lowercase"><%= t('submission.late') %></strong>
         <% end %>
-      </h3>
+      </h4>
     </div>
 
-    <div class="panel-body">
+    <div class="card-body">
       <div class="row">
-        <div class="col-md-6 col-xs-12">
-          <p><%= t('.due_date_present', date: render_date(project.end_time)) %></p>
+        <div class="col-md-7 col-xs-12">
+          <% if project.end_time > DateTime.now || submission.nil? %>
+            <p><%= t('.due_date_present', date: render_date(project.end_time)) %></p>
+          <% else %>
+            <p><%= t('.due_date_present', date: l(project.end_time, format: :long)) %></p>
+          <% end %>
         </div>
-        <div class="col-md-6 col-xs-12">
+        <div class="col-md-5 col-xs-12">
           <% if submission = project.submission %>
             <p><%= link_to t('.file_submitted',
-                             date: render_date(submission.created_at, project.end_time, t('project.due_date_distance'))),
-                           submission_path(submission) %></p>
+                             date: l(submission.created_at, format: :long)),
+                           submission_path(submission),
+                           title: render_date_diff(submission.created_at, project.end_time, t('project.due_date_distance')) %></p>
           <% else %>
             <p><%= link_to t('.file_not_submitted'), project_path(project) %></p>
           <% end %>

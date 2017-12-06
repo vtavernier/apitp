@@ -1,12 +1,12 @@
 module ProjectHelper
   def project_stats_class(project)
     if project.submission_count == project.user_count
-      'project-stats-complete'
+      'badge badge-success'
     else
       if project.end_time < DateTime.now
-        'project-stats-missing-late'
+        'badge badge-warning'
       else
-        'project-stats-missing'
+        'badge badge-danger'
       end
     end
   end

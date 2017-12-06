@@ -60,8 +60,8 @@ ActiveAdmin.register Group do
             column :display_name do |project|
               link_to project.display_name, admin_project_path(project)
             end
-            column(:start_date) { |project| render_date project.start_time }
-            column(:end_date) { |project| render_date project.end_time }
+            column(:start_date) { |project| l project.start_time, format: :long }
+            column(:end_date) { |project| l project.end_time, format: :long }
             column :submitted do |project|
               span project.submitted, class: project_stats_class(project)
             end

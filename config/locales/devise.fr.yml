@@ -27,6 +27,11 @@ fr:
         instruction: 'Suivez ce lien pour débloquer votre compte:'
         message: Votre compte a été bloqué suite à un nombre d'essais de connexions manquées trop important
         subject: '[APITP] Instructions pour déverrouiller le compte'
+    passwords:
+      edit:
+        password: "Nouveau mot de passe"
+        password_confirmation: "Confirmer le nouveau mot de passe"
+        min_password_length: "Au moins %{count} caractères"
     sessions:
       destroy:
         sign_out: Déconnexion

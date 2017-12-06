@@ -274,13 +274,6 @@ fr:
     not_found:
       title: "Page non trouvée"
       message: "La page que vous avez demandée est introuvable."
-  devise:
-    sessions:
-      destroy:
-        sign_out: "Déconnexion"
-    registrations:
-      edit:
-        min_password_length: Au moins %{count} caractères
   unicity:
     user:
       non_unique: "Cet utilisateur deviendrait membre de groupes dont les projets sont en conflit."

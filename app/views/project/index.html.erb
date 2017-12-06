@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-6 col-md-offset-3 col-xs-12 text-center">
+  <div class="col-12 text-center">
     <h2><%= title t('.yours') %></h2>
   </div>
 </div>
@@ -26,22 +26,22 @@
     submitted = submitted.sort_by(&:end_time).reverse
   %>
   <% if late_not_submitted.any? %>
-    <div class="col-md-12">
-      <h3><%= t('.late_projects') %></h3>
+    <div class="col-12">
+      <h3><%= t('.late_projects') %> <span class="badge badge-pill badge-danger"><%= late_not_submitted.length %></span></h3>
     </div>
     <%= render partial: 'project', collection: late_not_submitted %>
     <hr />
   <% end %>
   <% if not_submitted.any? %>
-    <div class="col-md-12">
-      <h3><%= t('.current_projects') %></h3>
+    <div class="col-12">
+      <h3><%= t('.current_projects') %> <span class="badge badge-pill badge-info"><%= not_submitted.length %></span></h3>
     </div>
     <%= render partial: 'project', collection: not_submitted %>
     <hr />
   <% end %>
   <% if submitted.any? %>
-    <div class="col-md-12">
-      <h3><%= t('.completed_projects') %></h3>
+    <div class="col-12">
+      <h3><%= t('.completed_projects') %> <span class="badge badge-pill badge-success"><%= submitted.length %></span></h3>
     </div>
     <%= render partial: 'project', collection: submitted %>
     <hr />

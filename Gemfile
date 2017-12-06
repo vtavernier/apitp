@@ -26,9 +26,6 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
-# Bootstrap framework
-gem 'bootstrap-sass', '~> 3.3.7'
-
 # Devise authentication
 gem 'devise', '~> 4.3.0'
 # Devise i18n
@@ -37,6 +34,7 @@ gem 'devise-i18n', '~> 1.2.0'
 gem 'pundit', '~> 1.1.0'
 # ActiveAdmin dashboard
 gem 'activeadmin', github: 'activeadmin', tag: 'v1.1.0'
+gem 'formadmin', git: 'https://github.com/formaweb/formadmin.git', tag: 'v0.2.1'
 # Extensions of ActiveAdmin
 gem 'just-datetime-picker', '~> 0.0.7'
 

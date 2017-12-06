@@ -4,11 +4,11 @@ module ApplicationHelper
     return page_title
   end
 
-  def navbar_element(name, link)
+  def navbar_element(name, link, extra_class = '')
     if current_page? link
-      ('<li class="active">' + link_to(name, '#') + '</li>').html_safe
+      link_to(name, '#', class: "nav-item nav-link active #{extra_class}")
     else
-      ('<li>' + link_to(name, link) + '</li>').html_safe
+      link_to(name, link, class: "nav-item nav-link #{extra_class}")
     end
   end
 end

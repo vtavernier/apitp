@@ -26,12 +26,8 @@ ActiveAdmin.register Project do
     column :year
     column :name
     column :owner
-    column :start_time do |project|
-      render_date project.start_time
-    end
-    column :end_time do |project|
-      render_date project.end_time
-    end
+    column :start_time
+    column :end_time
     column :submitted do |project|
       span project.submitted, class: project_stats_class(project)
     end
@@ -203,13 +199,13 @@ ActiveAdmin.register Project do
 
               time_diff = submission.created_at - project.end_time
               link_to I18n.l(submission.created_at, format: :long),
-                      admin_submission_path(submission), class: time_diff > 0 ? 'submission-late' : 'submission-ok',
+                      admin_submission_path(submission), class: time_diff > 0 ? 'badge badge-warning' : 'badge badge-success',
                       title: render_date_diff(submission.created_at, project.end_time, I18n.t('project.due_date_distance'))
             end
           end
 
           if not found_submission and (user_submission_count == 0 and not user_set.empty?)
-            span I18n.t('active_admin.project.show.submission_missing'), class: 'submission-missing'
+            span I18n.t('active_admin.project.show.submission_missing'), class: 'badge badge-danger'
           else
             submitted.reject(&:nil?).join('<br/>').html_safe
           end

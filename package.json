@@ -1,5 +1,8 @@
 {
   "name": "APITP",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "bootstrap": "^4.0.0-beta.2",
+    "jquery": "1.9.1"
+  }
 }
