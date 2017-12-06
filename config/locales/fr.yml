@@ -102,7 +102,7 @@ fr:
   submission:
     late: En retard
     already_submitted_html: |
-      Vous avez déjà rendu un fichie le %{date}: %{file} (%{size}).
+      Vous avez déjà rendu un fichier le %{date}: %{file} (%{size}).
     file_readonly: |
       Vous ne pouvez plus modifier ce fichier. Si cet envoi est une erreur, contactez votre responsable de projet.
     late_notice: |
