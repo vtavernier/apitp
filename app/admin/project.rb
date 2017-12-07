@@ -131,13 +131,18 @@ ActiveAdmin.register Project do
 
     panel I18n.t('active_admin.project.show.submission_status') do
       table_for(project.all_submissions) do
-        def submissions_of(user_submissions)
+        def submissions_of(user_submissions, username_hash = {})
           seen = Set.new
           user_submissions.reduce([]) do |submissions, us|
             s = us.submission
+
             if s.nil?
               submissions << nil
             else
+              if s.user_id == us.user_id
+                username_hash[s.user_id] = us.username
+              end
+
               if seen.include? s.id or s.user_id != us.user_id
                 unless seen.include? s.id
                   submissions << nil
@@ -161,7 +166,7 @@ ActiveAdmin.register Project do
             "#{link_to user_submission.username, admin_user_path(id: user_submission.user_id)} <#{link_to user_submission.email, "mailto:#{user_submission.email}"}>"
           end.join('<br/>').html_safe
         end
-        column I18n.t('activerecord.models.group', count: 1) do |team_id, user_submissions|
+        column I18n.t('activerecord.models.group', count: 1) do |_team_id, user_submissions|
           groups = if user_submissions.any? { |us| us.team_id.nil? }
                      user_submissions.collect(&:group)
                    else
@@ -172,14 +177,13 @@ ActiveAdmin.register Project do
           end.join('<br/>').html_safe
         end
         column I18n.t('activerecord.attributes.submission.file') do |_team_id, user_submissions|
-          submissions_of(user_submissions).map do |submission|
-            if submission.nil?
-              div
-            else
+          names = {}
+          submissions_of(user_submissions, names).map do |submission|
+            unless submission.nil?
               link_to "#{File.basename(submission.file.path)} (#{number_to_human_size(submission.file.size)})",
-                      submission_path(submission)
+                      submission_path(submission), title: names[submission.user_id]
             end
-          end.join('<br/>').html_safe
+          end.reject(&:nil?).join('<br/>').html_safe
         end
         column I18n.t('activerecord.attributes.submission.created_at') do |team_id, user_submissions|
           found_submission = false
@@ -188,9 +192,7 @@ ActiveAdmin.register Project do
           rq = user_submissions
           user_set = Set.new(rq.map(&:user_id))
           submitted = submissions_of(rq).collect do |submission|
-            if submission.nil?
-              div
-            else
+            unless submission.nil?
               if team_id.nil? or team_id == submission.team_id
                 found_submission = true
               end
@@ -209,12 +211,12 @@ ActiveAdmin.register Project do
           if not found_submission and (user_submission_count == 0 and not user_set.empty?)
             span I18n.t('active_admin.project.show.submission_missing'), class: 'submission-missing'
           else
-            submitted.join('<br/>').html_safe
+            submitted.reject(&:nil?).join('<br/>').html_safe
           end
         end
         column do |_team_id, user_submissions|
           submissions_of(user_submissions).map do |submission|
-            if not submission.nil?
+            unless submission.nil?
               policy = Pundit.policy(current_admin_user, submission)
               # noinspection RailsI18nInspection
               [
@@ -229,10 +231,8 @@ ActiveAdmin.register Project do
                           data: { confirm: "Delete submission #{File.basename(submission.file.path)} for #{project.name}?" }
                 end
               ].reject(&:nil?).join(' | ').html_safe
-            else
-              div
             end
-          end.join('<br/>').html_safe
+          end.reject(&:nil?).join('<br/>').html_safe
         end
       end
     end
