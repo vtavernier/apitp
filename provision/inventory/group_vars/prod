@@ -7,3 +7,4 @@ hostname: apitp.fr.to
 swap_file_path: /swap
 swap_file_size: 512000
 apitp_web_workers: 4
+app_testing: no

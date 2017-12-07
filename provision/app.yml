@@ -56,12 +56,14 @@
         state: absent
       tags:
         - dokku.domains
+      when: not app_testing
     - name: Setup actual domain
       dokku_domains:
         app: '{{ app_name }}'
         domain: '{{ hostname }}'
       tags:
         - dokku.domains
+      when: not app_testing
     - name: Scale application
       dokku_ps:
         app: '{{ app_name }}'

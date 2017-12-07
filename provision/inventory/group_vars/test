@@ -5,3 +5,4 @@ dokku_key_name: deploy-key
 dokku_key_path: files/id_test.pub
 hostname: dokku.me
 apitp_web_workers: 1
+app_testing: yes
