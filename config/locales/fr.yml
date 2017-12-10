@@ -274,6 +274,7 @@ fr:
     not_found:
       title: "Page non trouvée"
       message: "La page que vous avez demandée est introuvable."
+    invalid_authenticity_token: "Votre session a expiré. Merci d'essayer à nouveau."
   unicity:
     user:
       non_unique: "Cet utilisateur deviendrait membre de groupes dont les projets sont en conflit."

@@ -274,6 +274,7 @@ en:
     not_found:
       title: "Page not found"
       message: "The page you requested could not be found."
+    invalid_authenticity_token: "Your session has expired. Please try again."
   unicity:
     user:
       non_unique: "This user would be a member of groups with overlapping projects."

@@ -3,6 +3,13 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   unless Rails.application.config.consider_all_requests_local
+    rescue_from ActionController::InvalidAuthenticityToken do
+      respond_to do |format|
+        format.html { redirect_to :back, alert: I18n.t('error.invalid_authenticity_token') }
+        format.any  { render nothing: true, status: 403 }
+      end
+    end
+
     rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError do
       respond_to do |format|
         format.html { render 'error/not_found', status: 404 }
