@@ -68,6 +68,7 @@ class SubmissionsController < ApplicationController
                   File.basename(submission.file.path)
                 end
 
+    response.headers['Content-Length'] = submission.file.size.to_s
     send_file submission.file.path, filename: full_name
   end
 end
