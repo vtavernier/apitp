@@ -7,6 +7,8 @@ namespace :apitp do
         Submission.destroy_all
         # delete_all is fine, in a transaction
         Assignment.delete_all
+        TeamMembership.delete_all
+        Team.delete_all
         Project.delete_all
         GroupMembership.delete_all
         Group.delete_all
