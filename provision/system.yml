@@ -19,6 +19,8 @@
 
 # Main roles
 - hosts: all
+  vars_files:
+    - vars/app-secrets.yml
   roles:
     - { role: swap, when: swap_file_path is defined and swap_file_size is defined }
     - apt_essentials
