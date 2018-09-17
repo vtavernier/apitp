@@ -49,7 +49,7 @@ $ ssh my_server 'sudo echo ok'
 6. On your development machine, with Ansible installed (`pip install ansible`),
    run the playbooks.
 ```bash
-$ ansible-playbooks -i inventory/hosts -l prod server.yml
+$ ansible-playbooks -i inventory/hosts -l prod system.yml
 $ ansible-playbooks -i inventory/hosts -l prod app.yml
 ```
 
@@ -73,7 +73,12 @@ $ ssh dokku@my_server 'postgres:import apitp' <db.backup
 $ ssh dokku@my_server 'run apitp bundle exec rake db:migrate'
 ```
 
-10. Setup SSL using letsencrypt: if you have a backup of the `letsencrypt`
+10. Run the application playbook again to setup the correct domains (if this is the first deployment).
+```bash
+$ ansible-playbooks -i inventory/hosts -l prod app.yml
+```
+
+11. Setup SSL using letsencrypt: if you have a backup of the `letsencrypt`
     folder, push it to the `/home/dokku/apitp/` folder using the method of your
     choice. This will enable restoring a previous certificate instead of
     generating a new one. Either way, run the following command to enable SSL:
@@ -81,7 +86,7 @@ $ ssh dokku@my_server 'run apitp bundle exec rake db:migrate'
 $ ssh dokku@my_server 'letsencrypt apitp'
 ```
 
-11. If starting from a fresh database, you will want to create some admin users.
+12. If starting from a fresh database, you will want to create some admin users.
     Run the following commands to do so:
 ```bash
 # connect to the server
@@ -96,7 +101,7 @@ apitp $ bundle exec rake apitp:admin:super:set[address@example.com]
 apitp $ exit
 ```
 
-12. Also, if starting from a fresh database, you need to setup the recurring job
+13. Also, if starting from a fresh database, you need to setup the recurring job
     which is responsible for sending notification e-mails.
 ```bash
 # locally
