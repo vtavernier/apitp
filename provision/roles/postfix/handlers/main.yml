@@ -1,0 +1,7 @@
+---
+- name: update passwd db
+  command: postmap /etc/postfix/sasl/passwd
+- name: update aliases db
+  command: newaliases
+- name: reload postfix
+  systemd: name=postfix.service state=reloaded

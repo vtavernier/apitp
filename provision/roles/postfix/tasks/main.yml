@@ -1,0 +1,20 @@
+---
+- name: Install postfix
+  apt: name=postfix state=latest
+  tags: [ apt.install ]
+- name: Create postfix sasl directory
+  file: path=/etc/postfix/sasl state=directory owner=root group=root mode=0755
+- name: Deploy passwd db
+  copy: src=postfix/sasl/passwd dest=/etc/postfix/sasl/ owner=root group=root mode=0600
+  notify:
+    - update passwd db
+    - reload postfix
+- name: Deploy aliases
+  template: src=aliases.j2 dest=/etc/aliases owner=root group=root mode=0644
+  notify:
+    - update aliases db
+    - reload postfix
+- name: Deploy postfix configuration
+  template: src=postfix/main.cf.j2 dest=/etc/postfix/main.cf owner=root group=root mode=0644
+  notify:
+    - reload postfix

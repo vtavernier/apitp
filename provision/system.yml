@@ -28,3 +28,4 @@
     - time
     - { role: docker, tags: [ docker ] }
     - { role: dokku, tags: [ dokku ] }
+    - { role: postfix, tags: [ postfix ] }
