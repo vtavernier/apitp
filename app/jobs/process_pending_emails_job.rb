@@ -45,7 +45,7 @@ class ProcessPendingEmailsJob < ApplicationJob
         end
 
         target = email.user.email
-        if target =~ /@example.com$/
+        if target =~ /@(example.com|world.com)$/
           # Redirect message to project owner if debugging
           target = email.project.owner.email
         else
