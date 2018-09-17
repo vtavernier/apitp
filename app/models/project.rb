@@ -79,13 +79,13 @@ class Project < ApplicationRecord
     UserSubmissions.project(self).includes(:submission).includes(:user)
   end
 
-  def set_defaults(owner)
+  def set_defaults(owner = nil)
     self.start_time = DateTime.now.at_beginning_of_day
     self.end_time = start_time + 1.week
     self.year = SchoolDateHelper.school_year(self.start_time)
     # 500kB or max size / 2
     self.max_upload_size = [500 * 1024, Rails.configuration.x.apitp.max_upload_size / 2].min
-    self.owner = owner
+    self.owner = owner unless owner.nil?
   end
 
   def empty?
