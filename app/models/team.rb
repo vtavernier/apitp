@@ -1,7 +1,7 @@
 class Team < ApplicationRecord
   belongs_to :group
 
-  has_many :team_memberships
+  has_many :team_memberships, dependent: :destroy
   has_many :group_memberships, through: :team_memberships
   has_many :users, through: :group_memberships
   has_many :submissions, dependent: :nullify
