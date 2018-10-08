@@ -103,7 +103,9 @@ ActiveAdmin.register Project do
             render_date(project.end_time)
           end
           row :url do |project|
-            link_to project.url, project.url
+            unless project.url.blank?
+              link_to project.url, project.url
+            end
           end
           row :submission_details do |project|
             markdown(project.submission_details)
