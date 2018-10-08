@@ -1,5 +1,5 @@
-WAIT=5
+WAIT=10
 TIMEOUT=60
-ATTEMPTS=10
+ATTEMPTS=20
 
 /zero_downtime_check          APITP OK
