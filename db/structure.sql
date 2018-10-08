@@ -230,7 +230,8 @@ CREATE TABLE projects (
     max_upload_size integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    owner_id integer
+    owner_id integer,
+    submission_details text
 );
 
 
@@ -568,12 +569,15 @@ CREATE VIEW user_projects AS
     projects.max_upload_size,
     projects.created_at,
     projects.updated_at,
-    user_submissions.submission_id,
-    user_submissions.user_id,
     projects.owner_id,
-    user_submissions.team_id
-   FROM (projects
-     JOIN user_submissions ON ((projects.id = user_submissions.project_id)));
+    projects.submission_details,
+    submissions.id AS submission_id,
+    users.id AS user_id
+   FROM ((((users
+     JOIN group_memberships ON ((group_memberships.user_id = users.id)))
+     JOIN assignments ON ((assignments.group_id = group_memberships.group_id)))
+     JOIN projects ON ((projects.id = assignments.project_id)))
+     LEFT JOIN submissions ON (((submissions.project_id = projects.id) AND (submissions.user_id = users.id))));
 
 
 --
@@ -1047,6 +1051,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20171011193137'),
 ('20171013192618'),
 ('20171016085633'),
-('20171027163220');
+('20171027163220'),
+('20181008193038');
 
 

@@ -69,6 +69,7 @@ en:
         submitted: Submitted
         owner: Owner
         display_name: "Project name"
+        submission_details: "Submission details"
       submission:
         file: File
         created_at: Uploaded at

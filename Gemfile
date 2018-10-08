@@ -66,6 +66,9 @@ gem 'mailgun-ruby', '~> 1.1.8'
 # Export XLS files
 gem 'spreadsheet', '~> 1.1.4'
 
+# Markdown support
+gem 'redcarpet', '~> 3.4.0'
+
 # GPG
 gem 'mail-gpg', '~> 0.3.1'
 gem 'gpgme', '~> 2.0.14'

@@ -69,6 +69,7 @@ fr:
         submitted: Rendu
         owner: Propriétaire
         display_name: Nom du projet
+        submission_details: Consignes de rendu
       submission:
         file: Fichier
         created_at: Envoyé le

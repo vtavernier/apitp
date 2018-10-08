@@ -1,7 +1,7 @@
 ActiveAdmin.register Project do
   permit_params do
     params = [:year, :name, :url, :max_upload_size, :start_time_date, :start_time_time_hour, :start_time_time_minute,
-              :end_time_date, :end_time_time_hour, :end_time_time_minute, { :group_ids => [] }]
+              :end_time_date, :end_time_time_hour, :end_time_time_minute, :submission_details, { :group_ids => [] }]
 
     if Pundit.policy(current_admin_user, Project).chown?
       params << :owner_id
@@ -61,6 +61,7 @@ ActiveAdmin.register Project do
       f.input :start_time, as: :just_datetime_picker
       f.input :end_time, as: :just_datetime_picker
       f.input :url
+      f.input :submission_details, as: :text
       f.input :max_upload_size
       if Pundit.policy(current_admin_user, Project).chown?
         f.input :owner, include_blank: false, collection: AdminUser.all.map { |user| [ user.name_email, user.id ] }
@@ -103,6 +104,9 @@ ActiveAdmin.register Project do
           end
           row :url do |project|
             link_to project.url, project.url
+          end
+          row :submission_details do |project|
+            markdown(project.submission_details)
           end
           row :max_upload_size do |project|
             number_to_human_size(project.max_upload_size)

@@ -18,6 +18,9 @@ module APITP
     config.autoload_paths << Rails.root.join('lib')
     config.eager_load_paths << Rails.root.join('lib')
 
+    # Load concerns in migrations
+    config.autoload_paths << Rails.root.join('db/migrate/concerns')
+
     # Use local times
     config.time_zone = 'Paris'
 
