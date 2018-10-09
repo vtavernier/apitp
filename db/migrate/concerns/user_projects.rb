@@ -21,6 +21,47 @@ module UserProjects
             LEFT OUTER JOIN submissions ON submissions.project_id = projects.id
                                         AND submissions.user_id = users.id
       SQL
+    elsif version == 2
+      execute <<-SQL
+        CREATE VIEW user_projects AS
+          SELECT
+            projects.id,
+            projects.year,
+            projects.name,
+            projects.start_time,
+            projects.end_time,
+            projects.url,
+            projects.max_upload_size,
+            projects.created_at,
+            projects.updated_at,
+            user_submissions.submission_id,
+            user_submissions.user_id,
+            projects.owner_id,
+            user_submissions.team_id
+          FROM projects
+            INNER JOIN user_submissions ON projects.id = user_submissions.project_id
+      SQL
+    elsif version == 3
+      execute <<-SQL
+        CREATE VIEW user_projects AS
+          SELECT
+            projects.id,
+            projects.year,
+            projects.name,
+            projects.start_time,
+            projects.end_time,
+            projects.url,
+            projects.max_upload_size,
+            projects.created_at,
+            projects.updated_at,
+            user_submissions.submission_id,
+            user_submissions.user_id,
+            projects.owner_id,
+            user_submissions.team_id,
+            projects.submission_details
+          FROM projects
+            INNER JOIN user_submissions ON projects.id = user_submissions.project_id
+      SQL
     else
       raise "Invalid user_projects_view version: #{version}"
     end

@@ -569,16 +569,13 @@ CREATE VIEW user_projects AS
     projects.max_upload_size,
     projects.created_at,
     projects.updated_at,
+    user_submissions.submission_id,
+    user_submissions.user_id,
     projects.owner_id,
-    projects.submission_details,
-    submissions.id AS submission_id,
-    users.id AS user_id
-   FROM ((((users
-     JOIN group_memberships ON ((group_memberships.user_id = users.id)))
-     JOIN assignments ON ((assignments.group_id = group_memberships.group_id)))
-     JOIN projects ON ((projects.id = assignments.project_id)))
-     LEFT JOIN submissions ON (((submissions.project_id = projects.id) AND (submissions.user_id = users.id))));
-
+    user_submissions.team_id,
+    projects.submission_details
+  FROM (projects
+    JOIN user_submissions ON ((projects.id = user_submissions.project_id)));
 
 --
 -- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
