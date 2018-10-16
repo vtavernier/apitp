@@ -1,30 +1,11 @@
 class AddSingleTeamUsersToProjectStatisticsView < ActiveRecord::Migration[5.1]
+  include ProjectStatistics
+
   def up
-    execute <<-SQL
-      CREATE OR REPLACE VIEW project_statistics AS
-        SELECT
-          a.project_id,
-          a.submission_count + COALESCE(b.count, 0) AS submission_count,
-          a.user_count
-        FROM (SELECT
-                project_id,
-                COUNT(DISTINCT CASE WHEN team_id IS NOT NULL AND submission_team_id IS NULL
-                  THEN NULL
-                               ELSE submission_id END)              AS submission_count,
-                COUNT(*) - COUNT(team_id) + COUNT(DISTINCT team_id) AS user_count
-              FROM user_submissions
-              GROUP BY project_id) a
-          LEFT OUTER JOIN (SELECT
-                             project_id,
-                             1 AS count
-                           FROM user_submissions
-                           WHERE team_id IS NOT NULL AND submission_team_id IS NULL
-                           GROUP BY project_id, team_id
-                           HAVING COUNT(submission_id) >= COUNT(user_id)) b ON a.project_id = b.project_id;
-    SQL
+    recreate_project_statistics_view(3)
   end
 
   def down
-    execute "DROP VIEW project_statistics"
+    recreate_project_statistics_view(2)
   end
 end
