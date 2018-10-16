@@ -38,6 +38,9 @@ ActiveAdmin.register Group do
       row :admin
       row :created_at
       row :updated_at
+      row I18n.t('active_admin.group.show.mail_everyone') do
+        link_to I18n.t('active_admin.group.show.send_mail'), "mailto:#{group.users.collect(&:email).join(";")}"
+      end
     end
 
     columns do

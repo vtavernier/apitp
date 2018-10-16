@@ -24,6 +24,8 @@ en:
       show:
         members: Group members
         assignments: Group projects
+        mail_everyone: Mail everyone
+        send_mail: Send e-mail to every group member
     user:
       show:
         groups: Group memberships

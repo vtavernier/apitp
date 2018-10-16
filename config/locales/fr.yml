@@ -24,6 +24,8 @@ fr:
       show:
         members: Membres du groupe
         assignments: Projets affectés
+        mail_everyone: E-mail groupé
+        send_mail: Envoyer un e-mail à tous les membres
     user:
       show:
         groups: Appartenance aux groupes
