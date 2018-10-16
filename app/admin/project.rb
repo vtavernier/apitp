@@ -132,109 +132,104 @@ ActiveAdmin.register Project do
     end
 
     panel I18n.t('active_admin.project.show.submission_status') do
-      table_for(project.all_submissions) do
-        def submissions_of(user_submissions, username_hash = {})
-          seen = Set.new
-          user_submissions.reduce([]) do |submissions, us|
-            s = us.submission
+      project.all_submissions.map { |s| groups = s[1].collect(&:group) ; [groups.first.id, groups.first.name, s] }.group_by { |s| s[0] }.sort_by { |s| s[1][1] }.each do |_group_id, submissions|
+        h2 submissions[0][1]
+        hr
+        submissions = submissions.map { |s| s[2] }
+        table_for(submissions) do
+          def submissions_of(user_submissions, username_hash = {})
+            seen = Set.new
+            user_submissions.reduce([]) do |submissions, us|
+              s = us.submission
 
-            if s.nil?
-              submissions << nil
-            else
-              if s.user_id == us.user_id
-                username_hash[s.user_id] = us.username
-              end
-
-              if seen.include? s.id or s.user_id != us.user_id
-                unless seen.include? s.id
-                  submissions << nil
-                end
+              if s.nil?
+                submissions << nil
               else
-                seen.add(s.id)
-                submissions << s
-              end
-            end
-            submissions
-          end
-        end
-
-        column :id do |team_id, _user_submissions|
-          if team_id
-            link_to team_id, admin_team_path(id: team_id)
-          end
-        end
-        column I18n.t('activerecord.attributes.user.name') do |_team_id, user_submissions|
-          user_submissions.uniq(&:user_id).map do |user_submission|
-            "#{link_to user_submission.username, admin_user_path(id: user_submission.user_id)} <#{link_to user_submission.email, "mailto:#{user_submission.email}"}>"
-          end.join('<br/>').html_safe
-        end
-        column I18n.t('activerecord.models.group', count: 1) do |_team_id, user_submissions|
-          groups = if user_submissions.any? { |us| us.team_id.nil? }
-                     user_submissions.collect(&:group)
-                   else
-                     [ user_submissions.map { |us| us.team.group }.first ]
-                   end
-          groups.map do |group|
-            link_to group.name, admin_group_path(group)
-          end.join('<br/>').html_safe
-        end
-        column I18n.t('activerecord.attributes.submission.file') do |_team_id, user_submissions|
-          names = {}
-          submissions_of(user_submissions, names).map do |submission|
-            unless submission.nil?
-              link_to "#{File.basename(submission.file.path)} (#{number_to_human_size(submission.file.size)})",
-                      submission_path(submission), title: names[submission.user_id]
-            end
-          end.reject(&:nil?).join('<br/>').html_safe
-        end
-        column I18n.t('activerecord.attributes.submission.created_at') do |team_id, user_submissions|
-          found_submission = false
-          user_submission_count = 0
-
-          rq = user_submissions
-          user_set = Set.new(rq.map(&:user_id))
-          submitted = submissions_of(rq).collect do |submission|
-            unless submission.nil?
-              if team_id.nil? or team_id == submission.team_id
-                found_submission = true
-              end
-
-              if submission.team_id.nil?
-                user_submission_count += 1
-              end
-
-              time_diff = submission.created_at - project.end_time
-              link_to I18n.l(submission.created_at, format: :long),
-                      admin_submission_path(submission), class: time_diff > 0 ? 'badge badge-warning' : 'badge badge-success',
-                      title: render_date_diff(submission.created_at, project.end_time, I18n.t('project.due_date_distance'))
-            end
-          end
-
-          if not found_submission and (user_submission_count == 0 and not user_set.empty?)
-            span I18n.t('active_admin.project.show.submission_missing'), class: 'badge badge-danger'
-          else
-            submitted.reject(&:nil?).join('<br/>').html_safe
-          end
-        end
-        column do |_team_id, user_submissions|
-          submissions_of(user_submissions).map do |submission|
-            unless submission.nil?
-              policy = Pundit.policy(current_admin_user, submission)
-              # noinspection RailsI18nInspection
-              [
-                if policy.edit?
-                  link_to I18n.t('active_admin.edit'),
-                          edit_admin_submission_path(submission)
-                end,
-                if policy.destroy?
-                  link_to I18n.t('active_admin.delete'),
-                          admin_submission_path(submission),
-                          method: :delete,
-                          data: { confirm: "Delete submission #{File.basename(submission.file.path)} for #{project.name}?" }
+                if s.user_id == us.user_id
+                  username_hash[s.user_id] = us.username
                 end
-              ].reject(&:nil?).join(' | ').html_safe
+
+                if seen.include? s.id or s.user_id != us.user_id
+                  unless seen.include? s.id
+                    submissions << nil
+                  end
+                else
+                  seen.add(s.id)
+                  submissions << s
+                end
+              end
+              submissions
             end
-          end.reject(&:nil?).join('<br/>').html_safe
+          end
+
+          column :id do |team_id, _user_submissions|
+            if team_id
+              link_to team_id, admin_team_path(id: team_id)
+            end
+          end
+          column I18n.t('activerecord.attributes.user.name') do |_team_id, user_submissions|
+            user_submissions.uniq(&:user_id).map do |user_submission|
+              "#{link_to user_submission.username, admin_user_path(id: user_submission.user_id)} <#{link_to user_submission.email, "mailto:#{user_submission.email}"}>"
+            end.join('<br/>').html_safe
+          end
+          column I18n.t('activerecord.attributes.submission.file') do |_team_id, user_submissions|
+            names = {}
+            submissions_of(user_submissions, names).map do |submission|
+              unless submission.nil?
+                link_to "#{File.basename(submission.file.path)} (#{number_to_human_size(submission.file.size)})",
+                        submission_path(submission), title: names[submission.user_id]
+              end
+            end.reject(&:nil?).join('<br/>').html_safe
+          end
+          column I18n.t('activerecord.attributes.submission.created_at') do |team_id, user_submissions|
+            found_submission = false
+            user_submission_count = 0
+
+            rq = user_submissions
+            user_set = Set.new(rq.map(&:user_id))
+            submitted = submissions_of(rq).collect do |submission|
+              unless submission.nil?
+                if team_id.nil? or team_id == submission.team_id
+                  found_submission = true
+                end
+
+                if submission.team_id.nil?
+                  user_submission_count += 1
+                end
+
+                time_diff = submission.created_at - project.end_time
+                link_to I18n.l(submission.created_at, format: :long),
+                        admin_submission_path(submission), class: time_diff > 0 ? 'badge badge-warning' : 'badge badge-success',
+                        title: render_date_diff(submission.created_at, project.end_time, I18n.t('project.due_date_distance'))
+              end
+            end
+
+            if not found_submission and (user_submission_count == 0 and not user_set.empty?)
+              span I18n.t('active_admin.project.show.submission_missing'), class: 'badge badge-danger'
+            else
+              submitted.reject(&:nil?).join('<br/>').html_safe
+            end
+          end
+          column do |_team_id, user_submissions|
+            submissions_of(user_submissions).map do |submission|
+              unless submission.nil?
+                policy = Pundit.policy(current_admin_user, submission)
+                # noinspection RailsI18nInspection
+                [
+                  if policy.edit?
+                    link_to I18n.t('active_admin.edit'),
+                            edit_admin_submission_path(submission)
+                  end,
+                  if policy.destroy?
+                    link_to I18n.t('active_admin.delete'),
+                            admin_submission_path(submission),
+                            method: :delete,
+                            data: { confirm: "Delete submission #{File.basename(submission.file.path)} for #{project.name}?" }
+                  end
+                ].reject(&:nil?).join(' | ').html_safe
+              end
+            end.reject(&:nil?).join('<br/>').html_safe
+          end
         end
       end
     end
