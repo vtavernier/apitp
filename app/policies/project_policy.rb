@@ -17,11 +17,15 @@ class ProjectPolicy < ApplicationPolicy
 
   def update?
     # Only admin users update projects
-    user.super_admin? or (user.admin? and record.owner_id == user.id)
+    # They need to be the owner or be an admin of an assigned group
+    user.super_admin? or (user.admin? and
+                          (record.owner_id == user.id or
+                           not record.groups.find_by(admin_user_id: user.id).nil?))
   end
 
   def destroy?
     # Only admin users destroy projects
+    # They need to be the owner of the project
     user.super_admin? or (user.admin? and record.owner_id == user.id)
   end
 
